@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no"
+        />
+        <title>three-tile demo</title>
+      <script type="module" crossorigin src="../assets/step4.8-4de85e5a.js"></script>
+      <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-3cfb730f.js">
+      <link rel="modulepreload" crossorigin href="../assets/lil-gui.module.min-a1e98589.js">
+      <link rel="modulepreload" crossorigin href="../assets/GLViewer-4908af8c.js">
+      <link rel="modulepreload" crossorigin href="../assets/util-54b1a14e.js">
+      <link rel="stylesheet" href="../assets/index-8dfd1229.css">
+    </head>
+    <script id="post-vert" type="x-shader/x-vertex">
+        varying vec2 vUv;
+
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    </script>
+    <script id="post-frag" type="x-shader/x-fragment">
+        #include <packing>
+
+        varying vec2 vUv;
+        //uniform sampler2D tDiffuse;
+        //uniform sampler2D tDepth;
+        uniform float cameraNear;
+        uniform float cameraFar;
+
+
+        float readDepth( sampler2D depthSampler, vec2 coord ) {
+            float fragCoordZ = texture2D( depthSampler, coord ).x;
+            float viewZ = perspectiveDepthToViewZ( fragCoordZ, cameraNear, cameraFar );
+            return viewZToOrthographicDepth( viewZ, cameraNear, cameraFar );
+        }
+
+        void main() {
+            //vec3 diffuse = texture2D( tDiffuse, vUv ).rgb;
+            //float depth = readDepth( tDepth, vUv );
+
+            //gl_FragColor.rgb = vec3(0.5);//1.0 - vec3( depth );
+            gl_FragColor.rgb = vec3(0.5,1.0,1.0);
+            gl_FragColor.a = 1.0;
+        }
+    </script>
+    <body>
+        <div id="app">
+            <div id="map"></div>
+            <div class="app-title">深度纹理（通过深度纹理取得高程）</div>
+            <div id="load-state">load-state</div>
+            <div id="location">location</div>
+        </div>
+        
+    </body>
+</html>
