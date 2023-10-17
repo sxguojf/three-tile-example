@@ -42,7 +42,7 @@ gui.add(vm, "mapTilerDem").name("MapTiler地形瓦片(MaxLevel=12)");
 gui.add(vm, "zkxtDem").name("中科星图地形瓦片(MaxLevel=10)");
 
 gui.add(map.scale, "z", 1, 10, 0.1).name("地形拉伸倍数");
-gui.add(viewer.controls.target, "z", -10, 10, 0.01).name("摄像机焦点高度偏移");
+gui.add(viewer.controls.target, "z", -10, 10, 0.01).name("控制器高度偏移");
 gui.add(map.position, "z", -1, 1, 0.01).name("地图模型高度偏移");
 
 //--------------------------------------------------------------------

@@ -206,7 +206,7 @@ const vm = {
 //--------------------------------------------------------------------------------------
 const showSky = (viewer: MyViewer) => {
     const bk = new CubeTextureLoader()
-        .setPath("../image/skybox/")
+        .setPath("../../image/skybox/")
         // 左右上下前后
         .load([
             "skybox_py.png",

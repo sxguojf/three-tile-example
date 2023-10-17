@@ -247,8 +247,10 @@ export class MyViewer extends EventDispatcher<Event> {
             direction.x = Number(moveRight) - Number(moveLeft);
             direction.normalize(); // this ensures consistent movements in all directions
 
-            if (moveForward || moveBackward) velocity.z -= direction.z * this.cameraZ * 5 * delta;
-            if (moveLeft || moveRight) velocity.x -= direction.x * this.cameraZ * 5 * delta;
+            if (moveForward || moveBackward)
+                velocity.z -= direction.z * this.cameraZ * 5 * delta;
+            if (moveLeft || moveRight)
+                velocity.x -= direction.x * this.cameraZ * 5 * delta;
 
             // if (onObject === true) {
             //     velocity.y = Math.max(0, velocity.y);
