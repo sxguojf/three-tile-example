@@ -47,7 +47,7 @@ viewer.dirLight.intensity = 0.1;
 const loader = new GLTFLoader();
 
 // 加载模型并初始化
-loader.loadAsync("../model/Soldier.glb").then((gltf) => {
+loader.loadAsync("../../model/Soldier.glb").then((gltf) => {
     initSoldier(gltf);
     initBird(gltf);
     initText(gltf);
@@ -100,7 +100,7 @@ const initSoldier = (gltf: GLTF) => {
 // 鸟模型
 const initBird = (gltf: GLTF) => {
     const model = gltf.scene;
-    loader.loadAsync("../model/Stork.glb").then((stork) => {
+    loader.loadAsync("../../model/Stork.glb").then((stork) => {
         const bird = stork.scene;
         bird.rotateY(Math.PI);
         bird.scale.setScalar(0.005);
@@ -121,28 +121,31 @@ const initBird = (gltf: GLTF) => {
 const initText = (gltf: GLTF) => {
     const loader = new FontLoader();
 
-    loader.load("../fonts/helvetiker_regular.typeface.json", function (font) {
-        const geometry = new TextGeometry("I'm a soldier", {
-            font: font,
-            size: 80,
-            height: 5,
-            curveSegments: 12,
-            bevelEnabled: true,
-            bevelThickness: 10,
-            bevelSize: 8,
-            bevelSegments: 5,
-        });
-        const materials = [
-            new MeshPhongMaterial({ color: 0xffffff, flatShading: true }), // front
-            new MeshPhongMaterial({ color: 0xcccccc }), // side
-        ];
-        const textMesh = new Mesh(geometry, materials);
-        textMesh.geometry.center();
-        textMesh.scale.setScalar(0.002);
-        textMesh.position.setY(2);
-        textMesh.rotation.set(0, Math.PI, 0);
-        gltf.scene.add(textMesh);
-    });
+    loader.load(
+        "../../fonts/helvetiker_regular.typeface.json",
+        function (font) {
+            const geometry = new TextGeometry("I'm a soldier", {
+                font: font,
+                size: 80,
+                height: 5,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 10,
+                bevelSize: 8,
+                bevelSegments: 5,
+            });
+            const materials = [
+                new MeshPhongMaterial({ color: 0xffffff, flatShading: true }), // front
+                new MeshPhongMaterial({ color: 0xcccccc }), // side
+            ];
+            const textMesh = new Mesh(geometry, materials);
+            textMesh.geometry.center();
+            textMesh.scale.setScalar(0.002);
+            textMesh.position.setY(2);
+            textMesh.rotation.set(0, Math.PI, 0);
+            gltf.scene.add(textMesh);
+        }
+    );
 };
 //-----------------------------------------------------------------------------------------
 const mapclick = (gltf: GLTF, mixer: AnimationMixer) => {

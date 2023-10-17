@@ -54,7 +54,7 @@ map.add(bombGroup);
 const ball = new Mesh(
     new SphereGeometry(),
     new MeshPhongMaterial({
-        map: new TextureLoader().load("../image/test.jpg"),
+        map: new TextureLoader().load("../../image/test.jpg"),
         // shininess: 3,
         transparent: true,
     })

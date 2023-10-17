@@ -34,7 +34,7 @@ map.addEventListener("tile-created", (evt) => {
 
 //-----------------------------------加载模型------------------------------------------------------
 const loader = new GLTFLoader();
-loader.loadAsync("../model/Flamingo.glb").then((gltf) => {
+loader.loadAsync("../../model/Flamingo.glb").then((gltf) => {
     const model = gltf.scene;
     model.scale.setScalar(0.01);
     viewer.scene.add(model);

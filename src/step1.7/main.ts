@@ -55,7 +55,7 @@ const getMatrix = (sw: Vector2, ne: Vector2, alt: number) => {
         new PlaneGeometry(),
         new MeshLambertMaterial({
             map: new TextureLoader().load(
-                "../image/ACHN_QREF_20210725_100000.png"
+                "../../image/ACHN_QREF_20210725_100000.png"
             ),
             transparent: true,
             // alphaTest: 0.2,

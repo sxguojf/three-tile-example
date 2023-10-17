@@ -25,8 +25,8 @@ export const MAPTILERKEY = "get_your_own_key_QmavnBrQwNGsQ8YvPzZg";
 export const mapTilerDemSource = new tt.MapTilerDemSource(MAPTILERKEY);
 
 export const ZKXTKEY =
-    "82455ef06c72bb3a35bbb4d7d05fd9eceb96a94dc942a056b8feb0e5928ed96f";
-// "e3b2af83e1611acc0273002ef80b418eacf3630e11f2901c6b2ff9bb152c24d6";
+    // "82455ef06c72bb3a35bbb4d7d05fd9eceb96a94dc942a056b8feb0e5928ed96f";
+    "e3b2af83e1611acc0273002ef80b418eacf3630e11f2901c6b2ff9bb152c24d6";
 // "4ea7bc4e9a2efc4e76be33d9511600dfa3b4f24bb81cb69561ab0b833d9b482c";
 export const zkxtCiaSource = new tt.ZKXTImgSource(ZKXTKEY, "cia");
 export const zkxtImgSource = new tt.ZKXTImgSource(ZKXTKEY, "img");
@@ -170,7 +170,7 @@ export const showAttribution = (
 // 显示天空盒子
 export const addSky = (viewer: tt.GLViewer) => {
     const bk = new CubeTextureLoader()
-        .setPath("../image/skybox/")
+        .setPath("../../image/skybox/")
         .load([
             "skybox_nx.png",
             "skybox_px.png",
@@ -188,7 +188,7 @@ export const addMapBackground = (map: tt.TileMap) => {
         new PlaneGeometry(),
         new MeshBasicMaterial({
             map: new TextureLoader().load(
-                "../image/tile0.png",
+                "../../image/tile0.png",
                 (texture) => (texture.colorSpace = SRGBColorSpace)
             ),
         })

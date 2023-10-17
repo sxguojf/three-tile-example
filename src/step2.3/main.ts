@@ -23,7 +23,7 @@ const mapSetupFolder = gui.addFolder("地图控制");
 mapSetupFolder.add(map.scale, "z", 1, 10, 0.1).name("地形拉伸倍数");
 mapSetupFolder
     .add(viewer.controls.target, "z", -10, 10, 0.01)
-    .name("地图控制高度偏移");
+    .name("控制器高度偏移");
 mapSetupFolder.add(map.position, "z", -1, 1, 0.01).name("地图模型高度偏移");
 mapSetupFolder
     .add(viewer.controls, "maxPolarAngle", 0, Math.PI / 2, 0.1)

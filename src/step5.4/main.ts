@@ -18,7 +18,7 @@ import { loadMd4 } from "./gridLoader";
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(
     [util.zkxtImgSource, util.zkxtCiaSource],
-    util.zkxtDemSource
+    util.mapboxDemSource
 );
 // 地图中心经纬度，转换为场景坐标
 const center = map.project(105, 28);
@@ -39,7 +39,7 @@ map.addEventListener("tile-loaded", (evt) => {
         mat.color?.set(new Color(0x888888))
     );
 });
-//---------------------------------------------------------------
+//----------------------格点数据--------------------------------------
 
 const dataGroup = ((sw: Vector2, ne: Vector2) => {
     const group = new Group();
@@ -55,7 +55,7 @@ const dataGroup = ((sw: Vector2, ne: Vector2) => {
 
 const highGrid = (() => {
     const high = new GridMesh();
-    loadMd4("../data/md4/10112608.000").then((data) => {
+    loadMd4("../../data/md4/10112608.000").then((data) => {
         high.setData(data.data);
     });
     high.scale.setZ(0.5);
@@ -64,7 +64,8 @@ const highGrid = (() => {
 
 dataGroup.add(highGrid);
 viewer.scene.add(dataGroup);
-dataGroup.visible = false;
+// dataGroup.visible = false;
+
 //-------------------------------------------
 const gui = new GUI();
 const gridFolder = gui.addFolder("500hpa高度场");

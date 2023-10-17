@@ -32,7 +32,7 @@ viewer.scene.add(map);
 //--------------------------------------------------------------------------------------
 //下雨
 const rain = (() => {
-    const texture = new TextureLoader().load("../image/rain.png");
+    const texture = new TextureLoader().load("../../image/rain.png");
     texture.rotation = 0.2;
     const material = new PointsMaterial({
         size: 10,
@@ -87,7 +87,7 @@ const rain = (() => {
 //--------------------------------------------------------------------------------------
 // 闪电
 (() => {
-    const texture = new TextureLoader().load("../image/thunder.png");
+    const texture = new TextureLoader().load("../../image/thunder.png");
     texture.colorSpace = SRGBColorSpace;
     const thunder = new Sprite(
         new SpriteMaterial({ map: texture, fog: false, depthTest: false })

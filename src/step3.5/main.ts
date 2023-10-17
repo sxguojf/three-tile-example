@@ -59,7 +59,7 @@ function initWater() {
         textureWidth: 512,
         textureHeight: 512,
         waterNormals: new TextureLoader().load(
-            "../image/waternormals.jpg",
+            "../../image/waternormals.jpg",
             function (texture) {
                 texture.wrapS = texture.wrapT = RepeatWrapping;
             }

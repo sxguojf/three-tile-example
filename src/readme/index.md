@@ -77,8 +77,6 @@ three-tile 是一个基于 [threejs](https://threejs.org/) 的轻量级三维瓦
 
 和一般 threejs 应用一样，初始化 threejs 三维场景后，将地图模型加入场景即可完成地图的显示。
 
-TileMap 类是 three-tile 地图模型，它是一个 Mesh，按 threejs 的套路初始化场景，并将 TileMap 的实例加入场景即可。
-
 为了便于使用，three-tile 还提供一个 GLViewer 类，它封装了场景初始化过程，一般可直接使用它进行初始化。但如果你熟悉 threejs，最好自己写，跟普通 threejs 程序并无太大差异。
 
 ### 3.1 约定和限制
@@ -123,7 +121,7 @@ const viewer = new tt.GLViewer(glContainer!);
 viewer.scene.add(map);
 ```
 
-地图数据使用加瓦片载器 TileLoader 类读取数据，并创建几何体和材质，可用编写自己的加载器实现瓦片的创建，以完全控制瓦片模型的创建过程。
+也可使用TileMap的构造函数创建地图实例，构造函数可传入地图数据加载器。可用编写自己的加载器实现瓦片的创建，以完全控制瓦片模型的创建过程。
 
 ```typescript
 import * as tt from "three-tile";
@@ -170,7 +168,7 @@ viewer.scene.add(map);
 
 三维场景的初始化与threejs的没有太大区别，但以下部分需要注意：
 
-* 为了使地图坐标系与一般人类理解一致，地图坐标方向采用东(x)北(y)上(z)方向，即地面在x-y平面上，海拔高度在z轴。而threejs一般平面在xz平面上，高度为y轴，所以初始化时需要使场景默认up指向z轴，可添加：Object3D.DEFAULT_UP.set(0, 0, 1) 即可。如果你的应用不能调整up值，那么就要将地图旋转-π/2°。
+* 为了使地图坐标系与一般人类理解一致，地图模型的坐标方向采用东(x)北(y)上(z)方向，即地面在x-y平面上，海拔高度在z轴。而threejs一般平面在xz平面上，高度为y轴，所以初始化时需要将默认up指向z轴，添加：Object3D.DEFAULT_UP.set(0, 0, 1) 即可。如果你的应用不能调整up值，那么就要将地图旋转-π/2°。
 * 地图添加光照才能显示，无光照地图将不能显示。一般至少要有一个环境光，另外最好加一个直射光以通过地形法向量体现凹凸感。
 * 场景控制器一般应用可使用threejs内置的MapControls，其它控制器如OrbitControls、FlyControls、PointerLockControls、TransformControls、FirstPersonControls都能完美支持。
 
@@ -184,11 +182,11 @@ viewer.scene.add(map);
 
 three-tile 参考了 threejs 的代码组织结构，即模型+几何体+材质+纹理+加载器的套路，并且充分利用 typescript 优势，将这几部分用接口进行组合，各部分均可独立替换，从而具有良好的扩展性。
 
-框架主要包含：瓦片 tile、数据源 source、加载器 loader、几何体 geometry、材质 material、地图 map 等六大部分，各部分相对独立，保存在不通文件夹，使用接口进行解耦：
+框架主要包含：瓦片 tile、数据源 source、加载器 loader、几何体 geometry、材质 material、地图 map 等六大部分，各部分相对独立，保存在不同的文件夹，使用接口进行解耦：
 
 ### 4.2 瓦片 tile
 
-瓦片地图顾名思义，就是地图由多块瓦片拼接组成，每块瓦片就是一个 Mesh。three-tile 使用四叉树结构保存这些 Mesh。在的渲染过程中。根据瓦片离摄像机距离，动态创建和销毁，按需加载瓦片数据。
+瓦片地图顾名思义，就是地图由多个图块拼接组成，每块瓦片就是一个 Mesh。three-tile 使用四叉树结构保存这些 Mesh。在的渲染过程中。根据瓦片离摄像机距离，动态创建和销毁，按需加载瓦片数据。
 
 瓦片是 three-tile 的核心，实现了一个动态 LOD 模型，其它功能均是围绕其上的扩展。
 
@@ -227,7 +225,7 @@ three-tile 的瓦片 LOD 模型、瓦片树、加载器与地图没有直接关�
 
 ### 4.6 外围
 
-其它三维效果均使用 threejs 自有功能实现，如三维场景、摄像机、渲染器、灯光、控制器、模型等，地图的使用与 threejs 的三维模型无太大差异，利用 threejs 生态，可实现所有 threejs 功能在三维地图上的应用。如可以使用 threejs 的各种控制器对地图模型进行操作，各种模型加载器向地图上添加元素，甚至能实现基于真实三维地形的似游戏开发（见 example 3.1-3 ）。
+其它三维效果均使用 threejs 自有功能实现，如三维场景、摄像机、渲染器、灯光、控制器、模型等，地图的使用与 threejs 的三维模型无太大差异，利用 threejs 生态，可实现 threejs所有功能在三维地图上的应用。如可以使用 threejs 的各种控制器对地图模型进行操作，向地图上添加元素，甚至能实现基于真实三维地形的似游戏开发（见 example 3.1-3 ）。
 
 ---
 

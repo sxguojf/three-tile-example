@@ -36,13 +36,13 @@ viewer.scene.fog!.color = backColor;
 const lensflare = (() => {
     const textureLoader = new TextureLoader();
     const textureFlare0 = textureLoader.load(
-        "../image/lensflare/lensflare0.png"
+        "../../image/lensflare/lensflare0.png"
     );
     const textureFlare1 = textureLoader.load(
-        "../image/lensflare/lensflare1.png"
+        "../../image/lensflare/lensflare1.png"
     );
     const textureFlare3 = textureLoader.load(
-        "../image/lensflare/lensflare3.png"
+        "../../image/lensflare/lensflare3.png"
     );
     const lensflare = new Lensflare();
     lensflare.addElement(new LensflareElement(textureFlare0, 512));

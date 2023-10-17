@@ -49,7 +49,7 @@ map.addEventListener("tile-loaded", (evt) => {
 const geoGroup = new Group();
 geoGroup.renderOrder = 10;
 const mat = new MeshPhongMaterial({
-    map: new TextureLoader().load("../image/test.jpg"),
+    map: new TextureLoader().load("../../image/test.jpg"),
     shininess: 30,
 });
 // const mat = new MeshPhongMaterial({ color: 0x0033aa });

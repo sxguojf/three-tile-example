@@ -4,7 +4,7 @@ import * as tt from "../three-tile/three-tile.es";
 export class MyTextureLoader implements tt.ITileTextureLoader {
     public dataType: string = "uv";
     public name: string = "uv loader";
-    private uvTexture = new TextureLoader().load("../image/test.jpg");
+    private uvTexture = new TextureLoader().load("../../image/test.jpg");
 
     load(
         _tile: tt.Tile,

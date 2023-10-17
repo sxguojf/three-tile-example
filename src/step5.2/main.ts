@@ -20,7 +20,10 @@ import "./style.css";
 import * as util from "../util";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap(util.mapboxImgSource, util.zkxtDemSource);
+const map = util.createMap(
+    [util.mapboxImgSource, util.zkxtCiaSource],
+    util.mapboxDemSource
+);
 // 地图中心经纬度，转换为场景坐标
 const center = map.project(105, 34);
 // 目标坐标（地图中心）
@@ -55,7 +58,7 @@ const radar = (() => {
         createShader({ scale: 0.5 })
         // new MeshLambertMaterial({ transparent: true })
     );
-    loadRadarImage(radarMesh, "../image/ACHN_QREF_20210725_100000.png");
+    loadRadarImage(radarMesh, "../../image/ACHN_QREF_20210725_100000.png");
     radarMesh.renderOrder = 10;
     return radarMesh;
 })();

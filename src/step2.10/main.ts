@@ -30,12 +30,12 @@ viewer.controls.saveState();
 // 加载gltf模型，使用threejs示例里的建筑物模型，西安南三环找了块工地放上去
 (() => {
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("../lib/draco/gltf/");
+    dracoLoader.setDecoderPath("../../lib/draco/gltf/");
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     let model: Group;
 
-    loader.load("../model/LittlestTokyo.glb", function (gltf) {
+    loader.load("../../model/LittlestTokyo.glb", function (gltf) {
         model = gltf.scene;
         viewer.scene.add(model);
         const mixer = new AnimationMixer(model);

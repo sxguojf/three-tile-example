@@ -17,7 +17,7 @@ import "./style.css";
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(
     [util.mapboxImgSource, util.zkxtCiaSource],
-    util.zkxtDemSource
+    util.mapboxDemSource
 );
 // 地图中心经纬度，转换为场景坐标
 const center = map.project(105, 35);
@@ -89,7 +89,7 @@ const mat = new MeshLambertMaterial({
 });
 
 let cloud: Group;
-new GLTFLoader().load("../model/cloud09.glb", (gltf) => {
+new GLTFLoader().load("../../model/cloud09.glb", (gltf) => {
     cloud = gltf.scene;
     const pos = map.project(60, 0);
     cloud.position.set(pos.x, pos.y, 2);

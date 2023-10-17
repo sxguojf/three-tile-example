@@ -23,7 +23,7 @@ import * as util from "../util";
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(
     [util.mapboxImgSource, util.zkxtCiaSource],
-    util.zkxtDemSource
+    util.mapboxDemSource
 );
 // 地图中心经纬度，转换为场景坐标
 const center = map.project(105, 28);
@@ -81,7 +81,7 @@ const cloud = (() => {
     );
     loadCloudImage(
         cloudMesh,
-        "../image/SATE_L1_F2G_VISSR_MWB_NOM_FDI-202107241900.HDF.png"
+        "../../image/SATE_L1_F2G_VISSR_MWB_NOM_FDI-202107241900.HDF.png"
     );
     return cloudMesh;
 })();

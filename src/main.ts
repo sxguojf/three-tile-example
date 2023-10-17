@@ -141,10 +141,6 @@ let exampleList = {
     "step5.14": {
         label: "5.14 应用-淹没模型",
     },
-
-    demo: {
-        label: "☯ 综合调试",
-    },
 };
 const frame = document.querySelector("#frame") as HTMLIFrameElement;
 const elExample = document.querySelector("#example")!;

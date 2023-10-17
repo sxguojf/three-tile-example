@@ -19,7 +19,7 @@ viewer.scene.add(map);
 //-----------------------------------------------------------------------------------------
 
 const bk = new CubeTextureLoader()
-    .setPath("../image/skybox/")
+    .setPath("../../image/skybox/")
     .load([
         "skybox_nx.png",
         "skybox_px.png",
