@@ -1,5 +1,4 @@
 import { Vector3 } from "three";
-// import * as tt from "../dist/three-tile";
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
 import * as util from "../util";
 import "./style.css";
@@ -27,34 +26,46 @@ const reset = () => {
 const anim1 = () => {
     const tween = new TWEEN.Tween(viewer.camera.position);
     reset()
-        .chain(tween.to({ y: 1000, z: 1500 }, 1000).easing(TWEEN.Easing.Back.In))
+        .chain(
+            tween.to({ y: 1000, z: 1500 }, 1000).easing(TWEEN.Easing.Back.In)
+        )
         .start();
 };
 
 const anim2 = () => {
     const tween = new TWEEN.Tween(viewer.camera.position);
     reset()
-        .chain(tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Bounce.Out))
+        .chain(
+            tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Bounce.Out)
+        )
         .start();
 };
 const anim3 = () => {
     const tween = new TWEEN.Tween(viewer.camera.position);
     reset()
-        .chain(tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Circular.In))
+        .chain(
+            tween
+                .to({ y: 1000, z: 1500 }, 3000)
+                .easing(TWEEN.Easing.Circular.In)
+        )
         .start();
 };
 
 const anim4 = () => {
     const tween = new TWEEN.Tween(viewer.camera.position);
     reset()
-        .chain(tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Elastic.In))
+        .chain(
+            tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Elastic.In)
+        )
         .start();
 };
 
 const anim5 = () => {
     const tween = new TWEEN.Tween(map.rotation);
     reset()
-        .chain(tween.to({ z: 4 * Math.PI }, 3000).easing(TWEEN.Easing.Quartic.Out))
+        .chain(
+            tween.to({ z: 4 * Math.PI }, 3000).easing(TWEEN.Easing.Quartic.Out)
+        )
         .start()
         .onComplete(() => {
             map.rotation.z = 0;

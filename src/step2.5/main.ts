@@ -1,5 +1,4 @@
 import { Color, PointLight, TextureLoader } from "three";
-// import * as tt from "../dist/three-tile";
 import { Vector3 } from "three";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import {

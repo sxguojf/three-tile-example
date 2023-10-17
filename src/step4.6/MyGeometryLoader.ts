@@ -1,5 +1,5 @@
 import { BufferGeometry, NormalBufferAttributes, TorusGeometry } from "three";
-import * as tt from "../../src/three-tile";
+import * as tt from "../three-tile/three-tile.es";
 
 export class MyGeometryLoader implements tt.ITileGeometryLoader {
     public dataType: string = "ball";

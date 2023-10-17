@@ -1,5 +1,4 @@
 import { ArrowHelper, AxesHelper, Group, Vector3 } from "three";
-// import * as tt from "../dist/three-tile";
 import {
     CSS2DObject,
     CSS2DRenderer,

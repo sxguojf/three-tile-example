@@ -1,5 +1,4 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
-// import * as tt from "../dist/three-tile";
 import { ACESFilmicToneMapping, MathUtils, Vector3 } from "three";
 import { Sky } from "three/examples/jsm/objects/Sky";
 import * as util from "../util";

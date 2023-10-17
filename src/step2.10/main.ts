@@ -1,5 +1,4 @@
 import { AnimationMixer, Group, Vector3 } from "three";
-// import * as tt from "../dist/three-tile";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";

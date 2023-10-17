@@ -1,5 +1,5 @@
 import { Texture, TextureLoader } from "three";
-import * as tt from "../../src/three-tile";
+import * as tt from "../three-tile/three-tile.es";
 
 export class MyTextureLoader implements tt.ITileTextureLoader {
     public dataType: string = "uv";

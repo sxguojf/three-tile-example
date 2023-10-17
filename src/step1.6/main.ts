@@ -4,7 +4,7 @@ import {
     CSS2DObject,
     CSS2DRenderer,
 } from "three/examples/jsm/renderers/CSS2DRenderer.js";
-import city from "../assets/city.json";
+import city from "../../assets/city.json";
 import "./style.css";
 
 import * as util from "../util";

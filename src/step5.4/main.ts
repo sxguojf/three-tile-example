@@ -3,7 +3,6 @@ import {
     BoxHelper,
     Color,
     Group,
-    Material,
     Mesh,
     Vector2,
     Vector3,

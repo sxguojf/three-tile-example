@@ -1,6 +1,5 @@
 import { Vector3 } from "three";
-import * as tt from "../../src/three-tile";
-// import * as tt from "../dist/three-tile";
+import * as tt from "../three-tile/three-tile.es";
 import "./style.css";
 // threejs内置了tween库
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
@@ -18,15 +17,6 @@ const offset = new Vector3(0, -2e3, 5e3);
 const viewer = util.createViewer("#map", centerPosition, offset);
 // 地图加入viewer
 viewer.scene.add(map);
-
-/*---------------------------------------------------------------------------------
-    三维场景下，调整地图缩放和位置并不是操作地图，而是修改摄像机位置和角度，即调整观察者位置，
-    同时调整地图控制器的焦点以使摄像机对准目标位置。
-
-    注意，three-tile使用了threejs的MapControls控制器，MapControls会接管camera的lookAt
-    方法，使得camera的lookAt方法无效，需要使用controls.target来调整。
-
-/*---------------------------------------------------------------------------*/
 
 // 不动画，直接跳转定位
 document.querySelector("#jump")!.addEventListener("click", () => {

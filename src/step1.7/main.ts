@@ -8,7 +8,6 @@ import {
     Vector2,
     Vector3,
 } from "three";
-// import * as tt from "../dist/three-tile";
 import "./style.css";
 
 import * as util from "../util";

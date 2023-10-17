@@ -147,7 +147,7 @@ let exampleList = {
     },
 };
 const frame = document.querySelector("#frame") as HTMLIFrameElement;
-const els = document.querySelector("#example")!;
+const elExample = document.querySelector("#example")!;
 for (let key in exampleList) {
     const el = document.createElement("li");
     el.innerText = (exampleList as any)[key].label;
@@ -156,7 +156,7 @@ for (let key in exampleList) {
         console.log(`load ${src}`);
         frame.src = src;
     };
-    els.appendChild(el);
+    elExample.appendChild(el);
 }
 document.querySelector("#title")?.addEventListener("click", () => {
     frame.src = "src/readme/index.html";

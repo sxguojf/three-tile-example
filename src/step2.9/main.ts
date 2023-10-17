@@ -9,7 +9,6 @@ import {
     TorusKnotGeometry,
     Vector3,
 } from "three";
-// import * as tt from "../dist/three-tile";
 import { TeapotGeometry } from "three/examples/jsm/geometries/TeapotGeometry";
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
 import * as util from "../util";

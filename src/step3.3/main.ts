@@ -1,5 +1,4 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
-// import * as tt from "../dist/three-tile";
 import {
     CubeTextureLoader,
     Group,

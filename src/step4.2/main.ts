@@ -1,5 +1,5 @@
 import { Color } from "three";
-import * as tt from "../../src/three-tile";
+import * as tt from "../three-tile/three-tile.es";
 import { MyLoader } from "./MyLoader";
 // import * as tt from "../dist/three-tile";
 import * as util from "../util";

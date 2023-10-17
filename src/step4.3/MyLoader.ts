@@ -5,7 +5,7 @@ import {
     MeshPhongMaterial,
     PlaneGeometry,
 } from "three";
-import * as tt from "../../src/three-tile";
+import * as tt from "../three-tile/three-tile.es";
 
 /**
  * 测试加载器，仅用于测试，不加载实际数据
