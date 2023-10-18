@@ -14,7 +14,7 @@ import * as tt from "./three-tile/three-tile.es";
 // const MAPBOXKEY =
 //     "pk.eyJ1IjoiZ3VvamYiLCJhIjoiY2tlZzBkbDh4MGdwZTJ4cnpweTE5a3A1ayJ9.mQnCskKBn7ni_C7zdSO8Gw";
 export const MAPBOXKEY =
-    "pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2p0MG01MXRqMW45cjQzb2R6b2ptc3J4MSJ9.zA2W0IkI0c6KaAhJfk9bWg";
+    "pk.eyJ1Ijoiemhhbmdjb29raWUiLCJhIjoiY2tyMngybmVvMGl3cTJvcGRrNzNna2FxcyJ9.Abt7my-eFxMOmgxGXwVknA";
 export const mapboxImgSource = new tt.MapBoxImgSource(MAPBOXKEY);
 export const mapboxDemSource = new tt.MapBoxDemSource(MAPBOXKEY);
 

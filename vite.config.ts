@@ -6,6 +6,7 @@ const resolve = (dir: string) => path.resolve(__dirname, dir);
 export default defineConfig({
     base: "./",
     build: {
+        outDir: "docs",
         rollupOptions: {
             input: {
                 index: resolve("index.html"),
