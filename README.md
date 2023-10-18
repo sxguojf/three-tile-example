@@ -29,6 +29,32 @@ three-tile 是一个基于 [threejs](https://threejs.org/) 的轻量级三维瓦
 
 
 
+![demo1.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo1.jpeg)
+
+
+![demo2.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo2.jpeg)
+
+
+![demo3.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo3.jpeg)
+
+
+![demo4.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo4.jpeg)
+
+
+![demo5.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo5.jpeg)
+
+
+![demo6.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo6.jpeg)
+
+
+![demo7.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo7.jpeg)
+
+
+![demo8.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo8.jpeg)
+
+![demo9.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo9.jpeg)
+
+
 ### 1.1 优点
 
 -   体积小：仅 60 多 k 的包（不含 example），十分小巧，开箱即用。
