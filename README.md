@@ -1,7 +1,3 @@
-
-
-
-
 # **three-tile V0.4**
 
 <p align='right'>郭江峰  hz_gjf@163.com  SXMB</p>
@@ -10,7 +6,9 @@
 
 市场上开源三维 WEBGIS 框架不少，Cesium、Mapbox、ITown、three-geo、geo-three、MapLibre 等，效果炫酷功能强大。在这些地图框架使用中，逐渐有了一些自己的思路和改进方法，但很多想法涉及到底层架构，修修补补无济于事，干脆自己动手写一套。虽然暂时还不能这些 NB 的项目直接竞争，但它有其独特的设计思路和应用场景，也算是给开发者多一种选择。
 
-Examples: <https://sxguojf.github.io/three-tile-example/>
+Source： https://github.com/sxguojf/three-tile-example
+
+Examples: https://sxguojf.github.io/three-tile-example
 
 免责声明：
 
@@ -48,7 +46,6 @@ three-tile 是一个基于 [threejs](https://threejs.org/) 的轻量级三维瓦
 
 
 ![demo7.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo7.jpeg)
-
 
 ![demo8.jpeg (1744×868) (sxguojf.github.io)](https://sxguojf.github.io/three-tile-example/image/demo/demo8.jpeg)
 
@@ -246,7 +243,7 @@ three-tile 参考了 threejs 的代码组织结构，即模型+几何体+材质+
 
 ### 4.4 地图 map
 
-three-tile 的瓦片 LOD 模型、瓦片树、加载器与地图没有直接关系，理论上你可以用它做任何大型 LOD 三维模型。为了便于地图应用，three-tile 将瓦片、加载器、数据源进一步封装，增加投影类和地理坐标转换、拾取等函数，形成 一个 TileMap 类，该类继承于 Mesh，普通开发者仅需使用 TileMap 类即可完成绝大部分地图操作。
+为了便于地图应用，three-tile 将瓦片、加载器、数据源进一步封装，增加投影类和地理坐标转换、拾取等函数，形成 一个 TileMap 类，该类继承于 Mesh，普通开发者仅需使用 TileMap 类即可完成绝大部分地图操作。
 
 ### 4.5 整体流程
 
