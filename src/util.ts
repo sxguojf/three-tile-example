@@ -147,7 +147,7 @@ export const showLocation = (
                 el.innerHTML = `经度:${info.location.x.toFixed(3)}°  
                             纬度:${info.location.y.toFixed(3)}°  
                             海拔:${(info.location.z * 1000).toFixed(1)}m
-                            距离:${info.distance.toFixed(3)}km `;
+                            视距:${info.distance.toFixed(3)}km `;
             }
         });
     }

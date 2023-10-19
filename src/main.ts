@@ -142,15 +142,25 @@ let exampleList = {
         label: "5.14 应用-淹没模型",
     },
 };
+
 const frame = document.querySelector("#frame") as HTMLIFrameElement;
 const elExample = document.querySelector("#example")!;
 for (let key in exampleList) {
     const el = document.createElement("li");
     el.innerText = (exampleList as any)[key].label;
-    el.onclick = function () {
+    el.onclick = function (evt: MouseEvent) {
         const src = `src/${key}/index.html`;
         console.log(`load ${src}`);
         frame.src = src;
+        const lis = document.querySelectorAll("#example li");
+        for (let i = 0; i < lis.length; i++) {
+            const li = lis[i];
+            if (evt.currentTarget === li) {
+                li.className = "current";
+            } else {
+                li.className = "";
+            }
+        }
     };
     elExample.appendChild(el);
 }
