@@ -63,7 +63,7 @@ button {
     transition: border-color 0.25s;
 }
 button:hover {
-    border-color: #646cff;
+    color: #535bf2;
 }
 button:focus,
 button:focus-visible {
@@ -113,7 +113,7 @@ button:focus-visible {
 }
 
 #example > li:hover {
-    color: #646cff;
+    color: #535bf2;
 }
 
 #example > li:active {
@@ -121,7 +121,7 @@ button:focus-visible {
 }
 
 #example > .current {
-    color: red;
+    color: #535bf2;
     font-weight: bold;
 }
 

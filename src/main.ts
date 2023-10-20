@@ -143,27 +143,36 @@ let exampleList = {
     },
 };
 
-const frame = document.querySelector("#frame") as HTMLIFrameElement;
-const elExample = document.querySelector("#example")!;
-for (let key in exampleList) {
-    const el = document.createElement("li");
-    el.innerText = (exampleList as any)[key].label;
-    el.onclick = function (evt: MouseEvent) {
-        const src = `src/${key}/index.html`;
-        console.log(`load ${src}`);
-        frame.src = src;
-        const lis = document.querySelectorAll("#example li");
-        for (let i = 0; i < lis.length; i++) {
-            const li = lis[i];
-            if (evt.currentTarget === li) {
-                li.className = "current";
-            } else {
-                li.className = "";
-            }
-        }
-    };
-    elExample.appendChild(el);
+function createSideList(exampleList: any) {
+    const frame = document.querySelector("#frame") as HTMLIFrameElement;
+    const elExample = document.querySelector("#example")!;
+    for (let key in exampleList) {
+        const el = document.createElement("li");
+        el.innerText = (exampleList as any)[key].label;
+        el.onclick = function (evt: MouseEvent) {
+            const src = `src/${key}/index.html`;
+            console.log(`load ${src}`);
+            frame.src = src;
+            setFocus(evt.currentTarget as HTMLLIElement);
+        };
+        elExample.appendChild(el);
+    }
+    document.querySelector("#title")?.addEventListener("click", () => {
+        frame.src = "src/readme/index.html";
+        setFocus(null);
+    });
 }
-document.querySelector("#title")?.addEventListener("click", () => {
-    frame.src = "src/readme/index.html";
-});
+
+function setFocus(el: HTMLLIElement | null) {
+    const lis = document.querySelectorAll("#example li");
+    for (let i = 0; i < lis.length; i++) {
+        const li = lis[i];
+        if (el === li) {
+            li.className = "current";
+        } else {
+            li.className = "";
+        }
+    }
+}
+
+createSideList(exampleList);
