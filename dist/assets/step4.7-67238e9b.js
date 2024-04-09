@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-3cfb730f.js";import{s as a,V as o}from"./mapSource-9a4d2911.js";import{c,a as n,b as r,s as i}from"./util-bcbf6958.js";const p=new a({dataType:"uv"}),e=c([p]),s=e.geo2pos(new o(105,30)),w=new o(s.x,s.y,0),m=new o(0,-1e4,1e4),t=n("#map",w,m);t.scene.add(e);r(e);i(t,e);

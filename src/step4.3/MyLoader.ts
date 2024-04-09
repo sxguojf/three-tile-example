@@ -5,7 +5,7 @@ import {
     MeshPhongMaterial,
     PlaneGeometry,
 } from "three";
-import * as tt from "../three-tile/three-tile.es";
+import * as tt from "three-tile";
 
 /**
  * 测试加载器，仅用于测试，不加载实际数据
@@ -22,7 +22,7 @@ export class MyLoader extends tt.TileLoader {
         onLoad: (geometry: BufferGeometry) => void
     ) {
         const geometry = new PlaneGeometry();
-        setTimeout(() => onLoad(geometry), 1);
+        setTimeout(() => onLoad(geometry));
         return geometry;
     }
 
@@ -36,8 +36,10 @@ export class MyLoader extends tt.TileLoader {
         const material = new MeshPhongMaterial();
         // material.emissive = new Color("#222");
         // material.specular = new Color("#888");
-        material.map = new CanvasTexture(drawTile(tile.x, tile.y, tile.level));
-        setTimeout(() => onLoad([material]), 1);
+        material.map = new CanvasTexture(
+            drawTile(tile.coord.x, tile.coord.y, tile.coord.z)
+        );
+        setTimeout(() => onLoad([material]));
         return [material];
     }
 }

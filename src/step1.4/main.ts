@@ -1,13 +1,13 @@
 import { Vector3 } from "three";
-import * as tt from "../three-tile/three-tile.es";
+import * as tt from "three-tile";
+import * as util from "../util";
+import * as ms from "../mapSource";
 import "./style.css";
 
-import * as util from "../util";
-
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap(util.mapboxImgSource, util.mapboxDemSource);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心经纬度，转换为场景坐标
-const center = map.project(138.732, 35.35);
+const center = map.geo2pos(new Vector3(138.732, 35.35));
 // 目标坐标（地图中心）
 const centerPosition = new Vector3(center.x, center.y, 0);
 // 摄像机相对于地图中心坐标的偏移量
@@ -16,17 +16,6 @@ const offset = new Vector3(0, -8, 5);
 const viewer = util.createViewer("#map", centerPosition, offset);
 // 地图加入viewer
 viewer.scene.add(map);
-
-/*-------------------------------------------------------------------------*/
-// 显示正在加载的瓦片
-((map: tt.TileMap) => {
-    const el = document.querySelector("#showloading") as HTMLInputElement;
-    if (el) {
-        el.addEventListener("click", () => {
-            map.loader.showLoading = el.checked;
-        });
-    }
-})(map);
 
 /*-------------------------------------------------------------------------*/
 // 显示地图加载进度

@@ -1,5 +1,5 @@
 import { Material, MeshBasicMaterial } from "three";
-import * as tt from "../three-tile/three-tile.es";
+import * as tt from "three-tile";
 
 /**
  * 测试加载器，仅用于测试，不加载实际数据

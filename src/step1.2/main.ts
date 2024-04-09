@@ -1,14 +1,15 @@
-import { Vector3 } from "three";
-import * as tt from "../three-tile/three-tile.es";
 import "./style.css";
+import * as tt from "three-tile";
+import * as util from "../util";
+import * as ms from "../mapSource";
 // threejs内置了tween库
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
-import * as util from "../util";
+import { Vector3 } from "three";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap(util.googleImgSource, util.mapboxDemSource);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心经纬度，转换为场景坐标
-const center = map.project(108, 34);
+const center = map.geo2pos(new Vector3(108, 34));
 // 目标坐标（地图中心）
 const centerPosition = new Vector3(center.x, center.y, 0);
 // 摄像机坐标相对于地图中心的偏移量
@@ -17,6 +18,8 @@ const offset = new Vector3(0, -2e3, 5e3);
 const viewer = util.createViewer("#map", centerPosition, offset);
 // 地图加入viewer
 viewer.scene.add(map);
+
+/*----------------------------------------调整位置大小----------------------------------------*/
 
 // 不动画，直接跳转定位
 document.querySelector("#jump")!.addEventListener("click", () => {
@@ -30,7 +33,6 @@ document.querySelector("#jump")!.addEventListener("click", () => {
 document.querySelector("#timer")!.addEventListener("click", () => {
     // 摄像机中心对准地图中心
     viewer.controls.target.set(center.x, center.y, 0);
-
     const camerPos = viewer.camera.position;
     camerPos.set(center.x, center.y, 1e4);
     const timer = setInterval(() => {
@@ -53,9 +55,14 @@ document.querySelector("#reset")!.addEventListener("click", () => {
 
 /*---------------------------------------------------------------------------*/
 // 用tween写一个简单的flyTo函数
-function flyTo(viewer: tt.GLViewer, map: tt.TileMap, lon: number, lat: number) {
+function flyTo(
+    viewer: tt.plugin.GLViewer,
+    map: tt.TileMap,
+    lon: number,
+    lat: number
+) {
     // 目标位置
-    const targetPos = map.project(lon, lat);
+    const targetPos = map.geo2pos(new Vector3(lon, lat));
     viewer.controls.target.set(targetPos.x, targetPos.y, 0);
 
     const camera = viewer.camera;

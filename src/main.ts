@@ -1,4 +1,6 @@
-let exampleList = {
+import "./style.css";
+
+const exampleList = {
     "step1.1": {
         label: "1.1 起步-地图创建",
     },
@@ -22,6 +24,12 @@ let exampleList = {
     },
     "step1.8": {
         label: "1.8 起步-添加几何体",
+    },
+    "step1.9": {
+        label: "1.9 起步-添加罗盘",
+    },
+    "step1.10": {
+        label: "1.10 起步-添加地球遮罩",
     },
 
     "step2.1": {
@@ -141,38 +149,23 @@ let exampleList = {
     "step5.14": {
         label: "5.14 应用-淹没模型",
     },
+
+    demo: {
+        label: "☯ 综合调试",
+    },
 };
-
-function createSideList(exampleList: any) {
-    const frame = document.querySelector("#frame") as HTMLIFrameElement;
-    const elExample = document.querySelector("#example")!;
-    for (let key in exampleList) {
-        const el = document.createElement("li");
-        el.innerText = (exampleList as any)[key].label;
-        el.onclick = function (evt: MouseEvent) {
-            const src = `src/${key}/index.html`;
-            console.log(`load ${src}`);
-            frame.src = src;
-            setFocus(evt.currentTarget as HTMLLIElement);
-        };
-        elExample.appendChild(el);
-    }
-    document.querySelector("#title")?.addEventListener("click", () => {
-        frame.src = "src/readme/index.html";
-        setFocus(null);
-    });
+const frame = document.querySelector("#frame") as HTMLIFrameElement;
+const els = document.querySelector("#example")!;
+for (const key in exampleList) {
+    const el = document.createElement("li");
+    el.innerText = (exampleList as any)[key].label;
+    el.onclick = function () {
+        const src = `./src/${key}/index.html`;
+        console.log(`load ${src}`);
+        frame.src = src;
+    };
+    els.appendChild(el);
 }
-
-function setFocus(el: HTMLLIElement | null) {
-    const lis = document.querySelectorAll("#example li");
-    for (let i = 0; i < lis.length; i++) {
-        const li = lis[i];
-        if (el === li) {
-            li.className = "current";
-        } else {
-            li.className = "";
-        }
-    }
-}
-
-createSideList(exampleList);
+document.querySelector("#title")?.addEventListener("click", () => {
+    frame.src = "./readme/index.html";
+});

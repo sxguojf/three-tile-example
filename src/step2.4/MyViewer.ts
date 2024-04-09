@@ -88,7 +88,11 @@ export class MyViewer extends EventDispatcher<Event> {
     private setDirLight() {
         const dirLight = this.dirLight;
         dirLight.target.position.copy(this.controls.target);
-        dirLight.position.set(dirLight.target.position.x, dirLight.target.position.y - 100, 100);
+        dirLight.position.set(
+            dirLight.target.position.x,
+            dirLight.target.position.y - 100,
+            100
+        );
         dirLight.castShadow = true;
         dirLight.shadow.camera.near = 0.1;
         dirLight.shadow.camera.far = 200;
@@ -144,7 +148,10 @@ export class MyViewer extends EventDispatcher<Event> {
             }
             // 根据摄像机仰角、距离调整雾摄像机远剪裁面
             this.camera.far = Math.min((dist / polar) * 8, 60000);
-            this.camera.near = Math.min(Math.max(this.camera.far / 100, 0.1), 1);
+            this.camera.near = Math.min(
+                Math.max(this.camera.far / 100, 0.1),
+                1
+            );
             this.camera.updateProjectionMatrix();
         });
         return controls;

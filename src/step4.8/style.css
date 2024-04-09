@@ -96,7 +96,7 @@ button:focus-visible {
 #location {
     position: absolute;
     right: 30px;
-    bottom: 10px;
+    bottom: 30px;
     color: white;
     text-shadow: 1px 1px 1px black;
 }
@@ -111,10 +111,19 @@ button:focus-visible {
 
 #depth {
     position: absolute;
+    right: 30px;
+    bottom: 10px;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+
+#depthcanvas {
+    position: absolute;
     right: 40px;
-    bottom: 230px;
+    bottom: 60px;
     width: 300px;
     height: 200px;
     background-color: antiquewhite;
-    text-shadow: 1px 1px 1px black;
+    border: 5px solid black;
+    transform: rotate(180deg);
 }

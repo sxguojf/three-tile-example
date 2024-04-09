@@ -1,5 +1,6 @@
 import {
     AmbientLight,
+    BufferGeometry,
     Camera,
     CameraHelper,
     Clock,
@@ -25,7 +26,8 @@ import {
 } from "three";
 
 import { MapControls } from "three/examples/jsm/controls/MapControls";
-import frag from "./depth.frag.glsl?raw";
+// import frag from "./depth.frag.glsl?raw";
+// import vert from "./depth.vert.glsl?raw";
 
 Object3D.DEFAULT_UP.set(0, 0, 1);
 
@@ -42,12 +44,24 @@ export class MyViewer extends EventDispatcher<Event> {
     container: HTMLElement;
     _clock: Clock = new Clock();
 
+    get width() {
+        return this.container.clientWidth;
+    }
+    get height() {
+        return this.container.clientHeight;
+    }
+
     depthRenderTarget!: WebGLRenderTarget;
     // depthTexture = new DepthTexture(300, 200); // = new FramebufferTexture(textureSize, textureSize, RGBAFormat);
 
     depthCamera!: OrthographicCamera;
     depthScene: Scene = new Scene();
-    depthMesh: Mesh;
+    depthMesh: Mesh<BufferGeometry, ShaderMaterial>;
+    depthPixelBuffer = new Uint8Array();
+
+    depthCanvasContex: CanvasRenderingContext2D;
+
+    currentRenderTarget!: WebGLRenderTarget;
 
     private _fogFactor = 1.0;
     public get fogFactor() {
@@ -89,8 +103,17 @@ export class MyViewer extends EventDispatcher<Event> {
 
         // 加入容器
         this.container.appendChild(this.renderer.domElement);
+
+        const canvasEl = document.querySelector(
+            "#depthcanvas"
+        ) as HTMLCanvasElement;
+        canvasEl.width = this.width;
+        canvasEl.height = this.height;
+        this.depthCanvasContex = canvasEl.getContext("2d")!;
+
         //窗口大小改变时调整canvas大小
         window.addEventListener("resize", this.resize.bind(this));
+
         this.resize();
         this.animate();
     }
@@ -162,7 +185,7 @@ export class MyViewer extends EventDispatcher<Event> {
         const backColor = 0xdbf0ff;
         const scene = new Scene();
         scene.background = new Color(backColor);
-        scene.fog = new FogExp2(backColor, 0);
+        // scene.fog = new FogExp2(backColor, 0);
         return scene;
     }
 
@@ -183,8 +206,11 @@ export class MyViewer extends EventDispatcher<Event> {
 
     //浏览器窗口大小变化重置状态
     resize() {
-        const width = this.container.clientWidth,
-            height = this.container.clientHeight;
+        const width = this.width,
+            height = this.height;
+        this.currentRenderTarget && this.currentRenderTarget.dispose();
+        this.currentRenderTarget = new WebGLRenderTarget(width, height);
+
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(width, height);
         this.camera.aspect = width / height;
@@ -196,15 +222,51 @@ export class MyViewer extends EventDispatcher<Event> {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
-        // this.depthMesh.material.uniforms['cameraInverseMatrix'].value = this.camera.matrixWorldInverse;
+        this.camera;
+
+        this.depthMesh.material.uniforms["cameraNear"].value = this.camera.near;
+        this.depthMesh.material.uniforms["cameraFar"].value = this.camera.far;
+        this.depthMesh.material.uniforms["cameraMatrixInverse"].value =
+            this.camera.matrixWorldInverse;
+
+        // this.depthMesh.material.uniforms["cameraProjectionMatrix"].value =
+        //     this.camera.matrixWorld;
+        // this.depthMesh.material.uniforms[
+        //     "cameraInverseProjectionMatrix"
+        // ].value = this.camera.projectionMatrixInverse;
+        // this.depthMesh.material.uniforms["cameraInverseMatrix"].value =
+        //     this.camera.matrixWorld;
 
         //  渲染深度
         this.renderer.setRenderTarget(this.depthRenderTarget);
         this.renderer.render(this.scene, this.camera);
 
-        // 深度渲染到主窗口
+        // 深度渲染到主窗口的plane Mesh
+        this.renderer.setRenderTarget(this.currentRenderTarget);
+        this.renderer.render(this.depthScene, this.depthCamera);
+
+        // this.depthMesh.material.uniforms["depthTexture"].value =
+        //     this.depthRenderTarget;
+
         this.renderer.setRenderTarget(null);
         this.renderer.render(this.depthScene, this.depthCamera);
+
+        // 深度像素信息写入数组
+        this.renderer.readRenderTargetPixels(
+            this.currentRenderTarget,
+            0,
+            0,
+            this.currentRenderTarget.width,
+            this.currentRenderTarget.height,
+            this.depthPixelBuffer
+        );
+
+        const imageData = new ImageData(
+            new Uint8ClampedArray(this.depthPixelBuffer),
+            this.depthRenderTarget.width,
+            this.depthRenderTarget.height
+        );
+        this.depthCanvasContex.putImageData(imageData, 0, 0);
 
         this.controls.update();
 
@@ -219,6 +281,7 @@ export class MyViewer extends EventDispatcher<Event> {
 
         const depthTexture = new DepthTexture(width, height);
         const target = new WebGLRenderTarget(width, height);
+        this.depthPixelBuffer = new Uint8Array(width * height * 4);
 
         target.texture.minFilter = NearestFilter;
         target.texture.magFilter = NearestFilter;
@@ -232,28 +295,84 @@ export class MyViewer extends EventDispatcher<Event> {
 
         this.depthCamera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
+        // const material = new ShaderMaterial({
+        //     vertexShader: vert,
+        //     fragmentShader: frag,
+        //     defines: {
+        //         PERSPECTIVE_CAMERA: 1,
+        //         DEPTH_PACKING: 0,
+        //     },
+        //     uniforms: {
+        //         cameraNear: { value: this.camera.near },
+        //         cameraFar: { value: this.camera.far },
+        //         cameraInverseMatrix: { value: this.camera.matrixWorld },
+        //         cameraProjectionMatrix: { value: this.camera.projectionMatrix },
+        //         cameraInverseProjectionMatrix: {
+        //             value: this.camera.projectionMatrixInverse,
+        //         },
+        //         tDiffuse: { value: target.texture },
+        //         tDepth: { value: depthTexture },
+        //     },
+        // });
+
+        // 创建一个着色器材质
         const material = new ShaderMaterial({
-            vertexShader: document
-                .querySelector("#post-vert")!
-                .textContent!.trim(),
-            // fragmentShader: document.querySelector("#post-frag")!.textContent!.trim(),
-            fragmentShader: frag,
-            defines: {
-                PERSPECTIVE_CAMERA: 1,
-                DEPTH_PACKING: 0,
-            },
             uniforms: {
+                depthTexture: { value: depthTexture },
+                tDiffuse: { value: target.texture },
                 cameraNear: { value: this.camera.near },
                 cameraFar: { value: this.camera.far },
-                cameraInverseMatrix: { value: this.camera.matrixWorld },
-                cameraProjectionMatrix: { value: this.camera.projectionMatrix },
-                cameraInverseProjectionMatrix: {
-                    value: this.camera.projectionMatrixInverse,
-                },
-                tDiffuse: { value: target.texture },
-                tDepth: { value: depthTexture },
+                cameraMatrixInverse: { value: this.camera.matrixWorldInverse },
+                scale: { value: 1 },
             },
+            vertexShader: `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `,
+            fragmentShader: `
+
+        uniform sampler2D depthTexture;
+        uniform sampler2D tDiffuse;
+        uniform float cameraNear;
+        uniform float cameraFar;
+        uniform mat4 cameraMatrixInverse;
+        uniform float scale;
+        varying vec2 vUv;
+
+        #include <packing>
+        #include <common>
+
+        
+        float readDepth( sampler2D depthSampler, vec2 coord ) {
+            // fragCoordZ:0.0-1.0
+            float fragCoordZ = texture2D( depthSampler, coord ).x;	
+            // 透视深度Z转换为摄像机坐标系的Z
+            float viewZ = perspectiveDepthToViewZ(fragCoordZ, cameraNear, cameraFar );
+            // 将摄像机坐标系的Z映射到0-1范围
+            return viewZToOrthographicDepth(viewZ, cameraNear, cameraFar );
+        }
+
+        void main() {
+            float depth =  readDepth(depthTexture, vUv);
+            vec4 diffuse = texture2D(tDiffuse,vUv);
+            // 使用线性深度值重建世界坐标
+            //float z = cameraNear * cameraFar / ((cameraFar - cameraNear) * depth*100.0 - cameraFar);
+
+            vec4 cameraSpacePosition = vec4(vUv, depth, 1.0);
+            vec4 worldSpacePosition = cameraMatrixInverse * cameraSpacePosition;// * scale;
+            worldSpacePosition = normalize(worldSpacePosition);
+            
+
+            gl_FragColor = vec4(worldSpacePosition.xyz, 1.0);
+            gl_FragColor = vec4(worldSpacePosition.z,worldSpacePosition.z,worldSpacePosition.z, 1.0);
+            gl_FragColor = vec4(vUv,depth,1.0);
+        }
+    `,
         });
+
         const geometry = new PlaneGeometry(2, 2);
         const mesh = new Mesh(geometry, material);
         this.depthScene.add(mesh);

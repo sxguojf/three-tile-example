@@ -1,25 +1,25 @@
-import * as tt from "../three-tile/three-tile.es";
+import { Vector3 } from "three";
+import * as tt from "three-tile";
+import * as ms from "../mapSource";
 import { MyLoader } from "./MyLoader";
-// import * as tt from "../dist/three-tile";
-import * as util from "../util";
 import "./style.css";
 
 // 取得地图dom容器（div）
 const glContainer = document.querySelector<HTMLElement>("#map");
 // 初始化三维场景
-const viewer = new tt.GLViewer(glContainer!);
+const viewer = new tt.plugin.GLViewer(glContainer!);
 
 // 创建地图
 const loader = new MyLoader(
     [
-        util.mapboxImgSource,
-        new tt.Source({ attribution: "TileTest", dataType: "test" }),
+        ms.mapBoxImgSource,
+        new tt.BaseSource({ attribution: "TileTest", dataType: "test" }),
     ],
-    util.mapboxDemSource
+    ms.mapBoxDemSource
 );
 const map = new tt.TileMap({
     loader,
-    projCenterLon: 90,
+    centralMeridian: 90,
     minLevel: 2,
 });
 
@@ -27,7 +27,7 @@ const map = new tt.TileMap({
 viewer.scene.add(map);
 
 // 经纬度转为场景坐标
-const center = map.project(95, 29.65);
+const center = map.geo2pos(new Vector3(95, 29.65));
 // 控制中心对准地图中心
 viewer.controls.target.set(center.x, center.y, 0);
 // 摄像机位置

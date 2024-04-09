@@ -1,17 +1,18 @@
 import { Vector3 } from "three";
 // import * as tt from "../dist/three-tile";
 import * as util from "../util";
+import * as ms from "../mapSource";
 import "./style.css";
-import * as tt from "../three-tile/three-tile.es";
+import * as tt from "three-tile";
 import "./MyGeometryLoader";
 
 /*----------------------------------------创建地图----------------------------------------*/
 
-const ballSource = new tt.Source({ dataType: "ball" });
+const ballSource = new tt.BaseSource({ dataType: "ball" });
 
-const map = util.createMap([util.mapboxImgSource], ballSource);
+const map = util.createMap([ms.mapBoxImgSource], ballSource);
 // 地图中心经纬度，转换为场景坐标
-const center = map.project(105, 30);
+const center = map.geo2pos(new Vector3(105, 30));
 // 目标坐标（地图中心）
 const centerPosition = new Vector3(center.x, center.y, 0);
 // 摄像机相对于地图中心坐标的偏移量

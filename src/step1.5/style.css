@@ -115,7 +115,7 @@ button:focus-visible {
     padding: 3px;
     border-radius: 5px;
     background-color: white;
-    font-size: 8px;
+    font-size: 12px;
     line-height: 16px;
     cursor: pointer;
 }

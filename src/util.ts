@@ -1,4 +1,5 @@
 import {
+    Color,
     CubeTextureLoader,
     Matrix4,
     Mesh,
@@ -9,32 +10,12 @@ import {
     Vector2,
     Vector3,
 } from "three";
-import * as tt from "./three-tile/three-tile.es";
-
-// const MAPBOXKEY =
-//     "pk.eyJ1IjoiZ3VvamYiLCJhIjoiY2tlZzBkbDh4MGdwZTJ4cnpweTE5a3A1ayJ9.mQnCskKBn7ni_C7zdSO8Gw";
-export const MAPBOXKEY =
-    "pk.eyJ1Ijoiemhhbmdjb29raWUiLCJhIjoiY2tyMngybmVvMGl3cTJvcGRrNzNna2FxcyJ9.Abt7my-eFxMOmgxGXwVknA";
-export const mapboxImgSource = new tt.MapBoxImgSource(MAPBOXKEY);
-export const mapboxDemSource = new tt.MapBoxDemSource(MAPBOXKEY);
-
-export const googleImgSource = new tt.GoogleSource("y");
-export const bingImgSource = new tt.BingSource();
-
-export const MAPTILERKEY = "get_your_own_key_QmavnBrQwNGsQ8YvPzZg";
-export const mapTilerDemSource = new tt.MapTilerDemSource(MAPTILERKEY);
-
-export const ZKXTKEY =
-    // "82455ef06c72bb3a35bbb4d7d05fd9eceb96a94dc942a056b8feb0e5928ed96f";
-    "e3b2af83e1611acc0273002ef80b418eacf3630e11f2901c6b2ff9bb152c24d6";
-// "4ea7bc4e9a2efc4e76be33d9511600dfa3b4f24bb81cb69561ab0b833d9b482c";
-export const zkxtCiaSource = new tt.ZKXTImgSource(ZKXTKEY, "cia");
-export const zkxtImgSource = new tt.ZKXTImgSource(ZKXTKEY, "img");
-export const zkxtDemSource = new tt.ZKXtDemSource(ZKXTKEY);
+import * as tt from "three-tile";
+import * as ms from "./mapSource";
 
 // 创建地图
 export const createMap = (
-    imgSource: tt.ISource | tt.ISource[] = mapboxImgSource,
+    imgSource: tt.ISource | tt.ISource[] = ms.mapBoxImgSource,
     demSource?: tt.ISource
 ) => {
     return tt.TileMap.create({
@@ -43,7 +24,7 @@ export const createMap = (
         // 地形数据源
         demSource: demSource,
         // 地图投影中心经度
-        projCenterLon: 90,
+        centralMeridian: 90,
         // 最小缩放级别
         minLevel: 2,
         // 最大缩放级别
@@ -59,7 +40,7 @@ export const createViewer = (id: string, center: Vector3, offset: Vector3) => {
         throw new Error(`Element ${id} is not found!`);
     }
     // 初始化三维场景(调用three-tile内置的初始化类)
-    return new tt.GLViewer(
+    return new tt.plugin.GLViewer(
         // 地图容器
         glContainer,
         // 目标坐标（地图中心）
@@ -67,15 +48,6 @@ export const createViewer = (id: string, center: Vector3, offset: Vector3) => {
         // 观察者坐标（摄像机位置）
         center.clone().add(offset)
     );
-};
-
-// 显示正在加载的瓦片
-export const showLoadingTile = (
-    map: tt.TileMap,
-    id: string = "#show-loading-tile"
-) => {
-    const el = document.querySelector(id) as HTMLInputElement;
-    el?.addEventListener("click", () => (map.loader.showLoading = el.checked));
 };
 
 // 显示地图加载进度
@@ -108,7 +80,10 @@ export const showLoadstate = (map: tt.TileMap, id: string = "#load-state") => {
 };
 
 // 显示摄像机信息
-export const showCameraInfo = (viewer: tt.GLViewer, id: string = "#camera") => {
+export const showCameraInfo = (
+    viewer: tt.plugin.GLViewer,
+    id: string = "#camera"
+) => {
     const el = document.querySelector(id);
     if (el) {
         viewer.controls.addEventListener("change", () => {
@@ -130,7 +105,7 @@ export const showCameraInfo = (viewer: tt.GLViewer, id: string = "#camera") => {
 
 // 显示地理位置信息
 export const showLocation = (
-    viewer: tt.GLViewer,
+    viewer: tt.plugin.GLViewer,
     map: tt.TileMap,
     id: string = "#location"
 ) => {
@@ -142,12 +117,14 @@ export const showLocation = (
             pointer.x = (evt.clientX / viewer.container.clientWidth) * 2 - 1;
             pointer.y = -(evt.clientY / viewer.container.clientHeight) * 2 + 1;
             // 取得该坐标的信息
-            const info = map.getLocationFromScreen(viewer.camera, pointer);
+            const info = map.getLocalInfoFromScreen(viewer.camera, pointer);
             if (info) {
                 el.innerHTML = `经度:${info.location.x.toFixed(3)}°  
                             纬度:${info.location.y.toFixed(3)}°  
                             海拔:${(info.location.z * 1000).toFixed(1)}m
-                            视距:${info.distance.toFixed(3)}km `;
+                            离摄像机距离:${info.distance.toFixed(3)}km `;
+            } else {
+                el.innerHTML = "";
             }
         });
     }
@@ -162,15 +139,15 @@ export const showAttribution = (
     if (dom) {
         const show = () =>
             (dom.innerHTML = "© " + map.attributions.join(" | © "));
-        map.addEventListener("provider-changed", show);
+        map.addEventListener("source-changed", show);
         show();
     }
 };
 
 // 显示天空盒子
-export const addSky = (viewer: tt.GLViewer) => {
+export const addSky = (viewer: tt.plugin.GLViewer) => {
     const bk = new CubeTextureLoader()
-        .setPath("../../image/skybox/")
+        .setPath("../image/skybox/")
         .load([
             "skybox_nx.png",
             "skybox_px.png",
@@ -188,7 +165,7 @@ export const addMapBackground = (map: tt.TileMap) => {
         new PlaneGeometry(),
         new MeshBasicMaterial({
             map: new TextureLoader().load(
-                "../../image/tile0.png",
+                "../image/tile0.png",
                 (texture) => (texture.colorSpace = SRGBColorSpace)
             ),
         })
@@ -203,6 +180,21 @@ export const addMapBackground = (map: tt.TileMap) => {
     map.add(backGround);
 };
 
+export function addFakeEarth(viewer: tt.plugin.GLViewer, map: tt.TileMap) {
+    const fakeEarth = new tt.plugin.FakeEarth(
+        viewer.scene.fog?.color || new Color(0)
+    );
+    fakeEarth.name = "fakeearth";
+    fakeEarth.applyMatrix4(map.rootTile.matrix);
+
+    viewer.controls.addEventListener("change", () => {
+        // 地图距摄像机较远时再显示遮罩
+        fakeEarth.visible = viewer.controls.getDistance() > 3000;
+    });
+
+    map.add(fakeEarth);
+}
+
 // 根据地理范围的西南、东北角经纬度，计算模型变换矩阵
 export const getMatrixFromBounds = (
     map: tt.TileMap,
@@ -211,8 +203,8 @@ export const getMatrixFromBounds = (
     alt: number
 ) => {
     // 经纬度转换为场景坐标
-    const p1 = map.project(sw.x, sw.y);
-    const p2 = map.project(ne.x, ne.y);
+    const p1 = map.geo2pos(new Vector3(sw.x, sw.y));
+    const p2 = map.geo2pos(new Vector3(ne.x, ne.y));
     // 计算缩放和位置
     const scale = new Vector3(p2.x - p1.x, p2.y - p1.y, 1);
     const pos = new Vector3(p1.x + scale.x / 2, p2.y - scale.y / 2, alt);

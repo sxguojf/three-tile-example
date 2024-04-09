@@ -1,12 +1,12 @@
 import { defineConfig } from "vite";
 
-import path, { join } from "path";
+import path from "path";
 const resolve = (dir: string) => path.resolve(__dirname, dir);
 
 export default defineConfig({
     base: "./",
     build: {
-        outDir: "docs",
+        outDir: "./dist",
         rollupOptions: {
             input: {
                 index: resolve("index.html"),
@@ -19,6 +19,8 @@ export default defineConfig({
                 "step1.6": resolve("src/step1.6/index.html"),
                 "step1.7": resolve("src/step1.7/index.html"),
                 "step1.8": resolve("src/step1.8/index.html"),
+                "step1.9": resolve("src/step1.9/index.html"),
+                "step1.10": resolve("src/step1.10/index.html"),
 
                 "step2.1": resolve("src/step2.1/index.html"),
                 "step2.2": resolve("src/step2.2/index.html"),
@@ -47,10 +49,10 @@ export default defineConfig({
                 "step4.7": resolve("src/step4.7/index.html"),
                 "step4.8": resolve("src/step4.8/index.html"),
 
-                "step5.1": resolve("src/step5.1/index.html"),
-                "step5.2": resolve("src/step5.2/index.html"),
-                "step5.3": resolve("src/step5.3/index.html"),
-                "step5.4": resolve("src/step5.4/index.html"),
+                // "step5.1": resolve("src/step5.1/index.html"),
+                // "step5.2": resolve("src/step5.2/index.html"),
+                // "step5.3": resolve("src/step5.3/index.html"),
+                // "step5.4": resolve("src/step5.4/index.html"),
             },
         },
     },
