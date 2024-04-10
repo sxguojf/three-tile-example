@@ -1,2935 +1,1669 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width initial-scale=1" />
-        <title>index</title>
-        <style type="text/css">
-            html {
-                overflow-x: initial !important;
-            }
-            :root {
-                --bg-color: #ffffff;
-                --text-color: #333333;
-                --select-text-bg-color: #b5d6fc;
-                --select-text-font-color: auto;
-                --monospace: "Lucida Console", Consolas, "Courier", monospace;
-                --title-bar-height: 20px;
-            }
-            .mac-os-11 {
-                --title-bar-height: 28px;
-            }
-            html {
-                font-size: 14px;
-                background-color: var(--bg-color);
-                color: var(--text-color);
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                -webkit-font-smoothing: antialiased;
-            }
-            body {
-                margin: 0px;
-                padding: 0px;
-                height: auto;
-                bottom: 0px;
-                top: 0px;
-                left: 0px;
-                right: 0px;
-                font-size: 1rem;
-                line-height: 1.42857;
-                overflow-x: hidden;
-                background: inherit;
-                tab-size: 4;
-            }
-            iframe {
-                margin: auto;
-            }
-            a.url {
-                word-break: break-all;
-            }
-            a:active,
-            a:hover {
-                outline: 0px;
-            }
-            .in-text-selection,
-            ::selection {
-                text-shadow: none;
-                background: var(--select-text-bg-color);
-                color: var(--select-text-font-color);
-            }
-            #write {
-                margin: 0px auto;
-                height: auto;
-                width: inherit;
-                word-break: normal;
-                overflow-wrap: break-word;
-                position: relative;
-                white-space: normal;
-                overflow-x: visible;
-                padding-top: 36px;
-            }
-            #write.first-line-indent p {
-                text-indent: 2em;
-            }
-            #write.first-line-indent li p,
-            #write.first-line-indent p * {
-                text-indent: 0px;
-            }
-            #write.first-line-indent li {
-                margin-left: 2em;
-            }
-            .for-image #write {
-                padding-left: 8px;
-                padding-right: 8px;
-            }
-            body.typora-export {
-                padding-left: 30px;
-                padding-right: 30px;
-            }
-            .typora-export .footnote-line,
-            .typora-export li,
-            .typora-export p {
-                white-space: pre-wrap;
-            }
-            .typora-export .task-list-item input {
-                pointer-events: none;
-            }
-            @media screen and (max-width: 500px) {
-                body.typora-export {
-                    padding-left: 0px;
-                    padding-right: 0px;
-                }
-                #write {
-                    padding-left: 20px;
-                    padding-right: 20px;
-                }
-                .CodeMirror-sizer {
-                    margin-left: 0px !important;
-                }
-                .CodeMirror-gutters {
-                    display: none !important;
-                }
-            }
-            #write li > figure:last-child {
-                margin-bottom: 0.5rem;
-            }
-            #write ol,
-            #write ul {
-                position: relative;
-            }
-            img {
-                max-width: 100%;
-                vertical-align: middle;
-                image-orientation: from-image;
-            }
-            button,
-            input,
-            select,
-            textarea {
-                color: inherit;
-                font: inherit;
-            }
-            input[type="checkbox"],
-            input[type="radio"] {
-                line-height: normal;
-                padding: 0px;
-            }
-            *,
-            ::after,
-            ::before {
-                box-sizing: border-box;
-            }
-            #write h1,
-            #write h2,
-            #write h3,
-            #write h4,
-            #write h5,
-            #write h6,
-            #write p,
-            #write pre {
-                width: inherit;
-            }
-            #write h1,
-            #write h2,
-            #write h3,
-            #write h4,
-            #write h5,
-            #write h6,
-            #write p {
-                position: relative;
-            }
-            p {
-                line-height: inherit;
-            }
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                break-after: avoid-page;
-                break-inside: avoid;
-                orphans: 4;
-            }
-            p {
-                orphans: 4;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-            h2 {
-                font-size: 1.8rem;
-            }
-            h3 {
-                font-size: 1.6rem;
-            }
-            h4 {
-                font-size: 1.4rem;
-            }
-            h5 {
-                font-size: 1.2rem;
-            }
-            h6 {
-                font-size: 1rem;
-            }
-            .md-math-block,
-            .md-rawblock,
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6,
-            p {
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-            }
-            .hidden {
-                display: none;
-            }
-            .md-blockmeta {
-                color: rgb(204, 204, 204);
-                font-weight: 700;
-                font-style: italic;
-            }
-            a {
-                cursor: pointer;
-            }
-            sup.md-footnote {
-                padding: 2px 4px;
-                background-color: rgba(238, 238, 238, 0.7);
-                color: rgb(85, 85, 85);
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            sup.md-footnote a,
-            sup.md-footnote a:hover {
-                color: inherit;
-                text-transform: inherit;
-                text-decoration: inherit;
-            }
-            #write input[type="checkbox"] {
-                cursor: pointer;
-                width: inherit;
-                height: inherit;
-            }
-            figure {
-                overflow-x: auto;
-                margin: 1.2em 0px;
-                max-width: calc(100% + 16px);
-                padding: 0px;
-            }
-            figure > table {
-                margin: 0px;
-            }
-            tr {
-                break-inside: avoid;
-                break-after: auto;
-            }
-            thead {
-                display: table-header-group;
-            }
-            table {
-                border-collapse: collapse;
-                border-spacing: 0px;
-                width: 100%;
-                overflow: auto;
-                break-inside: auto;
-                text-align: left;
-            }
-            table.md-table td {
-                min-width: 32px;
-            }
-            .CodeMirror-gutters {
-                border-right: 0px;
-                background-color: inherit;
-            }
-            .CodeMirror-linenumber {
-                user-select: none;
-            }
-            .CodeMirror {
-                text-align: left;
-            }
-            .CodeMirror-placeholder {
-                opacity: 0.3;
-            }
-            .CodeMirror pre {
-                padding: 0px 4px;
-            }
-            .CodeMirror-lines {
-                padding: 0px;
-            }
-            div.hr:focus {
-                cursor: none;
-            }
-            #write pre {
-                white-space: pre-wrap;
-            }
-            #write.fences-no-line-wrapping pre {
-                white-space: pre;
-            }
-            #write pre.ty-contain-cm {
-                white-space: normal;
-            }
-            .CodeMirror-gutters {
-                margin-right: 4px;
-            }
-            .md-fences {
-                font-size: 0.9rem;
-                display: block;
-                break-inside: avoid;
-                text-align: left;
-                overflow: visible;
-                white-space: pre;
-                background: inherit;
-                position: relative !important;
-            }
-            .md-diagram-panel {
-                width: 100%;
-                margin-top: 10px;
-                text-align: center;
-                padding-top: 0px;
-                padding-bottom: 8px;
-                overflow-x: auto;
-            }
-            #write .md-fences.mock-cm {
-                white-space: pre-wrap;
-            }
-            .md-fences.md-fences-with-lineno {
-                padding-left: 0px;
-            }
-            #write.fences-no-line-wrapping .md-fences.mock-cm {
-                white-space: pre;
-                overflow-x: auto;
-            }
-            .md-fences.mock-cm.md-fences-with-lineno {
-                padding-left: 8px;
-            }
-            .CodeMirror-line,
-            twitterwidget {
-                break-inside: avoid;
-            }
-            .footnotes {
-                opacity: 0.8;
-                font-size: 0.9rem;
-                margin-top: 1em;
-                margin-bottom: 1em;
-            }
-            .footnotes + .footnotes {
-                margin-top: 0px;
-            }
-            .md-reset {
-                margin: 0px;
-                padding: 0px;
-                border: 0px;
-                outline: 0px;
-                vertical-align: top;
-                background: 0px 0px;
-                text-decoration: none;
-                text-shadow: none;
-                float: none;
-                position: static;
-                width: auto;
-                height: auto;
-                white-space: nowrap;
-                cursor: inherit;
-                -webkit-tap-highlight-color: transparent;
-                line-height: normal;
-                font-weight: 400;
-                text-align: left;
-                box-sizing: content-box;
-                direction: ltr;
-            }
-            li div {
-                padding-top: 0px;
-            }
-            blockquote {
-                margin: 1rem 0px;
-            }
-            li .mathjax-block,
-            li p {
-                margin: 0.5rem 0px;
-            }
-            li blockquote {
-                margin: 1rem 0px;
-            }
-            li {
-                margin: 0px;
-                position: relative;
-            }
-            blockquote > :last-child {
-                margin-bottom: 0px;
-            }
-            blockquote > :first-child,
-            li > :first-child {
-                margin-top: 0px;
-            }
-            .footnotes-area {
-                color: rgb(136, 136, 136);
-                margin-top: 0.714rem;
-                padding-bottom: 0.143rem;
-                white-space: normal;
-            }
-            #write .footnote-line {
-                white-space: pre-wrap;
-            }
-            @media print {
-                body,
-                html {
-                    border: 1px solid transparent;
-                    height: 99%;
-                    break-after: avoid;
-                    break-before: avoid;
-                    font-variant-ligatures: no-common-ligatures;
-                }
-                #write {
-                    margin-top: 0px;
-                    padding-top: 0px;
-                    border-color: transparent !important;
-                }
-                .typora-export * {
-                    -webkit-print-color-adjust: exact;
-                }
-                .typora-export #write {
-                    break-after: avoid;
-                }
-                .typora-export #write::after {
-                    height: 0px;
-                }
-                .is-mac table {
-                    break-inside: avoid;
-                }
-            }
-            .footnote-line {
-                margin-top: 0.714em;
-                font-size: 0.7em;
-            }
-            a img,
-            img a {
-                cursor: pointer;
-            }
-            pre.md-meta-block {
-                font-size: 0.8rem;
-                min-height: 0.8rem;
-                white-space: pre-wrap;
-                background: rgb(204, 204, 204);
-                display: block;
-                overflow-x: hidden;
-            }
-            p > .md-image:only-child:not(.md-img-error) img,
-            p > img:only-child {
-                display: block;
-                margin: auto;
-            }
-            #write.first-line-indent
-                p
-                > .md-image:only-child:not(.md-img-error)
-                img {
-                left: -2em;
-                position: relative;
-            }
-            p > .md-image:only-child {
-                display: inline-block;
-                width: 100%;
-            }
-            #write .MathJax_Display {
-                margin: 0.8em 0px 0px;
-            }
-            .md-math-block {
-                width: 100%;
-            }
-            .md-math-block:not(:empty)::after {
-                display: none;
-            }
-            .MathJax_ref {
-                fill: currentcolor;
-            }
-            [contenteditable="true"]:active,
-            [contenteditable="true"]:focus,
-            [contenteditable="false"]:active,
-            [contenteditable="false"]:focus {
-                outline: 0px;
-                box-shadow: none;
-            }
-            .md-task-list-item {
-                position: relative;
-                list-style-type: none;
-            }
-            .task-list-item.md-task-list-item {
-                padding-left: 0px;
-            }
-            .md-task-list-item > input {
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                margin-left: -1.2em;
-                margin-top: calc(1em - 10px);
-                border: none;
-            }
-            .math {
-                font-size: 1rem;
-            }
-            .md-toc {
-                min-height: 3.58rem;
-                position: relative;
-                font-size: 0.9rem;
-                border-radius: 10px;
-            }
-            .md-toc-content {
-                position: relative;
-                margin-left: 0px;
-            }
-            .md-toc-content::after,
-            .md-toc::after {
-                display: none;
-            }
-            .md-toc-item {
-                display: block;
-                color: rgb(65, 131, 196);
-            }
-            .md-toc-item a {
-                text-decoration: none;
-            }
-            .md-toc-inner:hover {
-                text-decoration: underline;
-            }
-            .md-toc-inner {
-                display: inline-block;
-                cursor: pointer;
-            }
-            .md-toc-h1 .md-toc-inner {
-                margin-left: 0px;
-                font-weight: 700;
-            }
-            .md-toc-h2 .md-toc-inner {
-                margin-left: 2em;
-            }
-            .md-toc-h3 .md-toc-inner {
-                margin-left: 4em;
-            }
-            .md-toc-h4 .md-toc-inner {
-                margin-left: 6em;
-            }
-            .md-toc-h5 .md-toc-inner {
-                margin-left: 8em;
-            }
-            .md-toc-h6 .md-toc-inner {
-                margin-left: 10em;
-            }
-            @media screen and (max-width: 48em) {
-                .md-toc-h3 .md-toc-inner {
-                    margin-left: 3.5em;
-                }
-                .md-toc-h4 .md-toc-inner {
-                    margin-left: 5em;
-                }
-                .md-toc-h5 .md-toc-inner {
-                    margin-left: 6.5em;
-                }
-                .md-toc-h6 .md-toc-inner {
-                    margin-left: 8em;
-                }
-            }
-            a.md-toc-inner {
-                font-size: inherit;
-                font-style: inherit;
-                font-weight: inherit;
-                line-height: inherit;
-            }
-            .footnote-line a:not(.reversefootnote) {
-                color: inherit;
-            }
-            .md-attr {
-                display: none;
-            }
-            .md-fn-count::after {
-                content: ".";
-            }
-            code,
-            pre,
-            samp,
-            tt {
-                font-family: var(--monospace);
-            }
-            kbd {
-                margin: 0px 0.1em;
-                padding: 0.1em 0.6em;
-                font-size: 0.8em;
-                color: rgb(36, 39, 41);
-                background: rgb(255, 255, 255);
-                border: 1px solid rgb(173, 179, 185);
-                border-radius: 3px;
-                box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px,
-                    rgb(255, 255, 255) 0px 0px 0px 2px inset;
-                white-space: nowrap;
-                vertical-align: middle;
-            }
-            .md-comment {
-                color: rgb(162, 127, 3);
-                opacity: 0.8;
-                font-family: var(--monospace);
-            }
-            code {
-                text-align: left;
-                vertical-align: initial;
-            }
-            a.md-print-anchor {
-                white-space: pre !important;
-                border-width: initial !important;
-                border-style: none !important;
-                border-color: initial !important;
-                display: inline-block !important;
-                position: absolute !important;
-                width: 1px !important;
-                right: 0px !important;
-                outline: 0px !important;
-                background: 0px 0px !important;
-                text-decoration: initial !important;
-                text-shadow: initial !important;
-            }
-            .md-inline-math .MathJax_SVG .noError {
-                display: none !important;
-            }
-            .html-for-mac .inline-math-svg .MathJax_SVG {
-                vertical-align: 0.2px;
-            }
-            .md-math-block .MathJax_SVG_Display {
-                text-align: center;
-                margin: 0px;
-                position: relative;
-                text-indent: 0px;
-                max-width: none;
-                max-height: none;
-                min-height: 0px;
-                min-width: 100%;
-                width: auto;
-                overflow-y: hidden;
-                display: block !important;
-            }
-            .MathJax_SVG_Display,
-            .md-inline-math .MathJax_SVG_Display {
-                width: auto;
-                margin: inherit;
-                display: inline-block !important;
-            }
-            .MathJax_SVG .MJX-monospace {
-                font-family: var(--monospace);
-            }
-            .MathJax_SVG .MJX-sans-serif {
-                font-family: sans-serif;
-            }
-            .MathJax_SVG {
-                display: inline;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-                zoom: 90%;
-                text-indent: 0px;
-                text-align: left;
-                text-transform: none;
-                letter-spacing: normal;
-                word-spacing: normal;
-                overflow-wrap: normal;
-                white-space: nowrap;
-                float: none;
-                direction: ltr;
-                max-width: none;
-                max-height: none;
-                min-width: 0px;
-                min-height: 0px;
-                border: 0px;
-                padding: 0px;
-                margin: 0px;
-            }
-            .MathJax_SVG * {
-                transition: none 0s ease 0s;
-            }
-            .MathJax_SVG_Display svg {
-                vertical-align: middle !important;
-                margin-bottom: 0px !important;
-                margin-top: 0px !important;
-            }
-            .os-windows.monocolor-emoji .md-emoji {
-                font-family: "Segoe UI Symbol", sans-serif;
-            }
-            .md-diagram-panel > svg {
-                max-width: 100%;
-            }
-            [lang="flow"] svg,
-            [lang="mermaid"] svg {
-                max-width: 100%;
-                height: auto;
-            }
-            [lang="mermaid"] .node text {
-                font-size: 1rem;
-            }
-            table tr th {
-                border-bottom: 0px;
-            }
-            video {
-                max-width: 100%;
-                display: block;
-                margin: 0px auto;
-            }
-            iframe {
-                max-width: 100%;
-                width: 100%;
-                border: none;
-            }
-            .highlight td,
-            .highlight tr {
-                border: 0px;
-            }
-            mark {
-                background: rgb(255, 255, 0);
-                color: rgb(0, 0, 0);
-            }
-            .md-html-inline .md-plain,
-            .md-html-inline strong,
-            mark .md-inline-math,
-            mark strong {
-                color: inherit;
-            }
-            mark .md-meta {
-                color: rgb(0, 0, 0);
-                opacity: 0.3 !important;
-            }
-            @media print {
-                .typora-export h1,
-                .typora-export h2,
-                .typora-export h3,
-                .typora-export h4,
-                .typora-export h5,
-                .typora-export h6 {
-                    break-inside: avoid;
-                }
-            }
-            .md-diagram-panel .messageText {
-                stroke: none !important;
-            }
-            .md-diagram-panel .start-state {
-                fill: var(--node-fill);
-            }
-            .md-diagram-panel .edgeLabel rect {
-                opacity: 1 !important;
-            }
-            .md-require-zoom-fix foreignobject {
-                font-size: var(--mermaid-font-zoom);
-            }
-
-            .CodeMirror {
-                height: auto;
-            }
-            .CodeMirror.cm-s-inner {
-                background: inherit;
-            }
-            .CodeMirror-scroll {
-                overflow: auto hidden;
-                z-index: 3;
-            }
-            .CodeMirror-gutter-filler,
-            .CodeMirror-scrollbar-filler {
-                background-color: rgb(255, 255, 255);
-            }
-            .CodeMirror-gutters {
-                border-right: 1px solid rgb(221, 221, 221);
-                background: inherit;
-                white-space: nowrap;
-            }
-            .CodeMirror-linenumber {
-                padding: 0px 3px 0px 5px;
-                text-align: right;
-                color: rgb(153, 153, 153);
-            }
-            .cm-s-inner .cm-keyword {
-                color: rgb(119, 0, 136);
-            }
-            .cm-s-inner .cm-atom,
-            .cm-s-inner.cm-atom {
-                color: rgb(34, 17, 153);
-            }
-            .cm-s-inner .cm-number {
-                color: rgb(17, 102, 68);
-            }
-            .cm-s-inner .cm-def {
-                color: rgb(0, 0, 255);
-            }
-            .cm-s-inner .cm-variable {
-                color: rgb(0, 0, 0);
-            }
-            .cm-s-inner .cm-variable-2 {
-                color: rgb(0, 85, 170);
-            }
-            .cm-s-inner .cm-variable-3 {
-                color: rgb(0, 136, 85);
-            }
-            .cm-s-inner .cm-string {
-                color: rgb(170, 17, 17);
-            }
-            .cm-s-inner .cm-property {
-                color: rgb(0, 0, 0);
-            }
-            .cm-s-inner .cm-operator {
-                color: rgb(152, 26, 26);
-            }
-            .cm-s-inner .cm-comment,
-            .cm-s-inner.cm-comment {
-                color: rgb(170, 85, 0);
-            }
-            .cm-s-inner .cm-string-2 {
-                color: rgb(255, 85, 0);
-            }
-            .cm-s-inner .cm-meta {
-                color: rgb(85, 85, 85);
-            }
-            .cm-s-inner .cm-qualifier {
-                color: rgb(85, 85, 85);
-            }
-            .cm-s-inner .cm-builtin {
-                color: rgb(51, 0, 170);
-            }
-            .cm-s-inner .cm-bracket {
-                color: rgb(153, 153, 119);
-            }
-            .cm-s-inner .cm-tag {
-                color: rgb(17, 119, 0);
-            }
-            .cm-s-inner .cm-attribute {
-                color: rgb(0, 0, 204);
-            }
-            .cm-s-inner .cm-header,
-            .cm-s-inner.cm-header {
-                color: rgb(0, 0, 255);
-            }
-            .cm-s-inner .cm-quote,
-            .cm-s-inner.cm-quote {
-                color: rgb(0, 153, 0);
-            }
-            .cm-s-inner .cm-hr,
-            .cm-s-inner.cm-hr {
-                color: rgb(153, 153, 153);
-            }
-            .cm-s-inner .cm-link,
-            .cm-s-inner.cm-link {
-                color: rgb(0, 0, 204);
-            }
-            .cm-negative {
-                color: rgb(221, 68, 68);
-            }
-            .cm-positive {
-                color: rgb(34, 153, 34);
-            }
-            .cm-header,
-            .cm-strong {
-                font-weight: 700;
-            }
-            .cm-del {
-                text-decoration: line-through;
-            }
-            .cm-em {
-                font-style: italic;
-            }
-            .cm-link {
-                text-decoration: underline;
-            }
-            .cm-error {
-                color: red;
-            }
-            .cm-invalidchar {
-                color: red;
-            }
-            .cm-constant {
-                color: rgb(38, 139, 210);
-            }
-            .cm-defined {
-                color: rgb(181, 137, 0);
-            }
-            div.CodeMirror span.CodeMirror-matchingbracket {
-                color: rgb(0, 255, 0);
-            }
-            div.CodeMirror span.CodeMirror-nonmatchingbracket {
-                color: rgb(255, 34, 34);
-            }
-            .cm-s-inner .CodeMirror-activeline-background {
-                background: inherit;
-            }
-            .CodeMirror {
-                position: relative;
-                overflow: hidden;
-            }
-            .CodeMirror-scroll {
-                height: 100%;
-                outline: 0px;
-                position: relative;
-                box-sizing: content-box;
-                background: inherit;
-            }
-            .CodeMirror-sizer {
-                position: relative;
-            }
-            .CodeMirror-gutter-filler,
-            .CodeMirror-hscrollbar,
-            .CodeMirror-scrollbar-filler,
-            .CodeMirror-vscrollbar {
-                position: absolute;
-                z-index: 6;
-                display: none;
-            }
-            .CodeMirror-vscrollbar {
-                right: 0px;
-                top: 0px;
-                overflow: hidden;
-            }
-            .CodeMirror-hscrollbar {
-                bottom: 0px;
-                left: 0px;
-                overflow: hidden;
-            }
-            .CodeMirror-scrollbar-filler {
-                right: 0px;
-                bottom: 0px;
-            }
-            .CodeMirror-gutter-filler {
-                left: 0px;
-                bottom: 0px;
-            }
-            .CodeMirror-gutters {
-                position: absolute;
-                left: 0px;
-                top: 0px;
-                padding-bottom: 30px;
-                z-index: 3;
-            }
-            .CodeMirror-gutter {
-                white-space: normal;
-                height: 100%;
-                box-sizing: content-box;
-                padding-bottom: 30px;
-                margin-bottom: -32px;
-                display: inline-block;
-            }
-            .CodeMirror-gutter-wrapper {
-                position: absolute;
-                z-index: 4;
-                background: 0px 0px !important;
-                border: none !important;
-            }
-            .CodeMirror-gutter-background {
-                position: absolute;
-                top: 0px;
-                bottom: 0px;
-                z-index: 4;
-            }
-            .CodeMirror-gutter-elt {
-                position: absolute;
-                cursor: default;
-                z-index: 4;
-            }
-            .CodeMirror-lines {
-                cursor: text;
-            }
-            .CodeMirror pre {
-                border-radius: 0px;
-                border-width: 0px;
-                background: 0px 0px;
-                font-family: inherit;
-                font-size: inherit;
-                margin: 0px;
-                white-space: pre;
-                overflow-wrap: normal;
-                color: inherit;
-                z-index: 2;
-                position: relative;
-                overflow: visible;
-            }
-            .CodeMirror-wrap pre {
-                overflow-wrap: break-word;
-                white-space: pre-wrap;
-                word-break: normal;
-            }
-            .CodeMirror-code pre {
-                border-right: 30px solid transparent;
-                width: fit-content;
-            }
-            .CodeMirror-wrap .CodeMirror-code pre {
-                border-right: none;
-                width: auto;
-            }
-            .CodeMirror-linebackground {
-                position: absolute;
-                left: 0px;
-                right: 0px;
-                top: 0px;
-                bottom: 0px;
-                z-index: 0;
-            }
-            .CodeMirror-linewidget {
-                position: relative;
-                z-index: 2;
-                overflow: auto;
-            }
-            .CodeMirror-wrap .CodeMirror-scroll {
-                overflow-x: hidden;
-            }
-            .CodeMirror-measure {
-                position: absolute;
-                width: 100%;
-                height: 0px;
-                overflow: hidden;
-                visibility: hidden;
-            }
-            .CodeMirror-measure pre {
-                position: static;
-            }
-            .CodeMirror div.CodeMirror-cursor {
-                position: absolute;
-                visibility: hidden;
-                border-right: none;
-                width: 0px;
-            }
-            .CodeMirror div.CodeMirror-cursor {
-                visibility: hidden;
-            }
-            .CodeMirror-focused div.CodeMirror-cursor {
-                visibility: inherit;
-            }
-            .cm-searching {
-                background: rgba(255, 255, 0, 0.4);
-            }
-            @media print {
-                .CodeMirror div.CodeMirror-cursor {
-                    visibility: hidden;
-                }
-            }
-
-            :root {
-                --mermaid-theme: night;
-                --node-fill: #bdd5ea;
-            }
-
-            [lang="mermaid"] .label {
-                color: #333;
-            }
-
-            /* CSS Document */
-
-            /** code highlight */
-
-            .cm-s-inner .cm-variable,
-            .cm-s-inner .cm-operator,
-            .cm-s-inner .cm-property {
-                color: #b8bfc6;
-            }
-
-            .cm-s-inner .cm-keyword {
-                color: #c88fd0;
-            }
-
-            .cm-s-inner .cm-tag {
-                color: #7df46a;
-            }
-
-            .cm-s-inner .cm-attribute {
-                color: #7575e4;
-            }
-
-            .CodeMirror div.CodeMirror-cursor {
-                border-left: 1px solid #b8bfc6;
-                z-index: 3;
-            }
-
-            .cm-s-inner .cm-string {
-                color: #d26b6b;
-            }
-
-            .cm-s-inner .cm-comment,
-            .cm-s-inner.cm-comment {
-                color: #da924a;
-            }
-
-            .cm-s-inner .cm-header,
-            .cm-s-inner .cm-def,
-            .cm-s-inner.cm-header,
-            .cm-s-inner.cm-def {
-                color: #8d8df0;
-            }
-
-            .cm-s-inner .cm-quote,
-            .cm-s-inner.cm-quote {
-                color: #57ac57;
-            }
-
-            .cm-s-inner .cm-hr {
-                color: #d8d5d5;
-            }
-
-            .cm-s-inner .cm-link {
-                color: #d3d3ef;
-            }
-
-            .cm-s-inner .cm-negative {
-                color: #d95050;
-            }
-
-            .cm-s-inner .cm-positive {
-                color: #50e650;
-            }
-
-            .cm-s-inner .cm-string-2 {
-                color: #f50;
-            }
-
-            .cm-s-inner .cm-meta,
-            .cm-s-inner .cm-qualifier {
-                color: #b7b3b3;
-            }
-
-            .cm-s-inner .cm-builtin {
-                color: #f3b3f8;
-            }
-
-            .cm-s-inner .cm-bracket {
-                color: #997;
-            }
-
-            .cm-s-inner .cm-atom,
-            .cm-s-inner.cm-atom {
-                color: #84b6cb;
-            }
-
-            .cm-s-inner .cm-number {
-                color: #64ab8f;
-            }
-
-            .cm-s-inner .cm-variable {
-                color: #b8bfc6;
-            }
-
-            .cm-s-inner .cm-variable-2 {
-                color: #9fbad5;
-            }
-
-            .cm-s-inner .cm-variable-3 {
-                color: #1cc685;
-            }
-
-            .CodeMirror-selectedtext,
-            .CodeMirror-selected {
-                background: #4a89dc;
-                color: #fff !important;
-                text-shadow: none;
-            }
-
-            .CodeMirror-gutters {
-                border-right: none;
-            }
-
-            /* CSS Document */
-
-            /** markdown source **/
-            .cm-s-typora-default .cm-header,
-            .cm-s-typora-default .cm-property {
-                color: #cebcca;
-            }
-
-            .CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
-                border-left: 3px solid #b8bfc6;
-            }
-
-            .cm-s-typora-default .cm-comment {
-                color: #9fb1ff;
-            }
-
-            .cm-s-typora-default .cm-string {
-                color: #a7a7d9;
-            }
-
-            .cm-s-typora-default .cm-atom,
-            .cm-s-typora-default .cm-number {
-                color: #848695;
-                font-style: italic;
-            }
-
-            .cm-s-typora-default .cm-link {
-                color: #95b94b;
-            }
-
-            .cm-s-typora-default .CodeMirror-activeline-background {
-                background: rgba(51, 51, 51, 0.72);
-            }
-
-            .cm-s-typora-default .cm-comment,
-            .cm-s-typora-default .cm-code {
-                color: #8aa1e1;
-            }
-            @import "";
-            @import "";
-            @import "";
-
-            :root {
-                --bg-color: #363b40;
-                --side-bar-bg-color: #2e3033;
-                --text-color: #b8bfc6;
-
-                --select-text-bg-color: #4a89dc;
-
-                --item-hover-bg-color: #0a0d16;
-                --control-text-color: #b7b7b7;
-                --control-text-hover-color: #eee;
-                --window-border: 1px solid #555;
-
-                --active-file-bg-color: rgb(34, 34, 34);
-                --active-file-border-color: #8d8df0;
-
-                --primary-color: #a3d5fe;
-
-                --active-file-text-color: white;
-                --item-hover-bg-color: #70717d;
-                --item-hover-text-color: white;
-                --primary-color: #6dc1e7;
-
-                --rawblock-edit-panel-bd: #333;
-
-                --search-select-bg-color: #428bca;
-            }
-
-            html {
-                font-size: 16px;
-            }
-
-            html,
-            body {
-                -webkit-text-size-adjust: 100%;
-                -ms-text-size-adjust: 100%;
-                background: #363b40;
-                background: var(--bg-color);
-                fill: currentColor;
-                line-height: 1.625rem;
-            }
-
-            #write {
-                max-width: 914px;
-            }
-
-            @media only screen and (min-width: 1400px) {
-                #write {
-                    max-width: 1024px;
-                }
-            }
-
-            @media only screen and (min-width: 1800px) {
-                #write {
-                    max-width: 1200px;
-                }
-            }
-
-            html,
-            body,
-            button,
-            input,
-            select,
-            textarea,
-            div.code-tooltip-content {
-                color: #b8bfc6;
-                border-color: transparent;
-            }
-
-            div.code-tooltip,
-            .md-hover-tip .md-arrow:after {
-                background: #333;
-            }
-
-            .popover.bottom > .arrow:after {
-                border-bottom-color: #333;
-            }
-
-            html,
-            body,
-            button,
-            input,
-            select,
-            textarea {
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            }
-
-            hr {
-                height: 2px;
-                border: 0;
-                margin: 24px 0 !important;
-            }
-
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                font-family: "Lucida Grande", "Corbel", sans-serif;
-                font-weight: normal;
-                clear: both;
-                -ms-word-wrap: break-word;
-                word-wrap: break-word;
-                margin: 0;
-                padding: 0;
-                color: #dedede;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-                /* 36px */
-                line-height: 2.75rem;
-                /* 40px */
-                margin-bottom: 1.5rem;
-                /* 24px */
-                letter-spacing: -1.5px;
-            }
-
-            h2 {
-                font-size: 1.63rem;
-                /* 24px */
-                line-height: 1.875rem;
-                /* 30px */
-                margin-bottom: 1.5rem;
-                /* 24px */
-                letter-spacing: -1px;
-                font-weight: bold;
-            }
-
-            h3 {
-                font-size: 1.17rem;
-                /* 18px */
-                line-height: 1.5rem;
-                /* 24px */
-                margin-bottom: 1.5rem;
-                /* 24px */
-                letter-spacing: -1px;
-                font-weight: bold;
-            }
-
-            h4 {
-                font-size: 1.12rem;
-                /* 16px */
-                line-height: 1.375rem;
-                /* 22px */
-                margin-bottom: 1.5rem;
-                /* 24px */
-                color: white;
-            }
-
-            h5 {
-                font-size: 0.97rem;
-                /* 16px */
-                line-height: 1.25rem;
-                /* 22px */
-                margin-bottom: 1.5rem;
-                /* 24px */
-                font-weight: bold;
-            }
-
-            h6 {
-                font-size: 0.93rem;
-                /* 16px */
-                line-height: 1rem;
-                /* 16px */
-                margin-bottom: 0.75rem;
-                color: white;
-            }
-
-            @media (min-width: 980px) {
-                h3.md-focus:before,
-                h4.md-focus:before,
-                h5.md-focus:before,
-                h6.md-focus:before {
-                    color: #ddd;
-                    border: 1px solid #ddd;
-                    border-radius: 3px;
-                    position: absolute;
-                    left: -1.642857143rem;
-                    top: 0.357142857rem;
-                    float: left;
-                    font-size: 9px;
-                    padding-left: 2px;
-                    padding-right: 2px;
-                    vertical-align: bottom;
-                    font-weight: normal;
-                    line-height: normal;
-                }
-
-                h3.md-focus:before {
-                    content: "h3";
-                }
-
-                h4.md-focus:before {
-                    content: "h4";
-                }
-
-                h5.md-focus:before {
-                    content: "h5";
-                    top: 0px;
-                }
-
-                h6.md-focus:before {
-                    content: "h6";
-                    top: 0px;
-                }
-            }
-
-            a {
-                text-decoration: none;
-                outline: 0;
-            }
-
-            a:hover {
-                outline: 0;
-            }
-
-            a:focus {
-                outline: thin dotted;
-            }
-
-            sup.md-footnote {
-                background-color: #555;
-                color: #ddd;
-            }
-
-            p {
-                -ms-word-wrap: break-word;
-                word-wrap: break-word;
-            }
-
-            p,
-            ul,
-            dd,
-            ol,
-            hr,
-            address,
-            pre,
-            table,
-            iframe,
-            .wp-caption,
-            .wp-audio-shortcode,
-            .wp-video-shortcode {
-                margin-top: 0;
-                margin-bottom: 1.5rem;
-                /* 24px */
-            }
-
-            audio:not([controls]) {
-                display: none;
-            }
-
-            [hidden] {
-                display: none;
-            }
-
-            ::-moz-selection {
-                background: #4a89dc;
-                color: #fff;
-                text-shadow: none;
-            }
-
-            *.in-text-selection,
-            ::selection {
-                background: #4a89dc;
-                color: #fff;
-                text-shadow: none;
-            }
-
-            ul,
-            ol {
-                padding: 0 0 0 1.875rem;
-                /* 30px */
-            }
-
-            ul {
-                list-style: square;
-            }
-
-            ol {
-                list-style: decimal;
-            }
-
-            ul ul,
-            ol ol,
-            ul ol,
-            ol ul {
-                margin: 0;
-            }
-
-            b,
-            th,
-            dt,
-            strong {
-                font-weight: bold;
-            }
-
-            i,
-            em,
-            dfn,
-            cite {
-                font-style: italic;
-            }
-
-            blockquote {
-                padding-left: 1.875rem;
-                margin: 0 0 1.875rem 1.875rem;
-                border-left: solid 2px #474d54;
-                padding-left: 30px;
-                margin-top: 35px;
-            }
-
-            pre,
-            code,
-            kbd,
-            tt,
-            var {
-                font-size: 0.875rem;
-                font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono",
-                    monospace;
-            }
-
-            code,
-            tt,
-            var {
-                background: rgba(0, 0, 0, 0.05);
-            }
-
-            kbd {
-                padding: 2px 4px;
-                font-size: 90%;
-                color: #fff;
-                background-color: #333;
-                border-radius: 3px;
-                box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
-            }
-
-            pre.md-fences {
-                padding: 10px 10px 10px 30px;
-                margin-bottom: 20px;
-                background: #333;
-            }
-
-            .CodeMirror-gutters {
-                background: #333;
-                border-right: 1px solid transparent;
-            }
-
-            .enable-diagrams pre.md-fences[lang="sequence"] .code-tooltip,
-            .enable-diagrams pre.md-fences[lang="flow"] .code-tooltip,
-            .enable-diagrams pre.md-fences[lang="mermaid"] .code-tooltip {
-                bottom: -2.2em;
-                right: 4px;
-            }
-
-            code,
-            kbd,
-            tt,
-            var {
-                padding: 2px 5px;
-            }
-
-            table {
-                max-width: 100%;
-                width: 100%;
-                border-collapse: collapse;
-                border-spacing: 0;
-            }
-
-            th,
-            td {
-                padding: 5px 10px;
-                vertical-align: top;
-            }
-
-            a {
-                -webkit-transition: all 0.2s ease-in-out;
-                transition: all 0.2s ease-in-out;
-            }
-
-            hr {
-                background: #474d54;
-                /* variable */
-            }
-
-            h1 {
-                margin-top: 2em;
-            }
-
-            a {
-                color: #e0e0e0;
-                text-decoration: underline;
-            }
-
-            a:hover {
-                color: #fff;
-            }
-
-            .md-inline-math script {
-                color: #81b1db;
-            }
-
-            b,
-            th,
-            dt,
-            strong {
-                color: #dedede;
-                /* variable */
-            }
-
-            mark {
-                background: #d3d40e;
-            }
-
-            blockquote {
-                color: #9da2a6;
-            }
-
-            table a {
-                color: #dedede;
-                /* variable */
-            }
-
-            th,
-            td {
-                border: solid 1px #474d54;
-                /* variable */
-            }
-
-            .task-list {
-                padding-left: 0;
-            }
-
-            .md-task-list-item {
-                padding-left: 1.25rem;
-            }
-
-            .md-task-list-item > input {
-                top: auto;
-            }
-
-            .md-task-list-item > input:before {
-                content: "";
-                display: inline-block;
-                width: 0.875rem;
-                height: 0.875rem;
-                vertical-align: middle;
-                text-align: center;
-                border: 1px solid #b8bfc6;
-                background-color: #363b40;
-                margin-top: -0.4rem;
-            }
-
-            .md-task-list-item > input:checked:before,
-            .md-task-list-item > input[checked]:before {
-                content: "\221A";
-                /*◘*/
-                font-size: 0.625rem;
-                line-height: 0.625rem;
-                color: #dedede;
-            }
-
-            /** quick open **/
-            .auto-suggest-container {
-                border: 0px;
-                background-color: #525c65;
-            }
-
-            #typora-quick-open {
-                background-color: #525c65;
-            }
-
-            #typora-quick-open input {
-                background-color: #525c65;
-                border: 0;
-                border-bottom: 1px solid grey;
-            }
-
-            .typora-quick-open-item {
-                background-color: inherit;
-                color: inherit;
-            }
-
-            .typora-quick-open-item.active,
-            .typora-quick-open-item:hover {
-                background-color: #4d8bdb;
-                color: white;
-            }
-
-            .typora-quick-open-item:hover {
-                background-color: rgba(77, 139, 219, 0.8);
-            }
-
-            .typora-search-spinner > div {
-                background-color: #fff;
-            }
-
-            #write pre.md-meta-block {
-                border-bottom: 1px dashed #ccc;
-                background: transparent;
-                padding-bottom: 0.6em;
-                line-height: 1.6em;
-            }
-
-            .btn,
-            .btn .btn-default {
-                background: transparent;
-                color: #b8bfc6;
-            }
-
-            .ty-table-edit {
-                border-top: 1px solid gray;
-                background-color: #363b40;
-            }
-
-            .popover-title {
-                background: transparent;
-            }
-
-            .md-image > .md-meta {
-                color: #bbbbbb;
-                background: transparent;
-            }
-
-            .md-expand.md-image > .md-meta {
-                color: #ddd;
-            }
-
-            #write > h3:before,
-            #write > h4:before,
-            #write > h5:before,
-            #write > h6:before {
-                border: none;
-                border-radius: 0px;
-                color: #888;
-                text-decoration: underline;
-                left: -1.4rem;
-                top: 0.2rem;
-            }
-
-            #write > h3.md-focus:before {
-                top: 2px;
-            }
-
-            #write > h4.md-focus:before {
-                top: 2px;
-            }
-
-            .md-toc-item {
-                color: #a8c2dc;
-            }
-
-            #write div.md-toc-tooltip {
-                background-color: #363b40;
-            }
-
-            .dropdown-menu .btn:hover,
-            .dropdown-menu .btn:focus,
-            .md-toc .btn:hover,
-            .md-toc .btn:focus {
-                color: white;
-                background: black;
-            }
-
-            #toc-dropmenu {
-                background: rgba(50, 54, 59, 0.93);
-                border: 1px solid rgba(253, 253, 253, 0.15);
-            }
-
-            #toc-dropmenu .divider {
-                background-color: #9b9b9b;
-            }
-
-            .outline-expander:before {
-                top: 2px;
-            }
-
-            #typora-sidebar {
-                box-shadow: none;
-                border-right: 1px dashed;
-                border-right: none;
-            }
-
-            .sidebar-tabs {
-                border-bottom: 0;
-            }
-
-            #typora-sidebar:hover .outline-title-wrapper {
-                border-left: 1px dashed;
-            }
-
-            .outline-title-wrapper .btn {
-                color: inherit;
-            }
-
-            .outline-item:hover {
-                border-color: #363b40;
-                background-color: #363b40;
-                color: white;
-            }
-
-            h1.md-focus .md-attr,
-            h2.md-focus .md-attr,
-            h3.md-focus .md-attr,
-            h4.md-focus .md-attr,
-            h5.md-focus .md-attr,
-            h6.md-focus .md-attr,
-            .md-header-span .md-attr {
-                color: #8c8e92;
-                display: inline;
-            }
-
-            .md-comment {
-                color: #5a95e3;
-                opacity: 1;
-            }
-
-            .md-inline-math svg {
-                color: #b8bfc6;
-            }
-
-            #math-inline-preview .md-arrow:after {
-                background: black;
-            }
-
-            .modal-content {
-                background: var(--bg-color);
-                border: 0;
-            }
-
-            .modal-title {
-                font-size: 1.5em;
-            }
-
-            .modal-content input {
-                background-color: rgba(26, 21, 21, 0.51);
-                color: white;
-            }
-
-            .modal-content .input-group-addon {
-                color: white;
-            }
-
-            .modal-backdrop {
-                background-color: rgba(174, 174, 174, 0.7);
-            }
-
-            .modal-content .btn-primary {
-                border-color: var(--primary-color);
-            }
-
-            .md-table-resize-popover {
-                background-color: #333;
-            }
-
-            .form-inline .input-group .input-group-addon {
-                color: white;
-            }
-
-            #md-searchpanel {
-                border-bottom: 1px dashed grey;
-            }
-
-            /** UI for electron */
-
-            .context-menu,
-            #spell-check-panel,
-            #footer-word-count-info {
-                background-color: #42464a;
-            }
-
-            .context-menu.dropdown-menu .divider,
-            .dropdown-menu .divider {
-                background-color: #777777;
-            }
-
-            footer {
-                color: inherit;
-            }
-
-            @media (max-width: 1000px) {
-                footer {
-                    border-top: none;
-                }
-                footer:hover {
-                    color: inherit;
-                }
-            }
-
-            #file-info-file-path .file-info-field-value:hover {
-                background-color: #555;
-                color: #dedede;
-            }
-
-            .megamenu-content,
-            .megamenu-opened header {
-                background: var(--bg-color);
-            }
-
-            .megamenu-menu-panel h2,
-            .megamenu-menu-panel h1,
-            .long-btn {
-                color: inherit;
-            }
-
-            .megamenu-menu-panel input[type="text"] {
-                background: inherit;
-                border: 0;
-                border-bottom: 1px solid;
-            }
-
-            #recent-file-panel-action-btn {
-                background: inherit;
-                border: 1px grey solid;
-            }
-
-            .megamenu-menu-panel .dropdown-menu > li > a {
-                color: inherit;
-                background-color: #2f353a;
-                text-decoration: none;
-            }
-
-            .megamenu-menu-panel table td:nth-child(1) {
-                color: inherit;
-                font-weight: bold;
-            }
-
-            .megamenu-menu-panel tbody tr:hover td:nth-child(1) {
-                color: white;
-            }
-
-            .modal-footer .btn-default,
-            .modal-footer .btn-primary,
-            .modal-footer .btn-default:not(:hover) {
-                border: 1px solid;
-                border-color: transparent;
-            }
-
-            .btn-primary {
-                color: white;
-            }
-
-            .btn-default:hover,
-            .btn-default:focus,
-            .btn-default.focus,
-            .btn-default:active,
-            .btn-default.active,
-            .open > .dropdown-toggle.btn-default {
-                color: white;
-                border: 1px solid #ddd;
-                background-color: inherit;
-            }
-
-            .modal-header {
-                border-bottom: 0;
-            }
-
-            .modal-footer {
-                border-top: 0;
-            }
-
-            #recent-file-panel tbody tr:nth-child(2n-1) {
-                background-color: transparent !important;
-            }
-
-            .megamenu-menu-panel tbody tr:hover td:nth-child(2) {
-                color: inherit;
-            }
-
-            .megamenu-menu-panel .btn {
-                border: 1px solid #eee;
-                background: transparent;
-            }
-
-            .mouse-hover .toolbar-icon.btn:hover,
-            #w-full.mouse-hover,
-            #w-pin.mouse-hover {
-                background-color: inherit;
-            }
-
-            .typora-node::-webkit-scrollbar {
-                width: 5px;
-            }
-
-            .typora-node::-webkit-scrollbar-thumb:vertical {
-                background: rgba(250, 250, 250, 0.3);
-            }
-
-            .typora-node::-webkit-scrollbar-thumb:vertical:active {
-                background: rgba(250, 250, 250, 0.5);
-            }
-
-            #w-unpin {
-                background-color: #4182c4;
-            }
-
-            #top-titlebar,
-            #top-titlebar * {
-                color: var(--item-hover-text-color);
-            }
-
-            .typora-sourceview-on #toggle-sourceview-btn,
-            #footer-word-count:hover,
-            .ty-show-word-count #footer-word-count {
-                background: #333333;
-            }
-
-            #toggle-sourceview-btn:hover {
-                color: #eee;
-                background: #333333;
-            }
-
-            /** focus mode */
-            .on-focus-mode
-                .md-end-block:not(.md-focus):not(.md-focus-container)
-                * {
-                color: #686868 !important;
-            }
-
-            .on-focus-mode .md-end-block:not(.md-focus) img,
-            .on-focus-mode .md-task-list-item:not(.md-focus-container) > input {
-                opacity: #686868 !important;
-            }
-
-            .on-focus-mode li[cid]:not(.md-focus-container) {
-                color: #686868;
-            }
-
-            .on-focus-mode
-                .md-fences.md-focus
-                .CodeMirror-code
-                > *:not(.CodeMirror-activeline)
-                *,
-            .on-focus-mode .CodeMirror.cm-s-inner:not(.CodeMirror-focused) * {
-                color: #686868 !important;
-            }
-
-            .on-focus-mode .md-focus,
-            .on-focus-mode .md-focus-container {
-                color: #fff;
-            }
-
-            .on-focus-mode
-                #typora-source
-                .CodeMirror-code
-                > *:not(.CodeMirror-activeline)
-                * {
-                color: #686868 !important;
-            }
-
-            /*diagrams*/
-            #write .md-focus .md-diagram-panel {
-                border: 1px solid #ddd;
-                margin-left: -1px;
-                width: calc(100% + 2px);
-            }
-
-            /*diagrams*/
-            #write .md-focus.md-fences-with-lineno .md-diagram-panel {
-                margin-left: auto;
-            }
-
-            .md-diagram-panel-error {
-                color: #f1908e;
-            }
-
-            .active-tab-files #info-panel-tab-file,
-            .active-tab-files #info-panel-tab-file:hover,
-            .active-tab-outline #info-panel-tab-outline,
-            .active-tab-outline #info-panel-tab-outline:hover {
-                color: #eee;
-            }
-
-            .sidebar-footer-item:hover,
-            .footer-item:hover {
-                background: inherit;
-                color: white;
-            }
-
-            .ty-side-sort-btn.active,
-            .ty-side-sort-btn:hover,
-            .selected-folder-menu-item a:after {
-                color: white;
-            }
-
-            #sidebar-files-menu {
-                border: solid 1px;
-                box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.79);
-                background-color: var(--bg-color);
-            }
-
-            .file-list-item {
-                border-bottom: none;
-            }
-
-            .file-list-item-summary {
-                opacity: 1;
-            }
-
-            .file-list-item.active:first-child {
-                border-top: none;
-            }
-
-            .file-node-background {
-                height: 32px;
-            }
-
-            .file-library-node.active > .file-node-content,
-            .file-list-item.active {
-                color: white;
-                color: var(--active-file-text-color);
-            }
-
-            .file-library-node.active > .file-node-background {
-                background-color: rgb(34, 34, 34);
-                background-color: var(--active-file-bg-color);
-            }
-            .file-list-item.active {
-                background-color: rgb(34, 34, 34);
-                background-color: var(--active-file-bg-color);
-            }
-
-            #ty-tooltip {
-                background-color: black;
-                color: #eee;
-            }
-
-            .md-task-list-item > input {
-                margin-left: -1.3em;
-                margin-top: 0.3rem;
-                -webkit-appearance: none;
-            }
-
-            .md-mathjax-midline {
-                background-color: #57616b;
-                border-bottom: none;
-            }
-
-            footer.ty-footer {
-                border-color: #656565;
-            }
-
-            .ty-preferences .btn-default {
-                background: transparent;
-            }
-            .ty-preferences .btn-default:hover {
-                background: #57616b;
-            }
-
-            .ty-preferences select {
-                border: 1px solid #989698;
-                height: 21px;
-            }
-
-            .ty-preferences .nav-group-item.active {
-                background: var(--item-hover-bg-color);
-            }
-
-            .ty-preferences input[type="search"] {
-                border-color: #333;
-                background: #333;
-                line-height: 22px;
-                border-radius: 6px;
-                color: white;
-            }
-
-            .ty-preferences input[type="search"]:focus {
-                box-shadow: none;
-            }
-
-            [data-is-directory="true"] .file-node-content {
-                margin-bottom: 0;
-            }
-
-            .file-node-title {
-                line-height: 22px;
-            }
-
-            .html-for-mac .file-node-open-state,
-            .html-for-mac .file-node-icon {
-                line-height: 26px;
-            }
-
-            ::-webkit-scrollbar-thumb {
-                background: rgba(230, 230, 230, 0.3);
-            }
-
-            ::-webkit-scrollbar-thumb:active {
-                background: rgba(230, 230, 230, 0.5);
-            }
-
-            #typora-sidebar:hover
-                div.sidebar-content-content::-webkit-scrollbar-thumb:horizontal {
-                background: rgba(230, 230, 230, 0.3);
-            }
-
-            .nav-group-item:active {
-                background-color: #474d54;
-            }
-
-            .md-search-hit {
-                background: rgba(199, 140, 60, 0.81);
-                color: #eee;
-            }
-
-            .md-search-hit * {
-                color: #eee;
-            }
-
-            #md-searchpanel input {
-                color: white;
-            }
-
-            .export-detail,
-            .export-item.active,
-            .export-items-list-control {
-                background: #d6d6d4;
-            }
-
-            .modal-backdrop.in {
-                opacity: 1;
-                backdrop-filter: blur(1px);
-            }
-        </style>
-    </head>
-    <body class="typora-export os-windows">
-        <div id="write" class="first-line-indent">
-            <h1>
-                <a name="three-tile-v04" class="md-header-anchor"></a
-                ><strong><span>three-tile V0.4</span></strong>
-            </h1>
-            <p align="right">郭江峰 hz_gjf@163.com SXMB</p>
-            <hr />
-            <p>
-                <span
-                    >市场上开源三维 WEBGIS
-                    框架不少，Cesium、Mapbox、ITown、three-geo、geo-three、MapLibre
-                    等，效果炫酷功能强大。在这些地图框架使用中，逐渐有了一些自己的思路和改进方法，但很多想法涉及到底层架构，修修补补无济于事，干脆自己动手写一套。虽然暂时还不能这些
-                    NB
-                    的项目直接竞争，但它有其独特的设计思路和应用场景，也算是给开发者多一种选择。</span
-                >
-            </p>
-            <p><span>免责声明：</span></p>
-            <ul>
-                <li>
-                    <span
-                        >本框架不含任何地图数据，Example
-                        中使用的地图均为直接调用第三方数据，使用中请遵循法律法规要求。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >Example
-                        中使用的图片和模型，均来自互联网，若涉及版权问题请通知我。</span
-                    >
-                </li>
-            </ul>
-            <h2>
-                <a name="1-简介" class="md-header-anchor"></a
-                ><span>1 简介</span>
-            </h2>
-            <p>
-                <span>three-tile 是一个基于 </span
-                ><a href="https://threejs.org/"><span>threejs</span></a
-                ><span>
-                    的轻量级三维瓦片地图框架，具有使用简单、资源占用少等优点，适用于基于
-                    threejs 开发三维地图应用。</span
-                >
-            </p>
-            <ul>
-                <li>
-                    <span
-                        >three-tile 本质上是一个动态 LOD
-                        模型，核心代码与地图是无关的，适用范围并不仅限于地图。针对地图应用，增加了地图投影和坐标转换部分，于是它就成了三维地图。（是不是跟
-                        3DTiles 的说法很像？是的，三维瓦片地图抽象到头就是 3D
-                        瓦片，只是给 3D 瓦片增加了地理坐标）</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >three-tile 不是一个 GIS
-                        框架，它并不提供图层管理、空间分析等 GIS
-                        相关功能。正因为如此，它的核心可以做的很轻量级，能轻松集成到已有项目中。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >three-tile 参考了大量开源 GIS
-                        的开发思路，但仅仅是思路，除了数据源定义，未 copy
-                        一行代码，更不是 Cesium、MapBox 等套壳。</span
-                    >
-                </li>
-            </ul>
-            <h3>
-                <a name="11-优点" class="md-header-anchor"></a
-                ><span>1.1 优点</span>
-            </h3>
-            <ul>
-                <li>
-                    <span
-                        >体积小：仅 60 多 k 的包（不含
-                        example），十分小巧，开箱即用。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >轻量级：地图以一个三维模型方式提供，不会对你的程序架构产生任何影响。</span
-                    >
-                </li>
-                <li>
-                    <span>依赖少：整个框架仅有 threejs（R152）一个依赖。</span>
-                </li>
-                <li>
-                    <span
-                        >速度快：对资源占用做极致优化，核显也能轻松跑到
-                        60FPS。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >使用简单：可以把地图看做一个三维模型，熟悉 threejs
-                        基本上没有学习成本。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >扩展性强：数据、模型、纹理、材质、渲染过程均能根据自己需要扩展和替换。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >适用性广：内置
-                        mapbox、bing、arcgis、google、maptiler、中科星图、高德、天地图等主流瓦片地图支持，也可轻松扩展已读取自己的地图数据。</span
-                    >
-                </li>
-            </ul>
-            <h3>
-                <a name="12-缺点和问题" class="md-header-anchor"></a
-                ><span>1.2 缺点和问题</span>
-            </h3>
-            <ul>
-                <li>
-                    <p>
-                        <span
-                            >地球不是个球：基准面以平面展示，不做成球的原因不是实现不了，而是球状地面上叠加的几何体均要根据地球曲率做相应修改，意味着
-                            threejs 提供的几何体、材质等均不能直接使用，无法利用
-                            threejs 生态，增加开发者者难度。</span
-                        >
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span
-                            >渲染效果略差：在性能和效果两者间，优先考虑了前者，牺牲了部分效果，相比
-                            Cesium，地形精度略低、无法向量纹理等。</span
-                        >
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span
-                            >缩放时会出现空白块：为了减少资源占用，瓦片在离开可视范围会立即释放，进入可视范围再加载，数据加载过程中就会出现空白。解决办法是延迟释放资源，但这样做会占用大量内存，不符合开发初衷。目前可以自行给地图加一张静态影像背景图以缓解。</span
-                        >
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span
-                            >几何体无法自动贴地：这个是 three-tile
-                            的最大短板（特别是贴地线），原计划使用射线法取地面高程后调整模型位置以贴地，无奈此法效率太低，数据大时运行出现卡顿，计划通过深度缓存计算地面高度（</span
-                        ><a
-                            href="https://www.cnblogs.com/fuckgiser/p/6216050.html"
-                            target="_blank"
-                            class="url"
-                            >https://www.cnblogs.com/fuckgiser/p/6216050.html</a
-                        ><span>
-                            ）。目前加载几何体必须要提供模型的海拔高度。</span
-                        >
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span
-                            >可能出现瓦片抖动：地形几何误差使用了简单的经验公式，未经理论证明，不敢保证瓦片任何地形任何摄像机角度正确计算，可能会出现瓦片低模高模反复切换抖动。该问题只是有可能出现，如出现抖动需要放宽误差阈值，副作用是放宽阈值瓦片的缩放不会很及时。</span
-                        >
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span
-                            >瓦片接缝处法向量存在问题：修补瓦片接缝需要取相邻瓦片高程，目前地形数据采用
-                            mapbox 的 Terrain-RGB v1
-                            格式，取相邻瓦片高程很麻烦，所以瓦片接缝法向量直接取了固定值，在山区雪地（雪山）处能隐约能看到接缝纹理，影响效果。计划增加
-                            Terrain-DEM v1 格式支持（</span
-                        ><a
-                            href="https://docs.mapbox.com/data/tilesets/reference/mapbox-terrain-dem-v1/"
-                            ><span>Mapbox Terrain-DEM v1</span></a
-                        ><span
-                            >），该数据在瓦片边缘有一圈缓冲区保存相邻瓦片高程。</span
-                        >
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span
-                            >地形网格构建效率还有提升空间：地形网格使用了矩形网格，算法简单速度很快，但由于矩形网格过于简单，不能根据地形起伏程度精简顶点，有一定资源浪费。准备试试
-                            MARTINI 算法创建地形（ </span
-                        ><a
-                            href="https://github.com/mapbox/martini"
-                            target="_blank"
-                            class="url"
-                            >https://github.com/mapbox/martini</a
-                        ><span>
-                            ），不知道该算法对速度影响有多大，可能需要启动
-                            worker 来构建。</span
-                        >
-                    </p>
-                    <p>&nbsp;</p>
-                    <p>
-                        <strong
-                            ><span
-                                >对普通用户，这些缺点并不会对你的应用造成多大影响，之所以都说出来是希望有更多人参与改进，也避免使用者采坑。</span
-                            ></strong
-                        >
-                    </p>
-                </li>
-            </ul>
-            <h3>
-                <a name="13-开发环境" class="md-header-anchor"></a
-                ><span>1.3 开发环境</span>
-            </h3>
-            <ul>
-                <li><span>语言：TypeScript 100%</span></li>
-                <li><span>IDE： VSCode</span></li>
-                <li><span>打包：Vite 4.0</span></li>
-                <li><span>依赖：three^0.152</span></li>
-            </ul>
-            <hr />
-            <h2>
-                <a name="2-安装" class="md-header-anchor"></a
-                ><span>2 安装</span>
-            </h2>
-            <p>
-                <span
-                    >建议使用 typescript 开发，原生 JavaScript 写的代码 BUG
-                    防不胜防，至少使用 ES6。</span
-                >
-            </p>
-            <h3>
-                <a name="21-直接引用" class="md-header-anchor"></a
-                ><span>2.1 直接引用</span>
-            </h3>
-            <pre
-                spellcheck="false"
-                class="md-fences md-end-block ty-contain-cm modeLoaded"
-                lang=""
-            ><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">&lt;script src="./three.js"&gt;&lt;/script&gt;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">&lt;script src="./three-tile.umd.js"&gt;&lt;/script&gt;</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 52px;"></div><div class="CodeMirror-gutters" style="display: none; height: 52px;"></div></div></div></pre>
-            <h3>
-                <a name="22-npm" class="md-header-anchor"></a
-                ><span>2.2 npm</span>
-            </h3>
-            <p><span>暂未上传 npmjs</span></p>
-            <hr />
-            <h2>
-                <a name="3-使用" class="md-header-anchor"></a
-                ><span>3 使用</span>
-            </h2>
-            <p>
-                <span
-                    >和一般 threejs 应用一样，初始化 threejs
-                    三维场景后，将地图模型加入场景即可完成地图的显示。</span
-                >
-            </p>
-            <p>
-                <span
-                    >TileMap 类是 three-tile 地图模型，它是一个 Mesh，按 threejs
-                    的套路初始化场景，并将 TileMap 的实例加入场景即可。</span
-                >
-            </p>
-            <p>
-                <span
-                    >为了便于使用，three-tile 还提供一个 GLViewer
-                    类，它封装了场景初始化过程，一般可直接使用它进行初始化。但如果你熟悉
-                    threejs，最好自己写，跟普通 threejs 程序并无太大差异。</span
-                >
-            </p>
-            <h3>
-                <a name="31-约定和限制" class="md-header-anchor"></a
-                ><span>3.1 约定和限制</span>
-            </h3>
-            <ul>
-                <li>
-                    <span
-                        >坐标轴：地图模型为东北上坐标系，即 X 轴指向东，Y
-                        轴指向北，Z 轴指向上。与 threejs
-                        默认坐标不同需要注意。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >坐标单位：角度单位为弧度，经纬度为度，3857
-                        投影（默认）距离单位为公里，4326 投影距离单位为 0.01
-                        度，高度单位均为公里。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >瓦片数据：内建的地图影像和地形数据均使用图片格式（jpg、png、webp
-                        等），支持 3854 和 4326 投影，暂不支持矢量瓦片。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >瓦片属性：默认情况瓦片模型纹理透明属性开启，请注意渲染顺序。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >地图清晰度：清晰度与本框架无关，取决数据源精度。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >地图标注源：大部分国内厂商地图数据的地名、边界、道路有一定偏移，与地形无法完全匹配。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >地图 token：大部分厂商的地图数据需要申请开发 key
-                        才能使用，three-tile 示例包含一些厂商的
-                        token，访问的人多了厂商会封掉它们，使用者一定要自己申请（又不要钱）避免直接使用。</span
-                    >
-                </li>
-            </ul>
-            <h3>
-                <a name="32-地图创建" class="md-header-anchor"></a
-                ><span>3.2 地图创建</span>
-            </h3>
-            <p>
-                <span
-                    >一般应用，可使用 TileMap 的工厂方法 create 创建地图，用
-                    GLViewer 初始化三维场景，并将地图加入场景：</span
-                >
-            </p>
-            <pre
-                spellcheck="false"
-                class="md-fences md-end-block ty-contain-cm modeLoaded"
-                lang="typescript"
-                style="break-inside: unset"
-            ><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="typescript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">*</span> <span class="cm-keyword">as</span> <span class="cm-def">tt</span> <span class="cm-keyword">from</span> <span class="cm-string">"three-tile"</span>;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// MapBoxToken 请更换为你自己申请的key</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">MAPBOXKEY</span> <span class="cm-operator">=</span> <span class="cm-string">"xxxxxxxxxxxxxx"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 创建地图</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">map</span> <span class="cm-operator">=</span> <span class="cm-variable">tt</span>.<span class="cm-property">TileMap</span>.<span class="cm-property">create</span>({</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 影像数据源（可以是一个数组，表示多层影像叠加）</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">imgSource</span>: <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">MapBoxImgSource</span>(<span class="cm-variable">MAPBOXKEY</span>),</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 地形数据源</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">demSource</span>: <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">MapBoxDemSource</span>(<span class="cm-variable">MAPBOXKEY</span>),</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 地图投影中心经度</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">projCenterLon</span>: <span class="cm-number">90</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 最小缩放级别</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">minLevel</span>: <span class="cm-number">2</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 最大缩放级别</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">maxLevel</span>: <span class="cm-number">18</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">});</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 取得地图dom容器</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">glContainer</span> <span class="cm-operator">=</span> <span class="cm-variable">document</span>.<span class="cm-property">querySelector</span><span class="cm-operator">&lt;</span><span class="cm-type">HTMLElement</span><span class="cm-operator">&gt;</span>(<span class="cm-string">"#map"</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 初始化三维场景(调用three-tile内置的初始化类)</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">viewer</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">GLViewer</span>(<span class="cm-variable">glContainer</span><span class="cm-operator">!</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 将地图加入三维场景</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">viewer</span>.<span class="cm-property">scene</span>.<span class="cm-property">add</span>(<span class="cm-variable">map</span>);</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 650px;"></div><div class="CodeMirror-gutters" style="display: none; height: 650px;"></div></div></div></pre>
-            <p>
-                <span
-                    >也可使用TileMap的构造函数创建地图，构造函数可以传入一个瓦片加载器对象，较TileMap.create()更加灵活。</span
-                >
-            </p>
-            <p>
-                <span
-                    >地图数据使用加瓦片载器 TileLoader
-                    读取数据，并创建几何体和材质，可用编写自己的加载器实现瓦片的创建，以完全控制瓦片模型的创建过程：</span
-                >
-            </p>
-            <pre
-                spellcheck="false"
-                class="md-fences md-end-block ty-contain-cm modeLoaded"
-                lang="typescript"
-                style="break-inside: unset"
-            ><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="typescript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">*</span> <span class="cm-keyword">as</span> <span class="cm-def">tt</span> <span class="cm-keyword">from</span> <span class="cm-string">"three-tile"</span>;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// MapBoxToken 请更换为你自己申请的key</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">MAPBOXKEY</span> <span class="cm-operator">=</span> <span class="cm-string">"xxxxxxxxxxxxxx"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 自定义地图数据加载器</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// const loader = new MyLoader(</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// &nbsp;  [new tt.MapBoxImgSource(MAPBOXKEY)],</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// &nbsp;  new tt.MapBoxDemSource(MAPBOXKEY)</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">//);</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 内置地图数据加载器</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">loader</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">TileLoader</span>(</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  [<span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">MapBoxImgSource</span>(<span class="cm-variable">MAPBOXKEY</span>)],</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">MapBoxDemSource</span>(<span class="cm-variable">MAPBOXKEY</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 创建地图</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">map</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">TileMap</span>({</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 瓦片加载器</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">loader</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 地图投影中心经度</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">projCenterLon</span>: <span class="cm-number">90</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 最小缩放级别</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">minLevel</span>: <span class="cm-number">2</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 最大缩放级别</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">maxLevel</span>: <span class="cm-number">18</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">});</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 取得地图dom容器（div）</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">glContainer</span> <span class="cm-operator">=</span> <span class="cm-variable">document</span>.<span class="cm-property">querySelector</span><span class="cm-operator">&lt;</span><span class="cm-type">HTMLElement</span><span class="cm-operator">&gt;</span>(<span class="cm-string">"#map"</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 初始化三维场景</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">viewer</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">GLViewer</span>(<span class="cm-variable">glContainer</span><span class="cm-operator">!</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 将地图加入三维场景</span></span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">viewer</span>.<span class="cm-property">scene</span>.<span class="cm-property">add</span>(<span class="cm-variable">map</span>);</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 936px;"></div><div class="CodeMirror-gutters" style="display: none; height: 936px;"></div></div></div></pre>
-            <p><span>关于自定义加载器，可见：example/4</span></p>
-            <h3>
-                <a name="33-三维场景" class="md-header-anchor"></a
-                ><span>3.3 三维场景</span>
-            </h3>
-            <p>
-                <span
-                    >三维场景的初始化与threejs的没有太大区别，但以下部分需要注意：</span
-                >
-            </p>
-            <ul>
-                <li>
-                    <span
-                        >为了使地图坐标系与一般人类理解一致，地图坐标方向采用东(x)北(y)上(z)方向，即地面在x-y平面上，海拔高度在z轴。而threejs一般平面在xz平面上，高度为y轴，所以初始化时需要使场景默认up指向z轴，可添加：Object3D.DEFAULT_UP.set(0,
-                        0, 1)
-                        即可。如果你的应用不能调整up值，可以将地图旋转-π/2°完成。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >地图添加光照才能显示。一般至少要有一个环境光，另外最好加一个直射光以通过地形法向量增强凹凸感。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >场景控制器一般应用可使用threejs内置的MapControls，其它控制器如OrbitControls、FlyControls、PointerLockControls、TransformControls、FirstPersonControls都能完美支持。</span
-                    >
-                </li>
-            </ul>
-            <p><span>更多使用方法见 example</span></p>
-            <hr />
-            <h2>
-                <a name="4-架构" class="md-header-anchor"></a
-                ><span>4 架构</span>
-            </h2>
-            <h3>
-                <a name="41-代码结构" class="md-header-anchor"></a
-                ><span>4.1 代码结构</span>
-            </h3>
-            <p>
-                <span
-                    >three-tile 参考了 threejs
-                    的代码组织结构，即模型+几何体+材质+纹理+加载器的套路，并且充分利用
-                    typescript
-                    优势，将这几部分用接口进行组合，各部分均可独立替换，从而具有良好的扩展性。</span
-                >
-            </p>
-            <p>
-                <span
-                    >框架主要包含：瓦片 tile、数据源 source、加载器
-                    loader、几何体 geometry、材质 material、地图 map
-                    等六大部分，各部分相对独立，保存在不通文件夹，使用接口进行解耦：</span
-                >
-            </p>
-            <h3>
-                <a name="42-瓦片-tile" class="md-header-anchor"></a
-                ><span>4.2 瓦片 tile</span>
-            </h3>
-            <p>
-                <span
-                    >瓦片地图顾名思义，就是地图由多块瓦片（图块）拼接组成，地图构建时仅下载和渲染视野中的瓦片，以实现更高的效率。每块瓦片就是一个
-                    Mesh，three-tile 使用四叉树结构保存这些
-                    Mesh。在的渲染过程中。根据瓦片离摄像机距离，动态创建和销毁，按需加载瓦片数据。</span
-                >
-            </p>
-            <p>
-                <span
-                    >瓦片是 three-tile 的核心，实现了一个动态 LOD
-                    模型，其它功能均是围绕其上的扩展。</span
-                >
-            </p>
-            <h3>
-                <a name="43-数据源-source" class="md-header-anchor"></a
-                ><span>4.3 数据源 source</span>
-            </h3>
-            <p>
-                <span
-                    >数据源用来定义地图服务商的数据 url
-                    规则，还包括版权信息、范围、层级、投影、数据类型等元数据。three-tile
-                    内置了部分主流地图服务商的数据源，用户也可根据厂商提供的文档自定义新的地图数据源。</span
-                >
-            </p>
-            <p>
-                <span
-                    >数据源包含一个 dataType
-                    属性，它表示地图数据类型，地图请求数据时会根据此属性使用与之对应的加载器下载、解析瓦片。</span
-                >
-            </p>
-            <h3>
-                <a name="44-加载器-loader" class="md-header-anchor"></a
-                ><span>4.4 加载器 loader</span>
-            </h3>
-            <p>
-                <span
-                    >加载器实现瓦片数据的下载、解析以及瓦片几何体、纹理、材质的创建，内部分为几何体加载器和纹理加载器，分别用于地形和影像数据，地图的渲染质量完全取决于他们。如果对效果不满意或想实现一些特效，可以自定义加载器。</span
-                >
-            </p>
-            <p>
-                <span
-                    >加载器内置一个LoaderFactory工厂类，用户可将自定义几何体、纹理加载器注册到瓦片工厂，地图请求数据时，会根据数据源的
-                    dataType
-                    属性，自动从工厂类取得相应的加载器，并使用它来下载解析数据。</span
-                >
-            </p>
-            <h3>
-                <a name="45-几何体-geometry" class="md-header-anchor"></a
-                ><span>4.5 几何体 geometry</span>
-            </h3>
-            <p>
-                <span
-                    >几何体为瓦片的
-                    geometry，加载器内部使用它创建地形几何体。</span
-                >
-            </p>
-            <h3>
-                <a name="46-材质-material" class="md-header-anchor"></a
-                ><span>4.6 材质 material</span>
-            </h3>
-            <p>
-                <span
-                    >材质为瓦片的
-                    material，加载器内部使用它来处理影像数据创建材质。</span
-                >
-            </p>
-            <h3>
-                <a name="44-地图-map" class="md-header-anchor"></a
-                ><span>4.4 地图 map</span>
-            </h3>
-            <p>
-                <span
-                    >three-tile 的瓦片 LOD
-                    模型、瓦片树、加载器与地图（GIS）没有直接关系，理论上你可以用它做任何大型
-                    LOD 三维模型。但为了便于地图应用，three-tile
-                    将瓦片、加载器、数据源进一步封装，增加投影类和地理坐标转换、拾取等函数，形成
-                    一个 TileMap 类，该类继承于 Mesh，普通开发者仅需使用 TileMap
-                    类即可完成绝大部分地图操作。</span
-                >
-            </p>
-            <h3>
-                <a name="45-整体流程" class="md-header-anchor"></a
-                ><span>4.5 整体流程</span>
-            </h3>
-            <p><span>瓦片处理包括两个相对独立的过程：</span></p>
-            <ul>
-                <li>
-                    <span
-                        >瓦片树更新：在每帧渲染过程中，根据摄像机与可视区域内每块瓦片的距离进行
-                        LOD。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >瓦片数据加载：遍历树上每块瓦片，使用加载器加载地图数据并创建几何体和材质。</span
-                    >
-                </li>
-            </ul>
-            <p>
-                <span
-                    >地图本质上是一个 LOD
-                    模型，该模型使用四叉树结构管理。为了减少数据下载处理量，数据采用了懒加载方式（延迟加载），在渲染过程中，先用
-                    LOD
-                    对瓦片树进行更新，待瓦片树稳定后（不再增加或删除瓦片），再加载可视瓦片数据。当瓦片离开可视范围或缩放级别后，立即进行销毁并释放资源（非隐藏），此举能大幅减少内存消耗，但也会造成新进入可视范围的瓦片在数据加载完成前为空白，为了性能牺牲了这部分效果。</span
-                >
-            </p>
-            <h3>
-                <a name="46-外围" class="md-header-anchor"></a
-                ><span>4.6 外围</span>
-            </h3>
-            <p>
-                <span
-                    >其它三维效果均使用 threejs
-                    自有功能实现，如三维场景、摄像机、渲染器、灯光、控制器、模型等，地图的使用与
-                    threejs 的三维模型无太大差异，利用 threejs
-                    生态，实现场景和地图中其它元素的加载和显示。如可以使用
-                    threejs
-                    的各种控制器对地图模型进行操作，向地图上添加点线面模型等，甚至能实现基于真实三维地形的似游戏开发（见
-                    example 3.1-3 ）。</span
-                >
-            </p>
-            <hr />
-            <h2>
-                <a name="5-扩展" class="md-header-anchor"></a
-                ><span>5 扩展</span>
-            </h2>
-            <p>
-                <span
-                    >three-tile
-                    各部分功能界定非常清晰，自身就是以扩展方式开发的，开发者可以按照同样的方法扩展功能。</span
-                >
-            </p>
-            <h3>
-                <a name="51-扩展方式" class="md-header-anchor"></a
-                ><span>5.1 扩展方式</span>
-            </h3>
-            <p>
-                <span
-                    >为了适应不同开发习惯的，可采用
-                    接口式扩展、继承式扩展、工厂方法式扩展、装饰器扩展等方式。</span
-                >
-            </p>
-            <ul>
-                <li>
-                    <span
-                        >工厂方法扩展：不喜欢面向对象的同学，可直接使用工厂方法创建对象，将参数传入方法即可，简单但功能有限。如扩展数据源，可将瓦片
-                        url 模板传入 Source.create()即可。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >接口式扩展：如果你对内置的类用着十分不爽，可以自己实现其接口，完全控制业务逻辑，但需要自己实现全部属性方法比较麻烦。如扩展数据源，可以自己实现
-                        ISource 接口，重写各属性和方法。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >继承式扩展：如果你即想完全控制，又想偷懒少写代码，可以继承内置的基类，仅重写有特殊需求的属性和方法，效果和代码复用较均衡，但有面向对象继承的高耦合缺点。如扩展数据源，可继承
-                        Source，仅重写 getUrl 函数，实现自己的 url
-                        生成逻辑。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >装饰器扩展：装饰器本身与 three-tile
-                        无关，属于设计模式概念，是目前比较流行的方式。创建一个类实现相应接口，属性和方法直接调用其内部对象属性方法，并添加自己的逻辑。装饰器可以有效避免继承的高耦合，同时具有较高的代码复用性。JavaScript
-                        的装饰器目前还处在提案阶段，在 typescript
-                        中也属于实验性内容，three-tile
-                        暂不直接支持，但可通过传统设计模式方式实现。如扩展数据源，可创建一个类实现
-                        ISource 接口，内部添加一个 Source
-                        实例作为其属性，ISource
-                        接口上各属性方法可调用它，并添加或重写自己的逻辑。待
-                        JavaScript
-                        正式支持装饰器后，会给它增加装饰器支持，届时扩展数据源仅需给数据源类前增加@xxx
-                        即可。</span
-                    >
-                </li>
-            </ul>
-            <p>
-                <span
-                    >本人是面向对象和设计模式的极度推崇者，代码结构组合优先，尽量避免继承。受不了近几年一些一知半解者对面向对象的盲目批判，所以同时以接口、抽象类、组合多种模式解耦，用户可以选择自己喜好的方式扩展。</span
-                >
-            </p>
-            <h3>
-                <a name="52-数据源扩展" class="md-header-anchor"></a
-                ><span>5.2 数据源扩展</span>
-            </h3>
-            <p>
-                <span
-                    >数据源扩展，主要是为了实现对不同厂商地图服务的支持，根据瓦片坐标计算瓦片数据的
-                    ur，加载器会调用数据源根据瓦片坐标取得数据 url。</span
-                >
-            </p>
-            <p>
-                <span
-                    >three-tile 内置了
-                    Mapbox、google、arcgis、中科星图、高德等主流地图数据源。如果你想扩展支持新的地图数据，仅需要提供一个地图瓦片
-                    url 模板即可，模板与 Cesium、leaflet
-                    等格式一致，直接拿来用即可。瓦片默认坐标使用</span
-                ><a
-                    href="http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/"
-                    ><span>Google tile scheme</span></a
-                ><span
-                    >，部分瓦片未采用 google 坐标方案的瓦片需要换算（如
-                    bing、百度等），url
-                    模板可以是一个函数，将换算过程放进此函数即可。</span
-                >
-            </p>
-            <p>
-                <span
-                    >数据源除 url
-                    生成外，还包含一些元数据信息，如数据版权、地图级别、投影方式、范围等，比较重要的是
-                    dataType
-                    属性，为数据类型标志，系统会根据此标志决定采用哪种加载器下载、解析地图数据。</span
-                >
-            </p>
-            <p><span>见 example2.1</span></p>
-            <h3>
-                <a name="53-加载器扩展" class="md-header-anchor"></a
-                ><span>5.3 加载器扩展</span>
-            </h3>
-            <p>
-                <span
-                    >加载器的功能是下载、解析地图数据，并生成瓦片几何体和材质，即地形和图像。加载器有三类：</span
-                >
-            </p>
-            <ul>
-                <li>
-                    <span
-                        >瓦片几何体加载器：下载地形数据，并根据地形生成瓦片几何体。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >瓦片纹理加载器：下载影像数据，并根据影像生成瓦片纹理。</span
-                    >
-                </li>
-                <li>
-                    <span
-                        >瓦片数据加载器：将几何体加载器、纹理加载器封装合成，返回瓦片几何体和材质。</span
-                    >
-                </li>
-            </ul>
-            <p>
-                <span
-                    >threejs 内置了基于着色器、基于
-                    Canvas、基于图像的的纹理加载器，以及矩形网格几何体加载器。默认使用图像纹理和矩形网格几何体。</span
-                >
-            </p>
-            <p>
-                <span
-                    >目前主流的瓦片数据均以图像方式提供，但还有一些瓦片数据使用其它数据格式，如
-                    MapBox 的矢量瓦片(</span
-                ><span>*</span><span>.mvt)，Cesium 的 heightMap（</span
-                ><span>*</span><span>.hgt）和 Quantized-Mesh(</span
-                ><span>*</span
-                ><span
-                    >.terrain)，目前尚不支持。你可以通过编写加载器的方式来扩展。</span
-                >
-            </p>
-            <p>
-                <span
-                    >three-tile
-                    内置一个加载器工厂类，你可以将你自己实现的加载器注册到工厂，请求数据时会根据数据源的
-                    dataType
-                    属性，动态决定使用哪个加载器加载数据并生成几何体和材质。</span
-                >
-            </p>
-            <p><span>见 example4.1-4</span></p>
-            <h3>
-                <a name="54-地图投影扩展" class="md-header-anchor"></a
-                ><span>5.4 地图投影扩展</span>
-            </h3>
-            <p>
-                <span
-                    >地图投影作用主要是做地图坐标转换，即经纬度与场景坐标间的转换。</span
-                >
-            </p>
-            <p>
-                <span
-                    >three-tile 内置了兰布托和经纬度两种投影支持，与 Cesium
-                    等不同的是，three-tile 的投影直接会改变地图外观，而 Cesium
-                    使用不同投影数据外观一直保持一个球，它内部会对瓦片数据做投影后进行渲染。</span
-                >
-            </p>
-            <p>
-                <span
-                    >使用哪种投影取决于瓦片数据的投影，如天地图提供兰布托和经纬度两种投影的地图。目前市面上也就这两种投影的地图数据，甚至没有经纬度投影的地形数据，所有对它进行扩展意义不大。</span
-                >
-            </p>
-            <p>
-                <span
-                    >由于将地球展开成一个平面，那么就存在一个地图中心经度的问题。默认会以
-                    0° 为中心，但 0°
-                    为中心你关注的区域可能到地图边缘或者被分割为两半，所以给地图增加了投影中心经度属性，加载器在请求瓦片
-                    url 时会根据地图中心调整瓦片坐标。</span
-                >
-            </p>
-            <h2>
-                <a name="6-后记" class="md-header-anchor"></a
-                ><span>6 后记</span>
-            </h2>
-            <p>
-                <span>
-                    开发three-tile最初的目的仅是想给我的基于threejs的应用加上底图。</span
-                >
-            </p>
-            <p>
-                <span
-                    >三维地图，最强大的非cesium莫属，但很多时候我只是想要个底图而已。cesium作为重量级框架功能强大，但占用资源较多，拖慢了其上的业务数据可视化，并且cesium对三维操作封装很深，一些特殊效果实现难度较大，试了其它一些三维GIS框架也不尽人意，干脆自己写一套。</span
-                >
-            </p>
-            <p>
-                <span
-                    >三维地图在理论上已经很成熟，GoogleEarth、WorldWind已经推出十多年，但理论是理论，真正自己从头实现一套难度还是挺大，一堆的坑等着你填。特别是运行效率，三维瓦片地图由于数据量极大，要做到渲染效果好，并且占用资源少运行速度快，难度很大。</span
-                >
-            </p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-        </div>
-    </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width initial-scale=1"
+		/>
+		<title>README</title>
+		<link
+			href="https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<style type="text/css">
+			html {
+				overflow-x: initial !important;
+			}
+			:root {
+				--bg-color: #ffffff;
+				--text-color: #333333;
+				--select-text-bg-color: #b5d6fc;
+				--select-text-font-color: auto;
+				--monospace: "Lucida Console", Consolas, "Courier", monospace;
+				--title-bar-height: 20px;
+			}
+			.mac-os-11 {
+				--title-bar-height: 28px;
+			}
+			html {
+				font-size: 14px;
+				background-color: var(--bg-color);
+				color: var(--text-color);
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				-webkit-font-smoothing: antialiased;
+			}
+			body {
+				margin: 0px;
+				padding: 0px;
+				height: auto;
+				bottom: 0px;
+				top: 0px;
+				left: 0px;
+				right: 0px;
+				font-size: 1rem;
+				line-height: 1.42857;
+				overflow-x: hidden;
+				background: inherit;
+				tab-size: 4;
+			}
+			iframe {
+				margin: auto;
+			}
+			a.url {
+				word-break: break-all;
+			}
+			a:active,
+			a:hover {
+				outline: 0px;
+			}
+			.in-text-selection,
+			::selection {
+				text-shadow: none;
+				background: var(--select-text-bg-color);
+				color: var(--select-text-font-color);
+			}
+			#write {
+				margin: 0px auto;
+				height: auto;
+				width: inherit;
+				word-break: normal;
+				overflow-wrap: break-word;
+				position: relative;
+				white-space: normal;
+				overflow-x: visible;
+				padding-top: 36px;
+			}
+			#write.first-line-indent p {
+				text-indent: 2em;
+			}
+			#write.first-line-indent li p,
+			#write.first-line-indent p * {
+				text-indent: 0px;
+			}
+			#write.first-line-indent li {
+				margin-left: 2em;
+			}
+			.for-image #write {
+				padding-left: 8px;
+				padding-right: 8px;
+			}
+			body.typora-export {
+				padding-left: 30px;
+				padding-right: 30px;
+			}
+			.typora-export .footnote-line,
+			.typora-export li,
+			.typora-export p {
+				white-space: pre-wrap;
+			}
+			.typora-export .task-list-item input {
+				pointer-events: none;
+			}
+			@media screen and (max-width: 500px) {
+				body.typora-export {
+					padding-left: 0px;
+					padding-right: 0px;
+				}
+				#write {
+					padding-left: 20px;
+					padding-right: 20px;
+				}
+				.CodeMirror-sizer {
+					margin-left: 0px !important;
+				}
+				.CodeMirror-gutters {
+					display: none !important;
+				}
+			}
+			#write li > figure:last-child {
+				margin-bottom: 0.5rem;
+			}
+			#write ol,
+			#write ul {
+				position: relative;
+			}
+			img {
+				max-width: 100%;
+				vertical-align: middle;
+				image-orientation: from-image;
+			}
+			button,
+			input,
+			select,
+			textarea {
+				color: inherit;
+				font: inherit;
+			}
+			input[type="checkbox"],
+			input[type="radio"] {
+				line-height: normal;
+				padding: 0px;
+			}
+			*,
+			::after,
+			::before {
+				box-sizing: border-box;
+			}
+			#write h1,
+			#write h2,
+			#write h3,
+			#write h4,
+			#write h5,
+			#write h6,
+			#write p,
+			#write pre {
+				width: inherit;
+			}
+			#write h1,
+			#write h2,
+			#write h3,
+			#write h4,
+			#write h5,
+			#write h6,
+			#write p {
+				position: relative;
+			}
+			p {
+				line-height: inherit;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				break-after: avoid-page;
+				break-inside: avoid;
+				orphans: 4;
+			}
+			p {
+				orphans: 4;
+			}
+			h1 {
+				font-size: 2rem;
+			}
+			h2 {
+				font-size: 1.8rem;
+			}
+			h3 {
+				font-size: 1.6rem;
+			}
+			h4 {
+				font-size: 1.4rem;
+			}
+			h5 {
+				font-size: 1.2rem;
+			}
+			h6 {
+				font-size: 1rem;
+			}
+			.md-math-block,
+			.md-rawblock,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			p {
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+			}
+			.hidden {
+				display: none;
+			}
+			.md-blockmeta {
+				color: rgb(204, 204, 204);
+				font-weight: 700;
+				font-style: italic;
+			}
+			a {
+				cursor: pointer;
+			}
+			sup.md-footnote {
+				padding: 2px 4px;
+				background-color: rgba(238, 238, 238, 0.7);
+				color: rgb(85, 85, 85);
+				border-radius: 4px;
+				cursor: pointer;
+			}
+			sup.md-footnote a,
+			sup.md-footnote a:hover {
+				color: inherit;
+				text-transform: inherit;
+				text-decoration: inherit;
+			}
+			#write input[type="checkbox"] {
+				cursor: pointer;
+				width: inherit;
+				height: inherit;
+			}
+			figure {
+				overflow-x: auto;
+				margin: 1.2em 0px;
+				max-width: calc(100% + 16px);
+				padding: 0px;
+			}
+			figure > table {
+				margin: 0px;
+			}
+			tr {
+				break-inside: avoid;
+				break-after: auto;
+			}
+			thead {
+				display: table-header-group;
+			}
+			table {
+				border-collapse: collapse;
+				border-spacing: 0px;
+				width: 100%;
+				overflow: auto;
+				break-inside: auto;
+				text-align: left;
+			}
+			table.md-table td {
+				min-width: 32px;
+			}
+			.CodeMirror-gutters {
+				border-right: 0px;
+				background-color: inherit;
+			}
+			.CodeMirror-linenumber {
+				user-select: none;
+			}
+			.CodeMirror {
+				text-align: left;
+			}
+			.CodeMirror-placeholder {
+				opacity: 0.3;
+			}
+			.CodeMirror pre {
+				padding: 0px 4px;
+			}
+			.CodeMirror-lines {
+				padding: 0px;
+			}
+			div.hr:focus {
+				cursor: none;
+			}
+			#write pre {
+				white-space: pre-wrap;
+			}
+			#write.fences-no-line-wrapping pre {
+				white-space: pre;
+			}
+			#write pre.ty-contain-cm {
+				white-space: normal;
+			}
+			.CodeMirror-gutters {
+				margin-right: 4px;
+			}
+			.md-fences {
+				font-size: 0.9rem;
+				display: block;
+				break-inside: avoid;
+				text-align: left;
+				overflow: visible;
+				white-space: pre;
+				background: inherit;
+				position: relative !important;
+			}
+			.md-diagram-panel {
+				width: 100%;
+				margin-top: 10px;
+				text-align: center;
+				padding-top: 0px;
+				padding-bottom: 8px;
+				overflow-x: auto;
+			}
+			#write .md-fences.mock-cm {
+				white-space: pre-wrap;
+			}
+			.md-fences.md-fences-with-lineno {
+				padding-left: 0px;
+			}
+			#write.fences-no-line-wrapping .md-fences.mock-cm {
+				white-space: pre;
+				overflow-x: auto;
+			}
+			.md-fences.mock-cm.md-fences-with-lineno {
+				padding-left: 8px;
+			}
+			.CodeMirror-line,
+			twitterwidget {
+				break-inside: avoid;
+			}
+			.footnotes {
+				opacity: 0.8;
+				font-size: 0.9rem;
+				margin-top: 1em;
+				margin-bottom: 1em;
+			}
+			.footnotes + .footnotes {
+				margin-top: 0px;
+			}
+			.md-reset {
+				margin: 0px;
+				padding: 0px;
+				border: 0px;
+				outline: 0px;
+				vertical-align: top;
+				background: 0px 0px;
+				text-decoration: none;
+				text-shadow: none;
+				float: none;
+				position: static;
+				width: auto;
+				height: auto;
+				white-space: nowrap;
+				cursor: inherit;
+				-webkit-tap-highlight-color: transparent;
+				line-height: normal;
+				font-weight: 400;
+				text-align: left;
+				box-sizing: content-box;
+				direction: ltr;
+			}
+			li div {
+				padding-top: 0px;
+			}
+			blockquote {
+				margin: 1rem 0px;
+			}
+			li .mathjax-block,
+			li p {
+				margin: 0.5rem 0px;
+			}
+			li blockquote {
+				margin: 1rem 0px;
+			}
+			li {
+				margin: 0px;
+				position: relative;
+			}
+			blockquote > :last-child {
+				margin-bottom: 0px;
+			}
+			blockquote > :first-child,
+			li > :first-child {
+				margin-top: 0px;
+			}
+			.footnotes-area {
+				color: rgb(136, 136, 136);
+				margin-top: 0.714rem;
+				padding-bottom: 0.143rem;
+				white-space: normal;
+			}
+			#write .footnote-line {
+				white-space: pre-wrap;
+			}
+			@media print {
+				body,
+				html {
+					border: 1px solid transparent;
+					height: 99%;
+					break-after: avoid;
+					break-before: avoid;
+					font-variant-ligatures: no-common-ligatures;
+				}
+				#write {
+					margin-top: 0px;
+					padding-top: 0px;
+					border-color: transparent !important;
+				}
+				.typora-export * {
+					-webkit-print-color-adjust: exact;
+				}
+				.typora-export #write {
+					break-after: avoid;
+				}
+				.typora-export #write::after {
+					height: 0px;
+				}
+				.is-mac table {
+					break-inside: avoid;
+				}
+			}
+			.footnote-line {
+				margin-top: 0.714em;
+				font-size: 0.7em;
+			}
+			a img,
+			img a {
+				cursor: pointer;
+			}
+			pre.md-meta-block {
+				font-size: 0.8rem;
+				min-height: 0.8rem;
+				white-space: pre-wrap;
+				background: rgb(204, 204, 204);
+				display: block;
+				overflow-x: hidden;
+			}
+			p > .md-image:only-child:not(.md-img-error) img,
+			p > img:only-child {
+				display: block;
+				margin: auto;
+			}
+			#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img {
+				left: -2em;
+				position: relative;
+			}
+			p > .md-image:only-child {
+				display: inline-block;
+				width: 100%;
+			}
+			#write .MathJax_Display {
+				margin: 0.8em 0px 0px;
+			}
+			.md-math-block {
+				width: 100%;
+			}
+			.md-math-block:not(:empty)::after {
+				display: none;
+			}
+			.MathJax_ref {
+				fill: currentcolor;
+			}
+			[contenteditable="true"]:active,
+			[contenteditable="true"]:focus,
+			[contenteditable="false"]:active,
+			[contenteditable="false"]:focus {
+				outline: 0px;
+				box-shadow: none;
+			}
+			.md-task-list-item {
+				position: relative;
+				list-style-type: none;
+			}
+			.task-list-item.md-task-list-item {
+				padding-left: 0px;
+			}
+			.md-task-list-item > input {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				margin-left: -1.2em;
+				margin-top: calc(1em - 10px);
+				border: none;
+			}
+			.math {
+				font-size: 1rem;
+			}
+			.md-toc {
+				min-height: 3.58rem;
+				position: relative;
+				font-size: 0.9rem;
+				border-radius: 10px;
+			}
+			.md-toc-content {
+				position: relative;
+				margin-left: 0px;
+			}
+			.md-toc-content::after,
+			.md-toc::after {
+				display: none;
+			}
+			.md-toc-item {
+				display: block;
+				color: rgb(65, 131, 196);
+			}
+			.md-toc-item a {
+				text-decoration: none;
+			}
+			.md-toc-inner:hover {
+				text-decoration: underline;
+			}
+			.md-toc-inner {
+				display: inline-block;
+				cursor: pointer;
+			}
+			.md-toc-h1 .md-toc-inner {
+				margin-left: 0px;
+				font-weight: 700;
+			}
+			.md-toc-h2 .md-toc-inner {
+				margin-left: 2em;
+			}
+			.md-toc-h3 .md-toc-inner {
+				margin-left: 4em;
+			}
+			.md-toc-h4 .md-toc-inner {
+				margin-left: 6em;
+			}
+			.md-toc-h5 .md-toc-inner {
+				margin-left: 8em;
+			}
+			.md-toc-h6 .md-toc-inner {
+				margin-left: 10em;
+			}
+			@media screen and (max-width: 48em) {
+				.md-toc-h3 .md-toc-inner {
+					margin-left: 3.5em;
+				}
+				.md-toc-h4 .md-toc-inner {
+					margin-left: 5em;
+				}
+				.md-toc-h5 .md-toc-inner {
+					margin-left: 6.5em;
+				}
+				.md-toc-h6 .md-toc-inner {
+					margin-left: 8em;
+				}
+			}
+			a.md-toc-inner {
+				font-size: inherit;
+				font-style: inherit;
+				font-weight: inherit;
+				line-height: inherit;
+			}
+			.footnote-line a:not(.reversefootnote) {
+				color: inherit;
+			}
+			.md-attr {
+				display: none;
+			}
+			.md-fn-count::after {
+				content: ".";
+			}
+			code,
+			pre,
+			samp,
+			tt {
+				font-family: var(--monospace);
+			}
+			kbd {
+				margin: 0px 0.1em;
+				padding: 0.1em 0.6em;
+				font-size: 0.8em;
+				color: rgb(36, 39, 41);
+				background: rgb(255, 255, 255);
+				border: 1px solid rgb(173, 179, 185);
+				border-radius: 3px;
+				box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset;
+				white-space: nowrap;
+				vertical-align: middle;
+			}
+			.md-comment {
+				color: rgb(162, 127, 3);
+				opacity: 0.8;
+				font-family: var(--monospace);
+			}
+			code {
+				text-align: left;
+				vertical-align: initial;
+			}
+			a.md-print-anchor {
+				white-space: pre !important;
+				border-width: initial !important;
+				border-style: none !important;
+				border-color: initial !important;
+				display: inline-block !important;
+				position: absolute !important;
+				width: 1px !important;
+				right: 0px !important;
+				outline: 0px !important;
+				background: 0px 0px !important;
+				text-decoration: initial !important;
+				text-shadow: initial !important;
+			}
+			.md-inline-math .MathJax_SVG .noError {
+				display: none !important;
+			}
+			.html-for-mac .inline-math-svg .MathJax_SVG {
+				vertical-align: 0.2px;
+			}
+			.md-math-block .MathJax_SVG_Display {
+				text-align: center;
+				margin: 0px;
+				position: relative;
+				text-indent: 0px;
+				max-width: none;
+				max-height: none;
+				min-height: 0px;
+				min-width: 100%;
+				width: auto;
+				overflow-y: hidden;
+				display: block !important;
+			}
+			.MathJax_SVG_Display,
+			.md-inline-math .MathJax_SVG_Display {
+				width: auto;
+				margin: inherit;
+				display: inline-block !important;
+			}
+			.MathJax_SVG .MJX-monospace {
+				font-family: var(--monospace);
+			}
+			.MathJax_SVG .MJX-sans-serif {
+				font-family: sans-serif;
+			}
+			.MathJax_SVG {
+				display: inline;
+				font-style: normal;
+				font-weight: 400;
+				line-height: normal;
+				zoom: 90%;
+				text-indent: 0px;
+				text-align: left;
+				text-transform: none;
+				letter-spacing: normal;
+				word-spacing: normal;
+				overflow-wrap: normal;
+				white-space: nowrap;
+				float: none;
+				direction: ltr;
+				max-width: none;
+				max-height: none;
+				min-width: 0px;
+				min-height: 0px;
+				border: 0px;
+				padding: 0px;
+				margin: 0px;
+			}
+			.MathJax_SVG * {
+				transition: none 0s ease 0s;
+			}
+			.MathJax_SVG_Display svg {
+				vertical-align: middle !important;
+				margin-bottom: 0px !important;
+				margin-top: 0px !important;
+			}
+			.os-windows.monocolor-emoji .md-emoji {
+				font-family: "Segoe UI Symbol", sans-serif;
+			}
+			.md-diagram-panel > svg {
+				max-width: 100%;
+			}
+			[lang="flow"] svg,
+			[lang="mermaid"] svg {
+				max-width: 100%;
+				height: auto;
+			}
+			[lang="mermaid"] .node text {
+				font-size: 1rem;
+			}
+			table tr th {
+				border-bottom: 0px;
+			}
+			video {
+				max-width: 100%;
+				display: block;
+				margin: 0px auto;
+			}
+			iframe {
+				max-width: 100%;
+				width: 100%;
+				border: none;
+			}
+			.highlight td,
+			.highlight tr {
+				border: 0px;
+			}
+			mark {
+				background: rgb(255, 255, 0);
+				color: rgb(0, 0, 0);
+			}
+			.md-html-inline .md-plain,
+			.md-html-inline strong,
+			mark .md-inline-math,
+			mark strong {
+				color: inherit;
+			}
+			mark .md-meta {
+				color: rgb(0, 0, 0);
+				opacity: 0.3 !important;
+			}
+			@media print {
+				.typora-export h1,
+				.typora-export h2,
+				.typora-export h3,
+				.typora-export h4,
+				.typora-export h5,
+				.typora-export h6 {
+					break-inside: avoid;
+				}
+			}
+			.md-diagram-panel .messageText {
+				stroke: none !important;
+			}
+			.md-diagram-panel .start-state {
+				fill: var(--node-fill);
+			}
+			.md-diagram-panel .edgeLabel rect {
+				opacity: 1 !important;
+			}
+			.md-require-zoom-fix foreignobject {
+				font-size: var(--mermaid-font-zoom);
+			}
+
+			.CodeMirror {
+				height: auto;
+			}
+			.CodeMirror.cm-s-inner {
+				background: inherit;
+			}
+			.CodeMirror-scroll {
+				overflow: auto hidden;
+				z-index: 3;
+			}
+			.CodeMirror-gutter-filler,
+			.CodeMirror-scrollbar-filler {
+				background-color: rgb(255, 255, 255);
+			}
+			.CodeMirror-gutters {
+				border-right: 1px solid rgb(221, 221, 221);
+				background: inherit;
+				white-space: nowrap;
+			}
+			.CodeMirror-linenumber {
+				padding: 0px 3px 0px 5px;
+				text-align: right;
+				color: rgb(153, 153, 153);
+			}
+			.cm-s-inner .cm-keyword {
+				color: rgb(119, 0, 136);
+			}
+			.cm-s-inner .cm-atom,
+			.cm-s-inner.cm-atom {
+				color: rgb(34, 17, 153);
+			}
+			.cm-s-inner .cm-number {
+				color: rgb(17, 102, 68);
+			}
+			.cm-s-inner .cm-def {
+				color: rgb(0, 0, 255);
+			}
+			.cm-s-inner .cm-variable {
+				color: rgb(0, 0, 0);
+			}
+			.cm-s-inner .cm-variable-2 {
+				color: rgb(0, 85, 170);
+			}
+			.cm-s-inner .cm-variable-3 {
+				color: rgb(0, 136, 85);
+			}
+			.cm-s-inner .cm-string {
+				color: rgb(170, 17, 17);
+			}
+			.cm-s-inner .cm-property {
+				color: rgb(0, 0, 0);
+			}
+			.cm-s-inner .cm-operator {
+				color: rgb(152, 26, 26);
+			}
+			.cm-s-inner .cm-comment,
+			.cm-s-inner.cm-comment {
+				color: rgb(170, 85, 0);
+			}
+			.cm-s-inner .cm-string-2 {
+				color: rgb(255, 85, 0);
+			}
+			.cm-s-inner .cm-meta {
+				color: rgb(85, 85, 85);
+			}
+			.cm-s-inner .cm-qualifier {
+				color: rgb(85, 85, 85);
+			}
+			.cm-s-inner .cm-builtin {
+				color: rgb(51, 0, 170);
+			}
+			.cm-s-inner .cm-bracket {
+				color: rgb(153, 153, 119);
+			}
+			.cm-s-inner .cm-tag {
+				color: rgb(17, 119, 0);
+			}
+			.cm-s-inner .cm-attribute {
+				color: rgb(0, 0, 204);
+			}
+			.cm-s-inner .cm-header,
+			.cm-s-inner.cm-header {
+				color: rgb(0, 0, 255);
+			}
+			.cm-s-inner .cm-quote,
+			.cm-s-inner.cm-quote {
+				color: rgb(0, 153, 0);
+			}
+			.cm-s-inner .cm-hr,
+			.cm-s-inner.cm-hr {
+				color: rgb(153, 153, 153);
+			}
+			.cm-s-inner .cm-link,
+			.cm-s-inner.cm-link {
+				color: rgb(0, 0, 204);
+			}
+			.cm-negative {
+				color: rgb(221, 68, 68);
+			}
+			.cm-positive {
+				color: rgb(34, 153, 34);
+			}
+			.cm-header,
+			.cm-strong {
+				font-weight: 700;
+			}
+			.cm-del {
+				text-decoration: line-through;
+			}
+			.cm-em {
+				font-style: italic;
+			}
+			.cm-link {
+				text-decoration: underline;
+			}
+			.cm-error {
+				color: red;
+			}
+			.cm-invalidchar {
+				color: red;
+			}
+			.cm-constant {
+				color: rgb(38, 139, 210);
+			}
+			.cm-defined {
+				color: rgb(181, 137, 0);
+			}
+			div.CodeMirror span.CodeMirror-matchingbracket {
+				color: rgb(0, 255, 0);
+			}
+			div.CodeMirror span.CodeMirror-nonmatchingbracket {
+				color: rgb(255, 34, 34);
+			}
+			.cm-s-inner .CodeMirror-activeline-background {
+				background: inherit;
+			}
+			.CodeMirror {
+				position: relative;
+				overflow: hidden;
+			}
+			.CodeMirror-scroll {
+				height: 100%;
+				outline: 0px;
+				position: relative;
+				box-sizing: content-box;
+				background: inherit;
+			}
+			.CodeMirror-sizer {
+				position: relative;
+			}
+			.CodeMirror-gutter-filler,
+			.CodeMirror-hscrollbar,
+			.CodeMirror-scrollbar-filler,
+			.CodeMirror-vscrollbar {
+				position: absolute;
+				z-index: 6;
+				display: none;
+			}
+			.CodeMirror-vscrollbar {
+				right: 0px;
+				top: 0px;
+				overflow: hidden;
+			}
+			.CodeMirror-hscrollbar {
+				bottom: 0px;
+				left: 0px;
+				overflow: hidden;
+			}
+			.CodeMirror-scrollbar-filler {
+				right: 0px;
+				bottom: 0px;
+			}
+			.CodeMirror-gutter-filler {
+				left: 0px;
+				bottom: 0px;
+			}
+			.CodeMirror-gutters {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				padding-bottom: 30px;
+				z-index: 3;
+			}
+			.CodeMirror-gutter {
+				white-space: normal;
+				height: 100%;
+				box-sizing: content-box;
+				padding-bottom: 30px;
+				margin-bottom: -32px;
+				display: inline-block;
+			}
+			.CodeMirror-gutter-wrapper {
+				position: absolute;
+				z-index: 4;
+				background: 0px 0px !important;
+				border: none !important;
+			}
+			.CodeMirror-gutter-background {
+				position: absolute;
+				top: 0px;
+				bottom: 0px;
+				z-index: 4;
+			}
+			.CodeMirror-gutter-elt {
+				position: absolute;
+				cursor: default;
+				z-index: 4;
+			}
+			.CodeMirror-lines {
+				cursor: text;
+			}
+			.CodeMirror pre {
+				border-radius: 0px;
+				border-width: 0px;
+				background: 0px 0px;
+				font-family: inherit;
+				font-size: inherit;
+				margin: 0px;
+				white-space: pre;
+				overflow-wrap: normal;
+				color: inherit;
+				z-index: 2;
+				position: relative;
+				overflow: visible;
+			}
+			.CodeMirror-wrap pre {
+				overflow-wrap: break-word;
+				white-space: pre-wrap;
+				word-break: normal;
+			}
+			.CodeMirror-code pre {
+				border-right: 30px solid transparent;
+				width: fit-content;
+			}
+			.CodeMirror-wrap .CodeMirror-code pre {
+				border-right: none;
+				width: auto;
+			}
+			.CodeMirror-linebackground {
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				top: 0px;
+				bottom: 0px;
+				z-index: 0;
+			}
+			.CodeMirror-linewidget {
+				position: relative;
+				z-index: 2;
+				overflow: auto;
+			}
+			.CodeMirror-wrap .CodeMirror-scroll {
+				overflow-x: hidden;
+			}
+			.CodeMirror-measure {
+				position: absolute;
+				width: 100%;
+				height: 0px;
+				overflow: hidden;
+				visibility: hidden;
+			}
+			.CodeMirror-measure pre {
+				position: static;
+			}
+			.CodeMirror div.CodeMirror-cursor {
+				position: absolute;
+				visibility: hidden;
+				border-right: none;
+				width: 0px;
+			}
+			.CodeMirror div.CodeMirror-cursor {
+				visibility: hidden;
+			}
+			.CodeMirror-focused div.CodeMirror-cursor {
+				visibility: inherit;
+			}
+			.cm-searching {
+				background: rgba(255, 255, 0, 0.4);
+			}
+			@media print {
+				.CodeMirror div.CodeMirror-cursor {
+					visibility: hidden;
+				}
+			}
+
+			:root {
+				--side-bar-bg-color: #fafafa;
+				--control-text-color: #777;
+			}
+
+			@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+			/* open-sans-regular - latin-ext_latin */
+			/* open-sans-italic - latin-ext_latin */
+			/* open-sans-700 - latin-ext_latin */
+			/* open-sans-700italic - latin-ext_latin */
+			html {
+				font-size: 16px;
+			}
+
+			body {
+				font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				color: rgb(51, 51, 51);
+				line-height: 1.6;
+			}
+
+			#write {
+				max-width: 860px;
+				margin: 0 auto;
+				padding: 30px;
+				padding-bottom: 100px;
+			}
+
+			@media only screen and (min-width: 1400px) {
+				#write {
+					max-width: 1024px;
+				}
+			}
+
+			@media only screen and (min-width: 1800px) {
+				#write {
+					max-width: 1200px;
+				}
+			}
+
+			#write > ul:first-child,
+			#write > ol:first-child {
+				margin-top: 30px;
+			}
+
+			a {
+				color: #4183c4;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				position: relative;
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+				font-weight: bold;
+				line-height: 1.4;
+				cursor: text;
+			}
+			h1:hover a.anchor,
+			h2:hover a.anchor,
+			h3:hover a.anchor,
+			h4:hover a.anchor,
+			h5:hover a.anchor,
+			h6:hover a.anchor {
+				text-decoration: none;
+			}
+			h1 tt,
+			h1 code {
+				font-size: inherit;
+			}
+			h2 tt,
+			h2 code {
+				font-size: inherit;
+			}
+			h3 tt,
+			h3 code {
+				font-size: inherit;
+			}
+			h4 tt,
+			h4 code {
+				font-size: inherit;
+			}
+			h5 tt,
+			h5 code {
+				font-size: inherit;
+			}
+			h6 tt,
+			h6 code {
+				font-size: inherit;
+			}
+			h1 {
+				font-size: 2.25em;
+				line-height: 1.2;
+				border-bottom: 1px solid #eee;
+			}
+			h2 {
+				font-size: 1.75em;
+				line-height: 1.225;
+				border-bottom: 1px solid #eee;
+			}
+
+			/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+			h3 {
+				font-size: 1.5em;
+				line-height: 1.43;
+			}
+			h4 {
+				font-size: 1.25em;
+			}
+			h5 {
+				font-size: 1em;
+			}
+			h6 {
+				font-size: 1em;
+				color: #777;
+			}
+			p,
+			blockquote,
+			ul,
+			ol,
+			dl,
+			table {
+				margin: 0.8em 0;
+			}
+			li > ol,
+			li > ul {
+				margin: 0 0;
+			}
+			hr {
+				height: 2px;
+				padding: 0;
+				margin: 16px 0;
+				background-color: #e7e7e7;
+				border: 0 none;
+				overflow: hidden;
+				box-sizing: content-box;
+			}
+
+			li p.first {
+				display: inline-block;
+			}
+			ul,
+			ol {
+				padding-left: 30px;
+			}
+			ul:first-child,
+			ol:first-child {
+				margin-top: 0;
+			}
+			ul:last-child,
+			ol:last-child {
+				margin-bottom: 0;
+			}
+			blockquote {
+				border-left: 4px solid #dfe2e5;
+				padding: 0 15px;
+				color: #777777;
+			}
+			blockquote blockquote {
+				padding-right: 0;
+			}
+			table {
+				padding: 0;
+				word-break: initial;
+			}
+			table tr {
+				border-top: 1px solid #dfe2e5;
+				margin: 0;
+				padding: 0;
+			}
+			table tr:nth-child(2n),
+			thead {
+				background-color: #f8f8f8;
+			}
+			table th {
+				font-weight: bold;
+				border: 1px solid #dfe2e5;
+				border-bottom: 0;
+				margin: 0;
+				padding: 6px 13px;
+			}
+			table td {
+				border: 1px solid #dfe2e5;
+				margin: 0;
+				padding: 6px 13px;
+			}
+			table th:first-child,
+			table td:first-child {
+				margin-top: 0;
+			}
+			table th:last-child,
+			table td:last-child {
+				margin-bottom: 0;
+			}
+
+			.CodeMirror-lines {
+				padding-left: 4px;
+			}
+
+			.code-tooltip {
+				box-shadow: 0 1px 1px 0 rgba(0, 28, 36, 0.3);
+				border-top: 1px solid #eef2f2;
+			}
+
+			.md-fences,
+			code,
+			tt {
+				border: 1px solid #e7eaed;
+				background-color: #f8f8f8;
+				border-radius: 3px;
+				padding: 0;
+				padding: 2px 4px 0px 4px;
+				font-size: 0.9em;
+			}
+
+			code {
+				background-color: #f3f4f4;
+				padding: 0 2px 0 2px;
+			}
+
+			.md-fences {
+				margin-bottom: 15px;
+				margin-top: 15px;
+				padding-top: 8px;
+				padding-bottom: 6px;
+			}
+
+			.md-task-list-item > input {
+				margin-left: -1.3em;
+			}
+
+			@media print {
+				html {
+					font-size: 13px;
+				}
+				table,
+				pre {
+					page-break-inside: avoid;
+				}
+				pre {
+					word-wrap: break-word;
+				}
+			}
+
+			.md-fences {
+				background-color: #f8f8f8;
+			}
+			#write pre.md-meta-block {
+				padding: 1rem;
+				font-size: 85%;
+				line-height: 1.45;
+				background-color: #f7f7f7;
+				border: 0;
+				border-radius: 3px;
+				color: #777777;
+				margin-top: 0 !important;
+			}
+
+			.mathjax-block > .code-tooltip {
+				bottom: 0.375rem;
+			}
+
+			.md-mathjax-midline {
+				background: #fafafa;
+			}
+
+			#write > h3.md-focus:before {
+				left: -1.5625rem;
+				top: 0.375rem;
+			}
+			#write > h4.md-focus:before {
+				left: -1.5625rem;
+				top: 0.285714286rem;
+			}
+			#write > h5.md-focus:before {
+				left: -1.5625rem;
+				top: 0.285714286rem;
+			}
+			#write > h6.md-focus:before {
+				left: -1.5625rem;
+				top: 0.285714286rem;
+			}
+			.md-image > .md-meta {
+				/*border: 1px solid #ddd;*/
+				border-radius: 3px;
+				padding: 2px 0px 0px 4px;
+				font-size: 0.9em;
+				color: inherit;
+			}
+
+			.md-tag {
+				color: #a7a7a7;
+				opacity: 1;
+			}
+
+			.md-toc {
+				margin-top: 20px;
+				padding-bottom: 20px;
+			}
+
+			.sidebar-tabs {
+				border-bottom: none;
+			}
+
+			#typora-quick-open {
+				border: 1px solid #ddd;
+				background-color: #f8f8f8;
+			}
+
+			#typora-quick-open-item {
+				background-color: #fafafa;
+				border-color: #fefefe #e5e5e5 #e5e5e5 #eee;
+				border-style: solid;
+				border-width: 1px;
+			}
+
+			/** focus mode */
+			.on-focus-mode blockquote {
+				border-left-color: rgba(85, 85, 85, 0.12);
+			}
+
+			header,
+			.context-menu,
+			.megamenu-content,
+			footer {
+				font-family: "Segoe UI", "Arial", sans-serif;
+			}
+
+			.file-node-content:hover .file-node-icon,
+			.file-node-content:hover .file-node-open-state {
+				visibility: visible;
+			}
+
+			.mac-seamless-mode #typora-sidebar {
+				background-color: #fafafa;
+				background-color: var(--side-bar-bg-color);
+			}
+
+			.md-lang {
+				color: #b4654d;
+			}
+
+			.html-for-mac .context-menu {
+				--item-hover-bg-color: #e6f0fe;
+			}
+
+			#md-notification .btn {
+				border: 0;
+			}
+
+			.dropdown-menu .divider {
+				border-color: #e5e5e5;
+			}
+
+			.ty-preferences .window-content {
+				background-color: #fafafa;
+			}
+
+			.ty-preferences .nav-group-item.active {
+				color: white;
+				background: #999;
+			}
+		</style>
+	</head>
+	<body class="typora-export os-windows">
+		<div
+			id="write"
+			class="first-line-indent"
+		>
+			<h1>
+				<a
+					name="three-tile-v05"
+					class="md-header-anchor"
+				></a
+				><strong><span>three-tile V0.5</span></strong>
+			</h1>
+			<p align="right">郭江峰 hz_gjf@163.com SXMB</p>
+			<h2>
+				<a
+					name="1-简介"
+					class="md-header-anchor"
+				></a
+				><span>1 简介</span>
+			</h2>
+			<p>
+				<span>three-tile 是一个基于 </span><a href="https://threejs.org/"><span>threejs</span></a
+				><span>
+					的轻量级三维瓦片地图框架，具有使用简单、资源占用少等优点，适用于基于 threejs
+					开发三维地图应用。</span
+				>
+			</p>
+			<ul>
+				<li>
+					<span
+						>three-tile 本质上是一个动态 LOD
+						模型，核心代码与地图是无关的，适用范围并不仅限于地图，但最典型的应用还是三维地图。</span
+					>
+				</li>
+				<li>
+					<span
+						>three-tile 不是一个 GIS 框架，它并不提供图层管理、空间分析等 GIS
+						相关功能。正因为如此，它的核心可以做的很轻量级，能轻松集成到已有项目中。</span
+					>
+				</li>
+				<li>
+					<span
+						>three-tile 参考了大量开源 GIS 的开发思路，但仅仅是思路，除了数据源定义，未 copy
+						一行代码，更不是 Cesium、MapBox 等套壳。</span
+					>
+				</li>
+			</ul>
+			<p>
+				<span>Source： </span
+				><a
+					href="https://github.com/sxguojf/three-tile-example"
+					target="_blank"
+					class="url"
+					>https://github.com/sxguojf/three-tile-example</a
+				>
+			</p>
+			<p>
+				<span>Examples: </span
+				><a
+					href="https://sxguojf.github.io/three-tile-example"
+					target="_blank"
+					class="url"
+					>https://sxguojf.github.io/three-tile-example</a
+				>
+			</p>
+			<p><span>免责声明：</span></p>
+			<ul>
+				<li>
+					<span
+						>本框架不含任何地图数据，Example
+						中使用的地图均为直接调用第三方数据，使用中请遵循法律法规要求。</span
+					>
+				</li>
+				<li><span>Example 中使用的图片和模型，均来自互联网，若涉及版权问题请通知我。</span></li>
+			</ul>
+			<h3>
+				<a
+					name="11-优点"
+					class="md-header-anchor"
+				></a
+				><span>1.1 优点</span>
+			</h3>
+			<ul>
+				<li><span>体积小：仅 60 多 k 的包（不含 example），十分小巧，开箱即用。</span></li>
+				<li><span>轻量级：地图以一个三维模型方式提供，不会对你的程序架构产生任何影响。</span></li>
+				<li><span>依赖少：整个框架仅有 threejs（R152）一个依赖。</span></li>
+				<li><span>速度快：对资源占用做极致优化，核显也能轻松跑到 60FPS。</span></li>
+				<li><span>使用简单：熟悉 threejs 基本上没有学习成本。</span></li>
+				<li><span>扩展性强：数据、模型、纹理、材质、渲染过程均能根据自己需要扩展和替换。</span></li>
+			</ul>
+			<h3>
+				<a
+					name="13-开发环境"
+					class="md-header-anchor"
+				></a
+				><span>1.3 开发环境</span>
+			</h3>
+			<ul>
+				<li><span>语言：TypeScript 100%</span></li>
+				<li><span>IDE： VSCode</span></li>
+				<li><span>打包：Vite 4.0</span></li>
+				<li><span>依赖：three^0.152</span></li>
+			</ul>
+			<hr />
+			<h2>
+				<a
+					name="2-安装"
+					class="md-header-anchor"
+				></a
+				><span>2 安装</span>
+			</h2>
+			<p><span>建议使用 typescript 开发，原生 JavaScript 写的代码 BUG 防不胜防，至少使用 ES6。</span></p>
+			<h3>
+				<a
+					name="21-直接引用"
+					class="md-header-anchor"
+				></a
+				><span>2.1 直接引用</span>
+			</h3>
+			<pre
+				spellcheck="false"
+				class="md-fences md-end-block ty-contain-cm modeLoaded"
+				lang=""
+			><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">&lt;script src="./three.js"&gt;&lt;/script&gt;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">&lt;script src="./three-tile.umd.js"&gt;&lt;/script&gt;</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 46px;"></div><div class="CodeMirror-gutters" style="display: none; height: 46px;"></div></div></div></pre>
+			<h3>
+				<a
+					name="22-npm"
+					class="md-header-anchor"
+				></a
+				><span>2.2 npm</span>
+			</h3>
+			<pre
+				spellcheck="false"
+				class="md-fences md-end-block ty-contain-cm modeLoaded"
+				lang="sh"
+			><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="sh"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">npm</span> i three-tile <span class="cm-attribute">-S</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 23px;"></div><div class="CodeMirror-gutters" style="display: none; height: 23px;"></div></div></div></pre>
+			<p>
+				<a
+					href="https://www.npmjs.com/package/three-tile"
+					target="_blank"
+					class="url"
+					>https://www.npmjs.com/package/three-tile</a
+				>
+			</p>
+			<hr />
+			<h2>
+				<a
+					name="3-使用"
+					class="md-header-anchor"
+				></a
+				><span>3 使用</span>
+			</h2>
+			<p>
+				<span>和一般 threejs 应用一样，初始化 threejs 三维场景后，将地图模型加入场景即可完成地图的显示。</span>
+			</p>
+			<p>
+				<span
+					>TileMap 类是 three-tile 地图模型，它是一个 Mesh，按 threejs 的套路初始化场景，并将 TileMap
+					的实例加入场景即可。</span
+				>
+			</p>
+			<p>
+				<span
+					>为了便于使用，three-tile 还提供一个 GLViewer
+					类，它封装了场景初始化过程，一般可直接使用它进行初始化。但如果你熟悉 threejs，最好自己写，跟普通
+					threejs 程序并无太大差异。</span
+				>
+			</p>
+			<h3>
+				<a
+					name="31-约定和限制"
+					class="md-header-anchor"
+				></a
+				><span>3.1 约定和限制</span>
+			</h3>
+			<ul>
+				<li>
+					<span
+						>坐标轴：地图模型为东北上坐标系，即 X 轴指向东，Y 轴指向北，Z 轴指向上。与 threejs
+						默认坐标不同需要注意。</span
+					>
+				</li>
+				<li>
+					<span
+						>坐标单位：角度单位为弧度，经纬度为度，3857 投影（默认）距离单位为公里，4326 投影距离单位为 0.01
+						度，高度单位均为公里。</span
+					>
+				</li>
+				<li>
+					<span
+						>瓦片数据：内建的地图影像和地形数据均使用图片格式（jpg、png、webp 等），支持 3854 和 4326
+						投影，暂不支持矢量瓦片。</span
+					>
+				</li>
+				<li><span>瓦片属性：默认情况瓦片模型纹理透明属性开启，请注意渲染顺序。</span></li>
+				<li><span>地图清晰度：清晰度与本框架无关，取决数据源精度。</span></li>
+				<li>
+					<span>地图标注源：大部分国内厂商地图数据的地名、边界、道路有一定偏移，与地形无法完全匹配。</span>
+				</li>
+				<li>
+					<span
+						>地图 token：大部分厂商的地图数据需要申请开发 key 才能使用，three-tile 示例包含一些厂商的
+						token，访问的人多了厂商会封掉它们，使用者一定要自己申请（又不要钱）避免直接使用。</span
+					>
+				</li>
+			</ul>
+			<h3>
+				<a
+					name="32-地图创建"
+					class="md-header-anchor"
+				></a
+				><span>3.2 地图创建</span>
+			</h3>
+			<p>
+				<span
+					>一般应用，可使用 TileMap 的工厂方法 create 创建地图，用 GLViewer
+					初始化三维场景，并将地图加入场景：</span
+				>
+			</p>
+			<pre
+				spellcheck="false"
+				class="md-fences md-end-block ty-contain-cm modeLoaded"
+				lang="typescript"
+				style="break-inside: unset"
+			><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="typescript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">import</span> <span class="cm-keyword">*</span> <span class="cm-keyword">as</span> <span class="cm-def">tt</span> <span class="cm-keyword">from</span> <span class="cm-string">"three-tile"</span>;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 取得地图dom容器</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">glContainer</span> <span class="cm-operator">=</span> <span class="cm-variable">document</span>.<span class="cm-property">querySelector</span><span class="cm-operator">&lt;</span><span class="cm-type">HTMLElement</span><span class="cm-operator">&gt;</span>(<span class="cm-string">"#map"</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 初始化三维场景(调用three-tile内置的初始化类)</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">viewer</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">plugin</span>.<span class="cm-property">GLViewer</span>(<span class="cm-variable">glContainer</span><span class="cm-operator">!</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// MapBoxToken 请更换为你自己申请的key</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">MAPBOXKEY</span> <span class="cm-operator">=</span> <span class="cm-string">"xxxxxxxxxx"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// mapbox 影像数据源</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">mapBoxImgSource</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">plugin</span>.<span class="cm-property">MapBoxSource</span>({</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">token</span>: <span class="cm-variable">MAPBOXKEY</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">dataType</span>: <span class="cm-string">"image"</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">style</span>: <span class="cm-string">"mapbox.satellite"</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">});</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// mapbox 高程数据源</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">export</span> <span class="cm-keyword">const</span> <span class="cm-def">mapBoxDemSource</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">tt</span>.<span class="cm-property">plugin</span>.<span class="cm-property">MapBoxSource</span>({</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">token</span>: <span class="cm-variable">MAPBOXKEY</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">dataType</span>: <span class="cm-string">"terrain-rgb"</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">style</span>: <span class="cm-string">"mapbox.terrain-rgb"</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">maxLevel</span>: <span class="cm-number">15</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">});</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 创建地图</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">const</span> <span class="cm-def">map</span> <span class="cm-operator">=</span> <span class="cm-variable">tt</span>.<span class="cm-property">TileMap</span>.<span class="cm-property">create</span>({</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 影像数据源</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">imgSource</span>: <span class="cm-variable">mapBoxImgSource</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 地形数据源</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">demSource</span>: <span class="cm-variable">mapBoxDemSource</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 地图投影中心经度</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">centralMeridian</span>: <span class="cm-number">90</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 最小缩放级别</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">minLevel</span>: <span class="cm-number">2</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-comment">// 最大缩放级别</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-property">maxLevel</span>: <span class="cm-number">18</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">});</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 将地图加入三维场景</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">viewer</span>.<span class="cm-property">scene</span>.<span class="cm-property">add</span>(<span class="cm-variable">map</span>);</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 943px;"></div><div class="CodeMirror-gutters" style="display: none; height: 943px;"></div></div></div></pre>
+			<h3>
+				<a
+					name="33-三维场景"
+					class="md-header-anchor"
+				></a
+				><span>3.3 三维场景</span>
+			</h3>
+			<p><span>三维场景的初始化与 threejs 的没有太大区别，但以下部分需要注意：</span></p>
+			<ul>
+				<li>
+					<span
+						>为了使地图坐标系与一般人类理解一致，地图坐标方向采用东(x)北(y)上(z)方向，即地面在 x-y
+						平面上，海拔高度在 z 轴。而 threejs 一般平面在 xz 平面上，高度为 y
+						轴，所以初始化时需要使场景默认 up 指向 z 轴，可添加：Object3D.DEFAULT_UP.set(0, 0, 1)
+						即可。如果你的应用不能调整 up 值，可以将地图旋转-π/2° 完成。</span
+					>
+				</li>
+				<li>
+					<span
+						>地图添加光照才能显示。一般至少要有一个环境光，另外最好加一个直射光以通过地形法向量增强凹凸感。</span
+					>
+				</li>
+				<li>
+					<span
+						>场景控制器一般应用可使用 threejs 内置的 MapControls，其它控制器如
+						OrbitControls、FlyControls、PointerLockControls、TransformControls、FirstPersonControls
+						都能完美支持。</span
+					>
+				</li>
+			</ul>
+			<p><span>更多使用方法见 example</span></p>
+		</div>
+	</body>
 </html>
