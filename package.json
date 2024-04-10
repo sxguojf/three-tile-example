@@ -1,36 +1,37 @@
 {
-    "name": "three-tile-example",
-    "private": true,
-    "version": "0.4.0",
-    "type": "module",
-    "description": "three-tile example",
-    "license": "GPL V3",
-    "author": {
-        "name": "GuoJiangfeng SXMB",
-        "email": "hz_gjf@163.com"
-    },
-    "keywords": [
-        "three",
-        "gis",
-        "tile",
-        "map",
-        "3d",
-        "cesium"
-    ],
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview"
-    },
-    "devDependencies": {
-        "@types/offscreencanvas": "^2019.7.0",
-        "@types/three": "^0.152.1",
-        "typedoc": "^0.23.23",
-        "typescript": "^5.0.4",
-        "vite": "^4.4.5",
-        "vite-plugin-dts": "^2.3.0"
-    },
-    "dependencies": {
-        "three": "^0.152.2"
-    }
+	"name": "three-tile-example",
+	"private": true,
+	"version": "0.4.0",
+	"type": "module",
+	"description": "three-tile example",
+	"license": "GPL V3",
+	"author": {
+		"name": "GuoJiangfeng SXMB",
+		"email": "hz_gjf@163.com"
+	},
+	"keywords": [
+		"three",
+		"gis",
+		"tile",
+		"map",
+		"3d",
+		"cesium"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/offscreencanvas": "^2019.7.0",
+		"@types/three": "^0.152.1",
+		"typedoc": "^0.23.23",
+		"typescript": "^5.0.4",
+		"vite": "^4.4.5",
+		"vite-plugin-dts": "^2.3.0"
+	},
+	"dependencies": {
+		"three": "^0.152.2",
+		"three-tile": "^0.5.1"
+	}
 }

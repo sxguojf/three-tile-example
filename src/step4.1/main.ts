@@ -1,7 +1,6 @@
 import { Color, Vector3 } from "three";
 import * as tt from "three-tile";
 import { MyLoader } from "./MyLoader";
-// import * as tt from "../dist/three-tile";
 import * as ms from "../mapSource";
 import "./style.css";
 
@@ -14,9 +13,9 @@ viewer.scene.background = new Color(0x000000);
 // 创建地图
 const loader = new MyLoader([ms.mapBoxImgSource], ms.mapBoxDemSource);
 const map = new tt.TileMap({
-    loader,
-    centralMeridian: 90,
-    minLevel: 2,
+	loader,
+	centralMeridian: 90,
+	minLevel: 2,
 });
 
 // 将地图加入三维场景
