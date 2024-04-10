@@ -12,6 +12,10 @@ three-tile 是一个基于 [threejs](https://threejs.org/) 的轻量级三维瓦
 
 -   three-tile 参考了大量开源 GIS 的开发思路，但仅仅是思路，除了数据源定义，未 copy 一行代码，更不是 Cesium、MapBox 等套壳。
 
+Source： https://github.com/sxguojf/three-tile-example
+
+Examples: https://sxguojf.github.io/three-tile-example
+
 免责声明：
 
 -   本框架不含任何地图数据，Example 中使用的地图均为直接调用第三方数据，使用中请遵循法律法规要求。
