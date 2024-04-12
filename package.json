@@ -1,10 +1,10 @@
 {
 	"name": "three-tile-example",
 	"private": true,
-	"version": "0.4.0",
+	"version": "0.5.2",
 	"type": "module",
 	"description": "three-tile example",
-	"license": "GPL V3",
+	"license": "MIT",
 	"author": {
 		"name": "GuoJiangfeng SXMB",
 		"email": "hz_gjf@163.com"
