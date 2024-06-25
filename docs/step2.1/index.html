@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no"
+        />
+        <title>three-tile demo</title>
+      <script type="module" crossorigin src="../assets/step2.1-d1d2c989.js"></script>
+      <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-3cfb730f.js">
+      <link rel="modulepreload" crossorigin href="../assets/mapSource-8a728109.js">
+      <link rel="modulepreload" crossorigin href="../assets/util-937bd86c.js">
+      <link rel="stylesheet" href="../assets/index-53255581.css">
+    </head>
+    <body>
+        <div id="app">
+            <div id="map"></div>
+            <div class="app-title">自定义地图数据源</div>
+
+            <div id="tools">
+                <button id="arcgis">工厂方法创建ArcGis影像源</button>
+                <button id="gd">构造方法创建高德影像源</button>
+                <button id="google">继承方式创建google数据源</button>
+                <button id="debug">坐标调试</button>
+                <button id="demdebug">地形调试</button>
+            </div>
+            <div id="load-state">loading</div>
+            <div id="attribution"></div>
+            <div id="location">location</div>
+        </div>
+        
+    </body>
+</html>
