@@ -11,10 +11,12 @@ const viewer = new tt.plugin.GLViewer(glContainer!);
 viewer.scene.background = new Color(0x000000);
 
 // 创建地图
-const loader = new MyLoader([ms.mapBoxImgSource], ms.mapBoxDemSource);
+const loader = new MyLoader();
 const map = new tt.TileMap({
 	loader,
-	centralMeridian: 90,
+	imgSource: [ms.mapBoxImgSource],
+	demSource: ms.mapBoxDemSource,
+	lon0: 90,
 	minLevel: 2,
 });
 

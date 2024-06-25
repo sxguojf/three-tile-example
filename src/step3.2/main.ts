@@ -44,7 +44,7 @@ loader.loadAsync("../model/Flamingo.glb").then((gltf) => {
 });
 
 const initLight = (model: Group) => {
-	const dirLight = new DirectionalLight();
+	const dirLight = new DirectionalLight(0xffffff, 1.5);
 	dirLight.target = model;
 	dirLight.position.set(-2, 3, -10);
 	dirLight.castShadow = true;

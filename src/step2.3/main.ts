@@ -30,9 +30,9 @@ mapSetupFolder.add(viewer.controls, "enableDamping").name("惯性控制");
 mapSetupFolder.add(viewer.controls, "autoRotate").name("自动旋转");
 mapSetupFolder.add(map, "reload").name("重建瓦片树");
 const envFolder = gui.addFolder("环境设置");
-envFolder.add(viewer.ambLight, "intensity", 0, 1, 0.1).name("环境光强度");
+envFolder.add(viewer.ambLight, "intensity", 0, 5, 0.1).name("环境光强度");
 envFolder.addColor(viewer.ambLight, "color").name("环境光颜色");
-envFolder.add(viewer.dirLight, "intensity", 0, 1, 0.1).name("直射光强度");
+envFolder.add(viewer.dirLight, "intensity", 0, 5, 0.1).name("直射光强度");
 envFolder.addColor(viewer.dirLight, "color").name("直射光光颜色");
 
 //-----------------------------------------------------------------------------

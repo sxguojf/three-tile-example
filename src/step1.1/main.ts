@@ -13,31 +13,31 @@ const MAPBOXKEY = ms.MAPBOXKEY;
 
 // mapbox 影像数据源
 const mapBoxImgSource = new tt.plugin.MapBoxSource({
-    token: MAPBOXKEY,
-    dataType: "image",
-    style: "mapbox.satellite",
+	token: MAPBOXKEY,
+	dataType: "image",
+	style: "mapbox.satellite",
 });
 
 // mapbox 高程数据源
 export const mapBoxDemSource = new tt.plugin.MapBoxSource({
-    token: MAPBOXKEY,
-    dataType: "terrain-rgb",
-    style: "mapbox.terrain-rgb",
-    maxLevel: 15,
+	token: MAPBOXKEY,
+	dataType: "terrain-rgb",
+	style: "mapbox.terrain-rgb",
+	maxLevel: 15,
 });
 
 // 创建地图
 const map = tt.TileMap.create({
-    // 影像数据源
-    imgSource: mapBoxImgSource,
-    // 地形数据源
-    demSource: mapBoxDemSource,
-    // 地图投影中心经度
-    centralMeridian: 90,
-    // 最小缩放级别
-    minLevel: 2,
-    // 最大缩放级别
-    maxLevel: 18,
+	// 影像数据源
+	imgSource: mapBoxImgSource,
+	// 地形数据源
+	demSource: mapBoxDemSource,
+	// 地图投影中心经度
+	lon0: 90,
+	// 最小缩放级别
+	minLevel: 2,
+	// 最大缩放级别
+	maxLevel: 18,
 });
 
 // 将地图加入三维场景
@@ -46,24 +46,18 @@ viewer.scene.add(map);
 /*-----------------------切换数据源-------------------------------*/
 
 document.querySelector("#mapbox")!.addEventListener("click", () => {
-    map.imgSource = mapBoxImgSource;
-    map.reload();
+	map.imgSource = mapBoxImgSource;
+	map.reload();
 });
 document.querySelector("#bing")!.addEventListener("click", () => {
-    map.imgSource = new tt.plugin.BingSource();
-    map.reload();
+	map.imgSource = new tt.plugin.BingSource();
+	map.reload();
 });
 document.querySelector("#gd")!.addEventListener("click", () => {
-    map.imgSource = [
-        new tt.plugin.GDSource({ type: "6" }),
-        new tt.plugin.GDSource({ type: "8" }),
-    ];
-    map.reload();
+	map.imgSource = [new tt.plugin.GDSource({ style: "6" }), new tt.plugin.GDSource({ style: "8" })];
+	map.reload();
 });
 document.querySelector("#tx")!.addEventListener("click", () => {
-    map.imgSource = [
-        new tt.plugin.TXSource(),
-        new tt.plugin.GDSource({ type: "8" }),
-    ];
-    map.reload();
+	map.imgSource = [new tt.plugin.TXSource(), new tt.plugin.GDSource({ style: "8" })];
+	map.reload();
 });

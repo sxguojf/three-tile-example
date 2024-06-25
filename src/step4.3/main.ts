@@ -10,12 +10,13 @@ const glContainer = document.querySelector<HTMLElement>("#map");
 const viewer = new tt.plugin.GLViewer(glContainer!);
 
 // 创建地图
-
-const loader = new MyLoader([ms.mapBoxImgSource], ms.mapBoxDemSource);
+const loader = new MyLoader();
 const map = new tt.TileMap({
-    loader,
-    centralMeridian: 90,
-    minLevel: 2,
+	loader,
+	imgSource: [ms.mapBoxImgSource],
+	demSource: ms.mapBoxDemSource,
+	lon0: 90,
+	minLevel: 2,
 });
 
 // 将地图加入三维场景

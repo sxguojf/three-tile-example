@@ -100,7 +100,7 @@ export const tdtIboSource_w = new tt.plugin.TDTSource({
 export const tdtImgSource_c = new tt.plugin.TDTSource({
 	token: TDTKEY,
 	style: "img_c",
-	projection: "4326",
+	projectionID: "4326",
 });
 
 // Bing
@@ -124,4 +124,4 @@ export const tencentSource = new tt.plugin.TXSource();
 export const googleSource = new tt.plugin.GoogleSource();
 
 // 测试瓦片
-export const testSource = new tt.BaseSource({ dataType: "test" });
+export const testSource = new tt.TileSource({ dataType: "test" });

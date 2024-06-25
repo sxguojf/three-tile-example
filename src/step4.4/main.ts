@@ -9,7 +9,7 @@ import { WaterMarkLoader } from "./WaterMarkLoader";
 // 注册水印加载器
 tt.LoaderFactory.registerMaterialLoader(new WaterMarkLoader());
 // 创建水印数据源
-const waterMarkSource = tt.BaseSource.create({
+const waterMarkSource = tt.TileSource.create({
 	attribution: "three-tile",
 	dataType: "watermark",
 });
@@ -23,7 +23,7 @@ const viewer = new tt.plugin.GLViewer(glContainer!);
 // 创建地图
 const map = tt.TileMap.create({
 	imgSource: [ms.mapBoxImgSource, waterMarkSource], //增加水印层
-	centralMeridian: 90,
+	lon0: 90,
 	minLevel: 2,
 });
 

@@ -1,4 +1,4 @@
-import { MeshBasicMaterial, Texture as CanvasTexture, Texture } from "three";
+import { MeshBasicMaterial, Texture } from "three";
 import * as tt from "three-tile";
 /**
  * Watermark tile Material loader

@@ -31,7 +31,7 @@
 		"vite-plugin-dts": "^2.3.0"
 	},
 	"dependencies": {
-		"three": "^0.152.2",
-		"three-tile": "^0.5.1"
+		"three": "^0.165.0",
+		"three-tile": "^0.6.0"
 	}
 }

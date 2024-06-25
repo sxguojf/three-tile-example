@@ -43,8 +43,8 @@ map.addEventListener("tile-created", (evt) => {
 viewer.renderer.shadowMap.enabled = true;
 viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 
-viewer.ambLight.intensity = 0.3;
-viewer.dirLight.intensity = 0.1;
+viewer.ambLight.intensity = 1;
+viewer.dirLight.intensity = 0.5;
 //-----------------------------------------------------------------------------------------
 const loader = new GLTFLoader();
 
@@ -124,7 +124,7 @@ const initText = (gltf: GLTF) => {
 	const loader = new FontLoader();
 
 	loader.load("../fonts/helvetiker_regular.typeface.json", function (font) {
-		const geometry = new TextGeometry("I'm a soldier", {
+		const geometry = new TextGeometry("Hit Points 99.9%", {
 			font: font,
 			size: 80,
 			height: 5,

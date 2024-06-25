@@ -8,10 +8,10 @@ import { UVLoader } from "./UVLoader";
 // 注册uv图片加载器
 tt.LoaderFactory.registerMaterialLoader(new UVLoader());
 // 创建uv数据源
-const uvSource = new tt.BaseSource({ dataType: "uv" });
+const uvSource = new tt.TileSource({ dataType: "uv" });
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap([uvSource], ms.arcGisDemSource);
+const map = util.createMap([uvSource], ms.mapBoxDemSource);
 // 地图中心经纬度，转换为场景坐标
 const center = map.geo2pos(new Vector3(105, 30));
 // 目标坐标（地图中心）

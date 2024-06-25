@@ -17,13 +17,13 @@ const normalSource = new tt.plugin.MapBoxSource({
 });
 
 // 调试瓦片加载器
-const debugSource = new tt.BaseSource({ attribution: "three-tile-debug", dataType: "debug" });
+const debugSource = new tt.TileSource({ attribution: "three-tile-debug", dataType: "debug" });
 
 // 创建地图
 const map = tt.TileMap.create({
 	imgSource: [normalSource, debugSource],
 	demSource: ms.mapBoxDemSource,
-	centralMeridian: 90,
+	lon0: 90,
 	minLevel: 2,
 });
 

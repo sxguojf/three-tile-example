@@ -8,7 +8,7 @@ import { GLViewer } from "./GLViewer";
 import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap([ms.mapBoxImgSource, ms.xtCiaSource], ms.mapBoxDemSource);
+const map = util.createMap([ms.mapBoxImgSource], ms.mapBoxDemSource);
 // 地图中心经纬度，转换为场景坐标
 // const center = map.project(98.35, 29.65);
 // const center = map.project(100.3, 37);
@@ -29,8 +29,8 @@ viewer.controls.maxPolarAngle = Math.PI;
 viewer.scene.fog = null;
 viewer.renderer.toneMapping = ACESFilmicToneMapping;
 viewer.renderer.toneMappingExposure = 0.7;
-viewer.dirLight.intensity = 0.5;
-viewer.ambLight.intensity = 0.5;
+viewer.dirLight.intensity = 1.5;
+viewer.ambLight.intensity = 2;
 
 //-----------------------------------------------------------------------------------------
 const sky = initSky();

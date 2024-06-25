@@ -18,6 +18,8 @@ import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+map.receiveShadow = true;
+map.castShadow = true;
 // 地图中心经纬度，转换为场景坐标
 const center = map.geo2pos(new Vector3(105, 30));
 // 目标坐标（地图中心）
@@ -31,8 +33,8 @@ viewer.scene.add(map);
 
 //---------------------------------------------------------------
 // 调暗默认灯光使用聚光灯
-viewer.ambLight.intensity = 0.1;
-viewer.dirLight.intensity = 0.7;
+viewer.ambLight.intensity = 0.8;
+viewer.dirLight.intensity = 1.5;
 viewer.dirLight.castShadow = true;
 
 viewer.scene.add(new DirectionalLightHelper(viewer.dirLight));
@@ -41,10 +43,6 @@ viewer.scene.add(new CameraHelper(viewer.dirLight.shadow.camera));
 //---------------------------------------------------------------
 // 开启阴影
 viewer.renderer.shadowMap.enabled = true;
-// 瓦片默认不接受阴影，监听瓦片创建事件给瓦片添加阴影
-map.addEventListener("tile-loaded", (evt) => {
-	evt.tile.receiveShadow = true;
-});
 
 //---------------------------------------------------------------
 // 添加灯光以产生阴影
