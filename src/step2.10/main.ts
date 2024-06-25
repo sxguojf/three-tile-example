@@ -44,14 +44,11 @@ viewer.controls.saveState();
 
 	loader.load("../model/LittlestTokyo.glb", function (gltf) {
 		model = gltf.scene;
-<<<<<<< HEAD
 		model.traverse((e) => {
 			e.castShadow = true;
 			e.receiveShadow = true;
 		});
 
-=======
->>>>>>> 7ea0bdf5adecd80ede49a12cedf25fdd4745b8a7
 		viewer.scene.add(model);
 		const mixer = new AnimationMixer(model);
 		mixer.clipAction(gltf.animations[0]).play();
