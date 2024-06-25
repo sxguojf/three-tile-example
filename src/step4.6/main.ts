@@ -8,7 +8,7 @@ import "./MyGeometryLoader";
 
 /*----------------------------------------创建地图----------------------------------------*/
 
-const ballSource = new tt.BaseSource({ dataType: "ball" });
+const ballSource = new tt.TileSource({ dataType: "ball" });
 
 const map = util.createMap([ms.mapBoxImgSource], ballSource);
 // 地图中心经纬度，转换为场景坐标

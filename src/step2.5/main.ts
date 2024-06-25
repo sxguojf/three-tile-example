@@ -9,7 +9,7 @@ import * as ms from "../mapSource";
 import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap(ms.googleSource, ms.mapBoxDemSource);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心经纬度，转换为场景坐标
 const center = map.geo2pos(new Vector3(100, 35));
 // 目标坐标（地图中心）
@@ -22,8 +22,8 @@ const viewer = util.createViewer("#map", centerPosition, offset);
 viewer.scene.add(map);
 
 //---------------------------------------------------------------------------------------
-viewer.ambLight.intensity = 0.1;
-viewer.dirLight.intensity = 0.1;
+viewer.ambLight.intensity = 1;
+viewer.dirLight.intensity = 1;
 
 const backColor = new Color(0);
 // viewer.renderer.outputColorSpace = LinearSRGBColorSpace;
@@ -68,9 +68,9 @@ util.addFakeEarth(viewer, map);
 const gui = new GUI();
 const envFolder = gui.addFolder("环境设置");
 envFolder.addColor(viewer.ambLight, "color").name("环境光颜色");
-envFolder.add(viewer.ambLight, "intensity", 0, 1, 0.1).name("环境光强度");
+envFolder.add(viewer.ambLight, "intensity", 0, 5, 0.1).name("环境光强度");
 envFolder.addColor(viewer.dirLight, "color").name("直射光颜色");
-envFolder.add(viewer.dirLight, "intensity", 0, 1, 0.1).name("直射光强度");
+envFolder.add(viewer.dirLight, "intensity", 0, 4, 0.1).name("直射光强度");
 envFolder.addColor(viewer.scene, "background").name("天空颜色");
 
 //---------------------------------------------------------------

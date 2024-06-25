@@ -27,8 +27,8 @@ map.receiveShadow = true;
 viewer.scene.add(map);
 
 //---------------------------------------------------------------
-viewer.ambLight.intensity = 0.5;
-viewer.dirLight.intensity = 0.5;
+viewer.ambLight.intensity = 1;
+viewer.dirLight.intensity = 1;
 // 调整大仰角控制
 viewer.controls.maxPolarAngle = Math.PI / 2.4;
 viewer.controls.saveState();
@@ -44,11 +44,14 @@ viewer.controls.saveState();
 
 	loader.load("../model/LittlestTokyo.glb", function (gltf) {
 		model = gltf.scene;
+<<<<<<< HEAD
 		model.traverse((e) => {
 			e.castShadow = true;
 			e.receiveShadow = true;
 		});
 
+=======
+>>>>>>> 7ea0bdf5adecd80ede49a12cedf25fdd4745b8a7
 		viewer.scene.add(model);
 		const mixer = new AnimationMixer(model);
 		mixer.clipAction(gltf.animations[0]).play();

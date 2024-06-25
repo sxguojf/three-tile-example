@@ -17,7 +17,7 @@ import { MyViewer } from "./MyViewer";
 import "./style.css";
 
 // 创建地图
-const map = util.createMap(ms.googleSource, ms.mapBoxDemSource);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 为了与PointLockControls适配，需要将地图旋转-90°
 map.rotateX(-Math.PI / 2);
 //-----------------------------------------------------------------------------------------------------

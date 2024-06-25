@@ -98,14 +98,14 @@ const rain = (() => {
 		if (viewer.flash) {
 			let color = new Color(0x001122);
 			thunder.visible = false;
-			viewer.ambLight.intensity = 0.1;
-			viewer.dirLight.intensity = 0.1;
+			viewer.ambLight.intensity = 0.5;
+			viewer.dirLight.intensity = 0.5;
 			if (Math.round(Math.random() * 10) % 20 === 0) {
 				color = new Color(0x002266);
 				thunder.position.setX(center.x + Math.random() * 100 - 50);
 				thunder.visible = true;
-				viewer.ambLight.intensity = 1.0;
-				viewer.dirLight.intensity = 1.0;
+				viewer.ambLight.intensity = 5.0;
+				viewer.dirLight.intensity = 3.0;
 			}
 			viewer.scene.fog?.color.set(color);
 			viewer.scene.background = new Color(color);
