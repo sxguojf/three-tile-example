@@ -19,14 +19,8 @@ const center = map.geo2pos(new Vector3(86.92, 28.5));
 const viewer = new MyViewer(glContainer!, new Vector3(center.x, center.y, 10));
 // 将地图加入三维场景
 viewer.scene.add(map);
-
-//-----------------------------------------------------------------------------------------------------
-
-// 瓦片默认不接受阴影，监听瓦片创建事件给瓦片添加阴影
-map.addEventListener("tile-created", (evt) => {
-	evt.tile.receiveShadow = true;
-	// evt.tile.castShadow = true;
-});
+// 地图可接受阴影
+map.receiveShadow = true;
 
 //-----------------------------------加载模型------------------------------------------------------
 const loader = new GLTFLoader();

@@ -1,9 +1,8 @@
 import {
-	CameraHelper,
-	DirectionalLightHelper,
 	Group,
 	Mesh,
-	MeshPhongMaterial,
+	MeshLambertMaterial,
+	PCFSoftShadowMap,
 	SpotLight,
 	SpotLightHelper,
 	TorusKnotGeometry,
@@ -12,14 +11,13 @@ import {
 // import * as tt from "../dist/three-tile";
 import { TeapotGeometry } from "three/examples/jsm/geometries/TeapotGeometry";
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
+import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";
-import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 map.receiveShadow = true;
-map.castShadow = true;
 // 地图中心经纬度，转换为场景坐标
 const center = map.geo2pos(new Vector3(105, 30));
 // 目标坐标（地图中心）
@@ -28,30 +26,29 @@ const centerPosition = new Vector3(center.x, center.y, 0);
 const offset = new Vector3(0, -10, 1e4);
 // 创建viewer
 const viewer = util.createViewer("#map", centerPosition, offset);
+
+// 调暗默认灯光使用聚光灯
+viewer.ambLight.intensity = 0.2;
+viewer.dirLight.intensity = 0.5;
+viewer.dirLight.castShadow = true;
+
 // 地图加入viewer
 viewer.scene.add(map);
 
 //---------------------------------------------------------------
-// 调暗默认灯光使用聚光灯
-viewer.ambLight.intensity = 0.8;
-viewer.dirLight.intensity = 1.5;
-viewer.dirLight.castShadow = true;
-
-viewer.scene.add(new DirectionalLightHelper(viewer.dirLight));
-viewer.scene.add(new CameraHelper(viewer.dirLight.shadow.camera));
-
-//---------------------------------------------------------------
 // 开启阴影
 viewer.renderer.shadowMap.enabled = true;
+viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 
 //---------------------------------------------------------------
 // 添加灯光以产生阴影
 const spotLight = (() => {
-	const spotLight = new SpotLight(0xffffff, 10, 5000, Math.PI / 4);
+	const spotLight = new SpotLight(0xffffff, 10, 5000, Math.PI / 4, 0.5, 0);
 	const pos = map.geo2pos(new Vector3(105, 30));
 	spotLight.position.set(pos.x, pos.y + 2000, 3000);
 	spotLight.target.position.set(pos.x, pos.y, 0);
 	spotLight.castShadow = true;
+	spotLight.shadow.camera.visible = true;
 	return spotLight;
 })();
 
@@ -59,10 +56,14 @@ viewer.scene.add(spotLight);
 viewer.scene.add(new SpotLightHelper(spotLight));
 
 //---------------------------------------------------------------
-// 创建两个几何体
 
+// viewer.scene.add(new DirectionalLightHelper(viewer.dirLight));
+// viewer.scene.add(new CameraHelper(viewer.dirLight.shadow.camera));
+
+//---------------------------------------------------------------
+// 创建两个几何体
 const objGroup = new Group();
-const mat = new MeshPhongMaterial({ color: 0x0088aa });
+const mat = new MeshLambertMaterial({ color: 0x0088aa });
 const teap = (() => {
 	const pos = map.geo2pos(new Vector3(100, 40));
 	const geo = new TeapotGeometry(200);

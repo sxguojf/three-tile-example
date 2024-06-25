@@ -1,8 +1,8 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 // import * as tt from "../dist/three-tile";
 import { Mesh, MeshPhongMaterial, TorusKnotGeometry, Vector3 } from "three";
-import * as util from "../util";
 import * as ms from "../mapSource";
+import * as util from "../util";
 
 import "./style.css";
 

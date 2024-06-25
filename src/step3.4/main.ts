@@ -4,7 +4,6 @@ import {
 	AnimationMixer,
 	CameraHelper,
 	DirectionalLight,
-	DirectionalLightHelper,
 	Mesh,
 	MeshPhongMaterial,
 	PCFSoftShadowMap,
@@ -15,12 +14,13 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import * as util from "../util";
 import * as ms from "../mapSource";
+import * as util from "../util";
 import "./style.css";
 
 // 创建地图
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+map.receiveShadow = true;
 //-----------------------------------------------------------------------------------------------------
 // 地图中心
 const center = map.geo2pos(new Vector3(86, 30));
@@ -35,16 +35,11 @@ const viewer = util.createViewer("#map", centerPosition, offset);
 viewer.scene.add(map);
 
 //-----------------------------------------------------------------------------------------------------
-// 瓦片默认不接受阴影，监听瓦片创建事件给瓦片添加阴影
-map.addEventListener("tile-created", (evt) => {
-	evt.tile.receiveShadow = true;
-	// evt.tile.castShadow = true;
-});
 viewer.renderer.shadowMap.enabled = true;
 viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 
-viewer.ambLight.intensity = 1;
-viewer.dirLight.intensity = 0.5;
+viewer.ambLight.intensity = 0.5;
+viewer.dirLight.intensity = 1;
 //-----------------------------------------------------------------------------------------
 const loader = new GLTFLoader();
 
@@ -61,10 +56,11 @@ loader.loadAsync("../model/Soldier.glb").then((gltf) => {
 // 模型上添加灯光
 const initLight = (gltf: GLTF) => {
 	const model = gltf.scene;
-	const light = new DirectionalLight();
+	const light = new DirectionalLight(0xffffff, 3);
 	light.target = model;
 	light.position.set(5, 10, -5);
 	light.castShadow = true;
+	light.shadow.camera.visible = true;
 
 	const shadowCamera = light.shadow.camera;
 	shadowCamera.far = 30;
@@ -74,7 +70,7 @@ const initLight = (gltf: GLTF) => {
 	shadowCamera.top = 2;
 	shadowCamera.bottom = -2;
 	model.add(light);
-	viewer.scene.add(new DirectionalLightHelper(light));
+	// viewer.scene.add(new DirectionalLightHelper(light));
 	viewer.scene.add(new CameraHelper(light.shadow.camera));
 };
 //-----------------------------------------------------------------------------------------

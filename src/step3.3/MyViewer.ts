@@ -194,7 +194,7 @@ export class MyViewer extends EventDispatcher<Event> {
 		const backColor = 0xbbddff;
 		const scene = new Scene();
 		scene.background = new Color(backColor);
-		scene.fog = new FogExp2(backColor, 0);
+		scene.fog = new FogExp2(backColor, 0.003);
 		return scene;
 	}
 

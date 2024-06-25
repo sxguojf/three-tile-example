@@ -48,7 +48,7 @@ export class MyViewer extends EventDispatcher<Event> {
 		const backColor = 0xdbf0ff;
 		this.scene.background = new Color(backColor);
 		// 雾
-		this.scene.fog = new FogExp2(backColor, 0.003);
+		this.scene.fog = new FogExp2(backColor, 0.0012);
 		this.renderer.shadowMap.enabled = true;
 
 		// 摄像机

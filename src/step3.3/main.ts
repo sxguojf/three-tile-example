@@ -20,6 +20,9 @@ import "./style.css";
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 为了与PointLockControls适配，需要将地图旋转-90°
 map.rotateX(-Math.PI / 2);
+// 增加瓦片视图缓冲区，使离开视野的瓦片不立即释放，以减少瓦片加过程中的空白块。当然它会增加内存占用。
+map.viewerBufferSize = 5;
+map.receiveShadow = true;
 //-----------------------------------------------------------------------------------------------------
 // 取得地图dom容器
 const glContainer = document.querySelector<HTMLElement>("#map");
@@ -30,13 +33,6 @@ const viewer = new MyViewer(glContainer!, new Vector3(center.x - 2, 8, -center.y
 viewer.camera.lookAt(center.x, 5, -center.y);
 // 将地图加入三维场景
 viewer.scene.add(map);
-
-//-----------------------------------------------------------------------------------------------------
-// 瓦片默认不接受阴影，监听瓦片创建事件给瓦片添加阴影
-map.addEventListener("tile-created", (evt) => {
-	evt.tile.receiveShadow = true;
-	// evt.tile.castShadow = true;
-});
 
 //-----------------------------------------------------------------------------------------
 // const gun = new Mesh(
@@ -167,7 +163,7 @@ const vm = {
 	const gui = new GUI();
 
 	const mapSetupFolder = gui.addFolder("环境");
-	mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.01, 0.0001).name("能见度系数");
+	mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.1, 0.0001).name("能见度系数");
 	mapSetupFolder.add(viewer.ambLight, "intensity", 0.1, 2.0, 0.1).name("环境光强度");
 	mapSetupFolder.add(viewer.dirLight, "intensity", 0.1, 2.0, 0.1).name("直射光强度");
 

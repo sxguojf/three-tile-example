@@ -18,7 +18,8 @@ const offset = new Vector3(2, -10, 5);
 const viewer = util.createViewer("#map", centerPosition, offset);
 // 地图加入viewer
 viewer.scene.add(map);
-
+// 添加地球遮罩
+util.addFakeEarth(viewer, map);
 /*----------------------------------------选项gui----------------------------------------*/
 const gui = new GUI();
 const mapSetupFolder = gui.addFolder("地图控制");
