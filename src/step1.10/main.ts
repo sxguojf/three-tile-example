@@ -20,34 +20,21 @@ const viewer = util.createViewer("#map", centerPosition, offset);
 viewer.scene.add(map);
 
 /*----------------------------------------更新罗盘----------------------------------------*/
-function updateCompass(viewer: tt.plugin.GLViewer) {
-    viewer.addEventListener("update", () => {
-        const plane = document.querySelector<SVGElement>("#compass-plane");
-        if (plane) {
-            plane.style.transform = `rotateX(${viewer.controls.getPolarAngle()}rad)`;
-        }
-        const text = document.querySelector<HTMLSpanElement>("#compass-text");
-        if (text) {
-            text.style.transform = `rotate(${viewer.controls.getAzimuthalAngle()}rad)`;
-        }
-    });
-}
-updateCompass(viewer);
+
+util.updateCompass(viewer);
 
 /*----------------------------------------添加伪球体----------------------------------------*/
 function createFakeEarth(viewer: tt.plugin.GLViewer, map: tt.TileMap) {
-    const fakeEarth = new tt.plugin.FakeEarth(
-        viewer.scene.fog?.color || new Color(0)
-    );
-    fakeEarth.name = "fakeearth";
-    fakeEarth.applyMatrix4(map.rootTile.matrix);
+	const fakeEarth = new tt.plugin.FakeEarth(viewer.scene.fog?.color || new Color(0));
+	fakeEarth.name = "fakeearth";
+	fakeEarth.applyMatrix4(map.rootTile.matrix);
 
-    viewer.controls.addEventListener("change", () => {
-        // 地图距摄像机较远时再显示遮罩
-        fakeEarth.visible = viewer.controls.getDistance() > 3000;
-    });
+	viewer.controls.addEventListener("change", () => {
+		// 地图距摄像机较远时再显示遮罩
+		fakeEarth.visible = viewer.controls.getDistance() > 3000;
+	});
 
-    return fakeEarth;
+	return fakeEarth;
 }
 map.add(createFakeEarth(viewer, map));
 

@@ -1,21 +1,22 @@
-import { AnimationMixer, Group, Vector3 } from "three";
+import { AnimationMixer, CameraHelper, DirectionalLight, Group, Vector3 } from "three";
 // import * as tt from "../dist/three-tile";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as util from "../util";
+import * as ms from "../mapSource";
 import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap();
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 
 // 地图中心经纬度，转换为场景坐标
 const center = map.geo2pos(new Vector3(108.9507, 34.1915));
 // 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量(观察点位于中心偏西400m,偏南400m处)
-const offset = new Vector3(-0.4, -0.4, 0);
+const centerPosition = new Vector3(center.x, center.y, 0.5);
+// 摄像机相对于地图中心坐标的偏移量(观察点位于中心偏西500m,偏南500m处)
+const offset = new Vector3(-0.5, -0.5, 0);
 // 创建viewer
 const viewer = util.createViewer("#map", centerPosition, offset);
 
@@ -27,8 +28,12 @@ map.receiveShadow = true;
 viewer.scene.add(map);
 
 //---------------------------------------------------------------
-viewer.ambLight.intensity = 1;
-viewer.dirLight.intensity = 1;
+viewer.ambLight.intensity = 0.5;
+viewer.dirLight.intensity = 0.5;
+
+const cameraHelper = new CameraHelper(viewer.dirLight.shadow.camera);
+viewer.scene.add(cameraHelper);
+
 // 调整大仰角控制
 viewer.controls.maxPolarAngle = Math.PI / 2.4;
 viewer.controls.saveState();
@@ -48,6 +53,7 @@ viewer.controls.saveState();
 			e.castShadow = true;
 			e.receiveShadow = true;
 		});
+		model.castShadow = true;
 
 		viewer.scene.add(model);
 		const mixer = new AnimationMixer(model);
@@ -56,8 +62,25 @@ viewer.controls.saveState();
 			mixer.update(evt.delta);
 		});
 		initGui(model);
+		initLight(model);
 	});
 })();
+
+const initLight = (model: Group) => {
+	const dirLight = new DirectionalLight(0xffffff, 3);
+	dirLight.target = model;
+	dirLight.position.set(500, 10000, 10000);
+	dirLight.castShadow = true;
+	dirLight.shadow.camera.near = 0.1;
+	dirLight.shadow.camera.far = 10;
+	dirLight.shadow.camera.left = -1;
+	dirLight.shadow.camera.right = 1;
+	dirLight.shadow.camera.top = 1;
+	dirLight.shadow.camera.bottom = -1;
+	dirLight.shadow.mapSize.setScalar(1024);
+	model.add(dirLight);
+	viewer.scene.add(new CameraHelper(dirLight.shadow.camera));
+};
 
 //---------------------------------------------------------------
 // 创建模型编辑控制器
@@ -78,7 +101,7 @@ const initGui = (model: Group) => {
 	const vm = {
 		initModel: () => {
 			model.scale.setScalar(5e-4);
-			model.position.set(center.x, center.y, 0.1);
+			model.position.set(center.x, center.y, 0.55);
 			model.rotation.set(Math.PI / 2, 0, 0);
 			viewer.controls.reset();
 		},

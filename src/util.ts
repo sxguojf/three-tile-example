@@ -155,6 +155,19 @@ export function addFakeEarth(viewer: tt.plugin.GLViewer, map: tt.TileMap) {
 	map.add(fakeEarth);
 }
 
+export function updateCompass(viewer: tt.plugin.GLViewer) {
+	viewer.addEventListener("update", () => {
+		const plane = document.querySelector<SVGElement>("#compass-plane");
+		if (plane) {
+			plane.style.transform = `rotateX(${viewer.controls.getPolarAngle()}rad)`;
+		}
+		const text = document.querySelector<HTMLSpanElement>("#compass-text");
+		if (text) {
+			text.style.transform = `rotate(${viewer.controls.getAzimuthalAngle()}rad)`;
+		}
+	});
+}
+
 // 根据地理范围的西南、东北角经纬度，计算模型变换矩阵
 export const getMatrixFromBounds = (map: tt.TileMap, sw: Vector2, ne: Vector2, alt: number) => {
 	// 经纬度转换为场景坐标
