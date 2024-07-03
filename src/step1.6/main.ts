@@ -1,19 +1,18 @@
 import { ArrowHelper, Group, Vector3 } from "three";
 import { CSS2DObject, CSS2DRenderer } from "three/examples/jsm/renderers/CSS2DRenderer.js";
+import * as ms from "../mapSource";
 import city from "../assets/city.json";
 import "./style.css";
 
 import * as util from "../util";
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap();
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(110, 34));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -2e3, 3e3);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 0, 10000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 

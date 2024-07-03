@@ -1,179 +1,184 @@
+/**
+ *@description: threejs 3D scene initalize
+ *@author: Guojf
+ *@date: 2023-04-05
+ */
+
 import {
-    AmbientLight,
-    CameraHelper,
-    Clock,
-    Color,
-    DirectionalLight,
-    DirectionalLightHelper,
-    Event,
-    EventDispatcher,
-    FogExp2,
-    Object3D,
-    PerspectiveCamera,
-    Scene,
-    Vector3,
-    WebGLRenderer,
+	AmbientLight,
+	Clock,
+	Color,
+	DirectionalLight,
+	Event,
+	EventDispatcher,
+	FogExp2,
+	MathUtils,
+	PerspectiveCamera,
+	Scene,
+	Vector3,
+	WebGLRenderer,
 } from "three";
 
 import { MapControls } from "three/examples/jsm/controls/MapControls";
-import Stats from "three/examples/jsm/libs/stats.module.js";
 
-Object3D.DEFAULT_UP.set(0, 0, 1);
-//3D场景初始化类
+/**
+ * threejs scene viewer initialize class
+ */
 export class MyViewer extends EventDispatcher<Event> {
-    public scene = new Scene();
-    public renderer = new WebGLRenderer({
-        antialias: true,
-        logarithmicDepthBuffer: true,
-    });
-    public camera = new PerspectiveCamera(50, 1, 0.1, 1000);
-    public controls: MapControls;
-    public ambLight = new AmbientLight(0xffffff, 0.1);
-    public dirLight = new DirectionalLight(0xffffff, 0.8);
-    public container: HTMLElement;
-    private _stats = new Stats();
-    private _clock: Clock = new Clock();
+	public readonly scene: Scene;
+	public readonly renderer: WebGLRenderer;
+	public readonly camera: PerspectiveCamera;
+	public readonly controls: MapControls;
+	public readonly ambLight: AmbientLight;
+	public readonly dirLight: DirectionalLight;
+	public readonly container: HTMLElement;
+	private readonly _clock: Clock = new Clock();
 
-    private _fogFactor = 1.0;
-    public get fogFactor() {
-        return this._fogFactor;
-    }
-    public set fogFactor(value) {
-        this._fogFactor = value;
-        this.controls.dispatchEvent({ type: "change", target: this.controls });
-    }
+	private _fogFactor = 1.0;
+	public get fogFactor() {
+		return this._fogFactor;
+	}
+	public set fogFactor(value) {
+		this._fogFactor = value;
+		this.controls.dispatchEvent({ type: "change", target: this.controls });
+	}
 
-    constructor(dom: HTMLElement, center: Vector3) {
-        super();
+	public get width() {
+		return this.container.clientWidth;
+	}
 
-        //容器
-        this.container = dom;
+	public get height() {
+		return this.container.clientHeight;
+	}
 
-        // 渲染器
-        this.setRender();
+	constructor(
+		container: HTMLElement | string,
+		options = { centerPostion: new Vector3(0, 0, -3000), cameraPosition: new Vector3(0, 30000, 0) },
+	) {
+		super();
+		const el = typeof container === "string" ? document.querySelector(container) : container;
+		if (el instanceof HTMLElement) {
+			this.container = el;
+			this.renderer = this._createRenderer();
+			this.scene = this._createScene();
+			this.camera = this._createCamera(options.cameraPosition);
+			this.controls = this._createControls(options.centerPostion);
+			this.ambLight = this._createAmbLight();
+			this.scene.add(this.ambLight);
+			this.dirLight = this._createDirLight(options.centerPostion);
+			this.scene.add(this.dirLight);
+			this.container.appendChild(this.renderer.domElement);
+			window.addEventListener("resize", this.resize.bind(this));
+			this.resize();
+			this.renderer.setAnimationLoop(this.animate.bind(this));
+		} else {
+			throw `${container} not found!}`;
+		}
+	}
 
-        // 场景
-        this.setScene();
+	private _createScene() {
+		const scene = new Scene();
+		const backColor = 0xdbf0ff;
+		scene.background = new Color(backColor);
+		scene.fog = new FogExp2(backColor, 0);
+		return scene;
+	}
 
-        // 摄像机
-        this.setCamera(center);
+	private _createRenderer() {
+		const renderer = new WebGLRenderer({
+			antialias: false,
+			alpha: true,
+			logarithmicDepthBuffer: true,
+			precision: "highp",
+		});
+		renderer.debug.checkShaderErrors = true;
+		// renderer.toneMapping = 3;
+		// renderer.toneMappingExposure = 1;
 
-        //控制器
-        this.controls = this.createControls(center);
+		renderer.sortObjects = true;
+		renderer.setPixelRatio(window.devicePixelRatio);
 
-        // 环境光
-        this.scene.add(this.ambLight);
+		return renderer;
+	}
 
-        // 直射光
-        this.setDirLight();
+	private _createCamera(pos: Vector3) {
+		const camera = new PerspectiveCamera(70, 1, 0.1, 50000);
+		camera.position.copy(pos);
+		return camera;
+	}
 
-        // 性能指示器
-        this.setState(dom);
+	private _createControls(centerPos: Vector3) {
+		const controls = new MapControls(this.camera, this.container);
+		controls.target.copy(centerPos);
+		controls.screenSpacePanning = false;
+		controls.minDistance = 0.1;
+		controls.maxDistance = 30000;
+		// controls.maxPolarAngle = 1.2;
+		controls.enableDamping = true;
+		controls.keyPanSpeed = 5;
 
-        //窗口大小改变时调整canvas大小
-        window.addEventListener("resize", this.resize.bind(this));
-        this.resize();
-        this.animate();
-    }
+		controls.listenToKeyEvents(window);
+		controls.addEventListener("change", () => {
+			// camera polar
+			const polar = Math.max(this.controls.getPolarAngle(), 0.1);
+			// dist of camera to controls
+			const dist = Math.max(this.controls.getDistance(), 0.1);
 
-    private setState(dom: HTMLElement) {
-        this._stats.dom.style.left = "";
-        this._stats.dom.style.top = "";
-        this._stats.dom.style.right = "0px";
-        this._stats.dom.style.bottom = "0px";
-        this._stats.dom.style.zIndex = "100";
-        dom.appendChild(this._stats.dom);
-    }
+			// set zoom speed on dist
+			controls.zoomSpeed = Math.max(Math.log(dist), 1.8);
 
-    private setDirLight() {
-        const dirLight = this.dirLight;
-        dirLight.target.position.copy(this.controls.target);
-        dirLight.position.set(
-            dirLight.target.position.x,
-            dirLight.target.position.y - 100,
-            100
-        );
-        dirLight.castShadow = true;
-        dirLight.shadow.camera.near = 0.1;
-        dirLight.shadow.camera.far = 200;
-        dirLight.shadow.camera.left = -100;
-        dirLight.shadow.camera.right = 100;
-        dirLight.shadow.camera.top = 100;
-        dirLight.shadow.camera.bottom = -100;
-        dirLight.shadow.mapSize.setScalar(2048);
-        this.scene.add(dirLight);
-        this.scene.add(new DirectionalLightHelper(dirLight));
-        this.scene.add(new CameraHelper(dirLight.shadow.camera));
-    }
+			// set far and near on dist/polar
+			this.camera.far = MathUtils.clamp((dist / polar) * 8, 100, 50000);
+			this.camera.near = this.camera.far / 1000;
+			this.camera.updateProjectionMatrix();
 
-    private setCamera(center: Vector3) {
-        this.camera.position.set(center.x - 10, center.y - 20, center.z);
-    }
+			// set fog density on dist/polar
+			if (this.scene.fog instanceof FogExp2) {
+				this.scene.fog.density = (polar / (dist + 5)) * this.fogFactor * 0.25;
+			}
 
-    private setScene() {
-        const backColor = 0xaaaaaa;
-        this.scene.background = new Color(backColor);
-        this.scene.fog = new FogExp2(backColor);
-    }
+			// set azimuth to 0 when dist>800
+			if (dist > 8000) {
+				controls.minAzimuthAngle = 0;
+				controls.maxAzimuthAngle = 0;
+			} else {
+				controls.minAzimuthAngle = -Infinity;
+				controls.maxAzimuthAngle = Infinity;
+			}
 
-    private setRender() {
-        this.renderer.sortObjects = true;
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.container.appendChild(this.renderer.domElement);
-    }
+			// limit the max polar on dist
+			controls.maxPolarAngle = Math.min(Math.pow(10000, 4) / Math.pow(dist, 4), 1.2);
+		});
+		return controls;
+	}
 
-    private createControls(center: Vector3) {
-        const controls = new MapControls(this.camera, this.container);
-        controls.domElement = this.container;
-        controls.target.set(center.x, center.y, 3);
-        controls.minDistance = 0.1;
-        controls.maxDistance = 10000;
-        controls.zoomSpeed = 3;
-        controls.minPolarAngle = 1.0;
-        // controls.maxPolarAngle = 1.4;
-        controls.enableDamping = true;
-        controls.listenToKeyEvents(window);
-        controls.addEventListener("change", () => {
-            // 摄像机仰角
-            const polar = Math.max(controls.getPolarAngle(), 0.2);
-            // 摄像机到焦点的距离
-            const dist = Math.max(controls.getDistance(), 1);
+	private _createAmbLight() {
+		const ambLight = new AmbientLight(0xffffff, 1);
+		return ambLight;
+	}
 
-            // 根据摄像机距离调整缩放速度
-            controls.zoomSpeed = Math.max(Math.log(dist), 1.2);
-            // 根据摄像机仰角、距离调整雾密度
-            if (this.scene.fog instanceof FogExp2) {
-                this.scene.fog.density = (polar / dist / 4) * this.fogFactor;
-            }
-            // 根据摄像机仰角、距离调整雾摄像机远剪裁面
-            this.camera.far = Math.min((dist / polar) * 8, 60000);
-            this.camera.near = Math.min(
-                Math.max(this.camera.far / 100, 0.1),
-                1
-            );
-            this.camera.updateProjectionMatrix();
-        });
-        return controls;
-    }
+	private _createDirLight(center: Vector3) {
+		const dirLight = new DirectionalLight(0xffffff, 1);
+		// dirLight.position.set(-1e3, 1e4, -2e3);
+		dirLight.position.set(0, 2e3, 1e3);
+		dirLight.target.position.copy(center);
+		return dirLight;
+	}
 
-    //浏览器窗口大小变化重置状态
-    resize() {
-        const width = this.container.clientWidth,
-            height = this.container.clientHeight;
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(width, height);
-        this.camera.aspect = width / height;
-        this.camera.updateProjectionMatrix();
-        return this;
-    }
+	public resize() {
+		const width = this.width;
+		const height = this.height;
+		this.renderer.setPixelRatio(window.devicePixelRatio);
+		this.renderer.setSize(width, height);
+		this.camera.aspect = width / height;
+		this.camera.updateProjectionMatrix();
+		return this;
+	}
 
-    animate() {
-        this.controls.update();
-        this._stats.update();
-        this.renderer.render(this.scene, this.camera);
-        const delta = this._clock.getDelta();
-        this.dispatchEvent({ type: "update", delta });
-        requestAnimationFrame(this.animate.bind(this));
-    }
+	private animate() {
+		this.controls.update();
+		this.renderer.render(this.scene, this.camera);
+
+		this.dispatchEvent({ type: "update", delta: this._clock.getDelta() });
+	}
 }

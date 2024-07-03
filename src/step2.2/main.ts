@@ -7,18 +7,16 @@ import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(95, 30));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, 20, 2);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(86.95, 27.98, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(86.81, 27.956, 9);
+
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
-// 添加地球遮罩
-util.addFakeEarth(viewer, map);
+
 //----------------------------------------------------------------------------------
 const vm = {
 	noneDem: () => {
@@ -44,9 +42,9 @@ gui.add(vm, "mapboxDem").name("MapBox地形瓦片(MaxLevel=15)");
 gui.add(vm, "mapTilerDem").name("MapTiler地形瓦片(MaxLevel=12)");
 gui.add(vm, "zkxtDem").name("中科星图地形瓦片(MaxLevel=10)");
 
-gui.add(map.scale, "z", 1, 10, 0.1).name("地形拉伸倍数");
-gui.add(viewer.controls.target, "z", -10, 10, 0.01).name("摄像机焦点高度偏移");
-gui.add(map.position, "z", -1, 1, 0.01).name("地图模型高度偏移");
+gui.add(map.scale, "z", 1, 3, 0.1).name("地形拉伸倍数").listen();
+gui.add(map.position, "y", -3, 3, 0.01).name("地图模型高度偏移").listen();
+gui.add(map, "autoPosition").name("自动调整地图模型高度");
 
 //--------------------------------------------------------------------
 util.addMapBackground(map);

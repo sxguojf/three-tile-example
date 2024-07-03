@@ -26,15 +26,13 @@ import * as ms from "../mapSource";
 import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap([ms.mapBoxImgSource, ms.xtCiaSource]);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(105, 35));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -3e3, 2e3);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 0, 10000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
@@ -47,6 +45,7 @@ map.addEventListener("tile-loaded", (evt) => {
 //---------------------------------------------------------------
 // 没啥好说的，把threejs的模型搬过来，放到指定位置即可
 
+const center = map.geo2pos(centerGeo);
 const geoGroup = new Group();
 geoGroup.renderOrder = 10;
 const mat = new MeshPhongMaterial({
@@ -58,7 +57,7 @@ const mat = new MeshPhongMaterial({
 (() => {
 	const geo = new BoxGeometry(8000, 8000, 1000);
 	const box = new Mesh(geo);
-	box.position.set(center.x, center.y, 1600);
+	box.position.set(center.x, center.y, 510);
 	geoGroup.add(new BoxHelper(box));
 })();
 
@@ -165,7 +164,6 @@ const mat = new MeshPhongMaterial({
 })();
 
 (() => {
-	const pos = map.geo2pos(new Vector3(105, 50));
 	const geo = new PlaneGeometry(8000, 2000);
 	const canvas = new OffscreenCanvas(2400, 600);
 	const ctx = canvas.getContext("2d")!;
@@ -180,13 +178,13 @@ const mat = new MeshPhongMaterial({
 		transparent: true,
 	});
 	const mesh = new Mesh(geo, mat);
-	mesh.position.set(pos.x, pos.y, 0);
+	mesh.position.set(center.x, center.y + 3000, 0);
 	mesh.rotateX(Math.PI / 2.0);
 	geoGroup.add(new BoxHelper(mesh));
 	geoGroup.add(mesh);
 })();
 
-viewer.scene.add(geoGroup);
+map.add(geoGroup);
 
 //---------------------------------------------------------------
 util.showLoadstate(map);

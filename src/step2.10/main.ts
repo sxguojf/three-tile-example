@@ -9,23 +9,20 @@ import * as ms from "../mapSource";
 import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(108.9507, 34.1915));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0.5);
-// 摄像机相对于地图中心坐标的偏移量(观察点位于中心偏西500m,偏南500m处)
-const offset = new Vector3(-0.5, -0.5, 0);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108.9507, 34.1915, 0.5);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(centerGeo.x - 0.005, centerGeo.y - 0.005, 0.6);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
+// 地图加入viewer
+viewer.scene.add(map);
 
 // 开启阴影
 viewer.renderer.shadowMap.enabled = true;
 map.receiveShadow = true;
-
-// 地图加入viewer
-viewer.scene.add(map);
 
 //---------------------------------------------------------------
 viewer.ambLight.intensity = 0.5;
@@ -98,11 +95,12 @@ const createTransControl = (model: Group) => {
 
 /*----------------------------------------选项gui----------------------------------------*/
 const initGui = (model: Group) => {
+	const center = map.localToWorld(map.geo2pos(centerGeo));
+	center.setY(0.55);
 	const vm = {
 		initModel: () => {
 			model.scale.setScalar(5e-4);
-			model.position.set(center.x, center.y, 0.55);
-			model.rotation.set(Math.PI / 2, 0, 0);
+			model.position.copy(center);
 			viewer.controls.reset();
 		},
 	};

@@ -15,36 +15,41 @@ import * as ms from "./mapSource";
 
 // 创建地图
 export const createMap = (imgSource: tt.ISource | tt.ISource[] = ms.mapBoxImgSource, demSource?: tt.ISource) => {
-	return tt.TileMap.create({
+	// 创建地图对象
+	const map = new tt.TileMap({
 		// 影像数据源
 		imgSource: imgSource,
-		// 地形数据源
+		// 高程数据源
 		demSource: demSource,
-		// 地图投影中心经度
+		// 地图投影中央经线经度
 		lon0: 90,
 		// 最小缩放级别
 		minLevel: 2,
 		// 最大缩放级别
-		maxLevel: 18,
+		maxLevel: 20,
 	});
+
+	// 地图旋转到xz平面
+	map.rotateX(-Math.PI / 2);
+	return map;
 };
 
 // 创建vie
-export const createViewer = (id: string, center: Vector3, offset: Vector3) => {
-	// 取得地图dom容器
-	const glContainer = document.querySelector<HTMLElement>(id);
-	if (!glContainer) {
-		throw new Error(`Element ${id} is not found!`);
-	}
-	// 初始化三维场景(调用three-tile内置的初始化类)
-	return new tt.plugin.GLViewer(
-		// 地图容器
-		glContainer,
-		// 目标坐标（地图中心）
-		center,
-		// 观察者坐标（摄像机位置）
-		center.clone().add(offset),
-	);
+export const createViewer = (
+	id: string,
+	map: tt.TileMap,
+	centerGeo = new Vector3(110, 30, 0),
+	camersGeo = new Vector3(110, 0, 10000),
+) => {
+	// 地图中心转为世界坐标
+	const centerPostion = map.localToWorld(map.geo2pos(centerGeo));
+	// 摄像机转为世界坐标
+	const cameraPosition = map.localToWorld(map.geo2pos(camersGeo));
+	// 初始化场景
+	const viewer = new tt.plugin.GLViewer(id, { centerPostion, cameraPosition });
+	// 地图添加到场景
+	viewer.scene.add(map);
+	return viewer;
 };
 
 // 显示地图加载进度
@@ -118,10 +123,9 @@ export const showAttribution = (map: tt.TileMap, id: string = "#attribution") =>
 
 // 显示天空盒子
 export const addSky = (viewer: tt.plugin.GLViewer) => {
-	const bk = new CubeTextureLoader()
+	viewer.scene.background = new CubeTextureLoader()
 		.setPath("../image/skybox/")
-		.load(["skybox_nx.png", "skybox_px.png", "skybox_ny.png", "skybox_py.png", "skybox_nz.png", "skybox_pz.png"]);
-	viewer.scene.background = bk;
+		.load(["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"]);
 };
 
 // 添加地图背景图

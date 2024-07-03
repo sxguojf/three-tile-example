@@ -1,43 +1,43 @@
-import "./style.css";
-import * as tt from "three-tile";
-import * as util from "../util";
 import * as ms from "../mapSource";
+import * as util from "../util";
+import "./style.css";
 // threejs内置了tween库
-import TWEEN from "three/examples/jsm/libs/tween.module.js";
 import { Vector3 } from "three";
+import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module.js";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(108, 34));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机坐标相对于地图中心的偏移量
-const offset = new Vector3(0, -2e3, 5e3);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 0, 10000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
+
+// 保存控制器参数，以便复位
+viewer.controls.saveState();
 
 /*----------------------------------------调整位置大小----------------------------------------*/
 
 // 不动画，直接跳转定位
 document.querySelector("#jump")!.addEventListener("click", () => {
-	// 摄像机中心对准地图中心
-	viewer.controls.target.set(center.x, center.y, 0);
-	// 摄像机位置
-	viewer.camera.position.set(center.x, center.y - 300, 500);
+	const newCenterPos = map.localToWorld(map.geo2pos(new Vector3(107.8, 34.0, 0)));
+	const newCameraPos = map.localToWorld(map.geo2pos(new Vector3(107.9, 34.0, 7.8)));
+	viewer.controls.target.copy(newCenterPos);
+	viewer.controls.object.position.copy(newCameraPos);
 });
 
 // 使用定时器进行地图漫游动画定位
 document.querySelector("#timer")!.addEventListener("click", () => {
-	// 摄像机中心对准地图中心
-	viewer.controls.target.set(center.x, center.y, 0);
+	const newCenterPos = map.localToWorld(map.geo2pos(new Vector3(110, 34, 0)));
+	viewer.controls.target.copy(newCenterPos);
 	const camerPos = viewer.camera.position;
-	camerPos.set(center.x, center.y, 1e4);
+	camerPos.set(centerGeo.x, centerGeo.y, 1e4);
 	const timer = setInterval(() => {
-		camerPos.add(new Vector3(0, -30, -200));
-		if (camerPos.z < 2000) {
+		camerPos.add(new Vector3(0, -200, 0));
+		if (camerPos.y < 100) {
 			clearInterval(timer);
 		}
 	}, 20);
@@ -45,7 +45,8 @@ document.querySelector("#timer")!.addEventListener("click", () => {
 
 // 使用tween进行地图漫游动画定位
 document.querySelector("#tween")!.addEventListener("click", () => {
-	flyTo(viewer, map, 138.732, 35.35);
+	// 摄像机经纬度，地图中心经纬度
+	flyToGeo(new Vector3(107.9, 34.0, 7.8), new Vector3(107.8, 34.0, 0));
 });
 
 // 复位
@@ -54,28 +55,41 @@ document.querySelector("#reset")!.addEventListener("click", () => {
 });
 
 /*---------------------------------------------------------------------------*/
-// 用tween写一个简单的flyTo函数
-function flyTo(viewer: tt.plugin.GLViewer, map: tt.TileMap, lon: number, lat: number) {
-	// 目标位置
-	const targetPos = map.geo2pos(new Vector3(lon, lat));
-	viewer.controls.target.set(targetPos.x, targetPos.y, 0);
 
-	const camera = viewer.camera;
+/**
+ * 飞行到某世界坐标
+ * @param cameraPos 目标摄像机世界坐标
+ * @param centerPos 目标地图中心坐标
+ */
+const flyToPos = (cameraPos: Vector3, centerPos: Vector3) => {
+	viewer.controls.target.copy(centerPos);
+	const start = viewer.camera.position;
+	new TWEEN.Tween(start)
+		// 先到10000km高空
+		.to({ y: 10000, z: 0 }, 500)
+		// 再到目标位置
+		.chain(new Tween(start).to(cameraPos))
+		.start();
+};
 
-	// 第一步动画调整摄像机位置到8km高空
-	const tween1 = new TWEEN.Tween(camera.position);
-	tween1.to({ x: camera.position.x, y: 0, z: 8000 }, 1000);
+/**
+ * 飞行到某地理坐标
+ * @param cameraGeo 目标摄像机经纬度坐标
+ * @param centerGeo 目标地图中心经纬度坐标
+ */
+const flyToGeo = (cameraGeo: Vector3, centerGeo: Vector3) => {
+	const getPos = (geo: Vector3) => {
+		return map.localToWorld(map.geo2pos(geo));
+	};
 
-	// 第二步动画调整摄像机位置6km高空，并位于目标位置以南6公里
-	const tween2 = new TWEEN.Tween(camera.position);
-	tween2.to({ x: targetPos.x, y: targetPos.y - 10, z: 6 }, 1500).easing(TWEEN.Easing.Quartic.Out);
+	const cameraPosition = getPos(cameraGeo);
+	const centerPosition = getPos(centerGeo);
+	flyToPos(cameraPosition, centerPosition);
+};
 
-	// 将两个动画串起来播放
-	tween1.chain(tween2);
-	viewer.controls.enabled = false;
-	tween1.start().onComplete(() => {
-		viewer.controls.enabled = true;
-	});
-}
+// const getGeo = (pos: Vector3) => {
+// 	return map.pos2geo(map.worldToLocal(pos.clone()));
+// };
+
 /*---------------------------------------------------------------------------*/
 viewer.addEventListener("update", () => TWEEN.update());

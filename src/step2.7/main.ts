@@ -7,24 +7,19 @@ import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(109, 34));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(-5, 10, 4);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(109, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(109, 34.1, 2);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
-// 添加地球遮罩
-util.addFakeEarth(viewer, map);
 //-----------------------------------------------------------------------------------------
 
 const bk = new CubeTextureLoader()
 	.setPath("../image/skybox/")
-	.load(["skybox_nx.png", "skybox_px.png", "skybox_ny.png", "skybox_py.png", "skybox_nz.png", "skybox_pz.png"]);
-// bk.colorSpace = SRGBColorSpace;
+	.load(["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"]);
 viewer.scene.background = bk;
 
 const vm = {
