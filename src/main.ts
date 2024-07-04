@@ -31,6 +31,9 @@ const exampleList = {
 	"step1.10": {
 		label: "1.10 起步-添加地球遮罩",
 	},
+	"step1.11": {
+		label: "1.11 起步-小区域瓦片测试",
+	},
 
 	"step2.1": {
 		label: "2.1 基础-自定义地图数据源",
