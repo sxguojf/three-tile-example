@@ -3,7 +3,7 @@ import * as tt from "three-tile";
 /**
  * Watermark tile Material loader
  */
-export class WaterMarkLoader implements tt.ITileMaterialLoader {
+export class WatermarkLoader implements tt.ITileMaterialLoader {
 	public readonly dataType: string = "watermark";
 
 	private _texture: Texture | undefined;
@@ -60,3 +60,6 @@ export class WaterMarkLoader implements tt.ITileMaterialLoader {
 		return canvas.transferToImageBitmap();
 	}
 }
+
+// 注册水印加载器
+tt.LoaderFactory.registerMaterialLoader(new WatermarkLoader());

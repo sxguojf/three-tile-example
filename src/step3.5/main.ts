@@ -1,44 +1,33 @@
-import { ACESFilmicToneMapping, MathUtils, PlaneGeometry, RepeatWrapping, TextureLoader, Vector3 } from "three";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+import { ACESFilmicToneMapping, Color, MathUtils, PlaneGeometry, RepeatWrapping, TextureLoader, Vector3 } from "three";
 import { Sky } from "three/examples/jsm/objects/Sky";
 import { Water } from "three/examples/jsm/objects/Water";
-import * as util from "../util";
 import * as ms from "../mapSource";
-import { GLViewer } from "./GLViewer";
+import * as util from "../util";
 import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap([ms.mapBoxImgSource], ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-// const center = map.project(98.35, 29.65);
-// const center = map.project(100.3, 37);
-const center = map.geo2pos(new Vector3(89.4, 42.7));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, 0, -center.y);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, 10, 50);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(89.4, 42.7);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(89.2, 42.3, 10);
 
 // 创建viewer
-const viewer = new GLViewer(document.querySelector("#map")!, centerPosition, centerPosition.clone().add(offset));
-map.rotateX(-Math.PI / 2);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
-viewer.controls.maxPolarAngle = Math.PI;
-
-viewer.scene.fog = null;
+viewer.scene.fog!.color = new Color(0x8e6865);
 viewer.renderer.toneMapping = ACESFilmicToneMapping;
-viewer.renderer.toneMappingExposure = 0.7;
-viewer.dirLight.intensity = 1.5;
-viewer.ambLight.intensity = 2;
 
-//-----------------------------------------------------------------------------------------
 const sky = initSky();
 const water = initWater();
 gui();
 
 //-----------------------------------------------------------------------------------------
 function initWater() {
+	const center = map.geo2pos(centerGeo);
 	const waterGeometry = new PlaneGeometry(300, 300);
 
 	const water = new Water(waterGeometry, {
@@ -84,7 +73,7 @@ function initSky() {
 	// Add Sky
 	const sky = new Sky();
 	sky.scale.setScalar(450000);
-	map.add(sky);
+	viewer.scene.add(sky);
 	return sky;
 }
 
@@ -144,6 +133,5 @@ function gui() {
 	guiChanged();
 }
 //-----------------------------------------------------------------------------
-// util.addSky(viewer as any);
 util.showLoadstate(map);
-util.showLocation(viewer as any, map);
+util.showLocation(viewer, map);

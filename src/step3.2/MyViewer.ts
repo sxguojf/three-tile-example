@@ -1,3 +1,9 @@
+/**
+ *@description: threejs 3D scene initalize
+ *@author: Guojf
+ *@date: 2023-04-05
+ */
+
 import {
 	AmbientLight,
 	Clock,
@@ -6,90 +12,115 @@ import {
 	Event,
 	EventDispatcher,
 	FogExp2,
-	Object3D,
 	PerspectiveCamera,
 	Scene,
 	Vector3,
 	WebGLRenderer,
 } from "three";
 
-// import { MapControls } from "three/examples/jsm/controls/MapControls";
 import { FlyControls } from "three/examples/jsm/controls/FlyControls";
-import Stats from "three/examples/jsm/libs/stats.module.js";
 
-Object3D.DEFAULT_UP.set(0, 0, 1);
-//3D场景初始化类
+/**
+ * threejs scene viewer initialize class
+ */
 export class MyViewer extends EventDispatcher<Event> {
-	public scene = new Scene();
-	public renderer = new WebGLRenderer({
-		antialias: true,
-		logarithmicDepthBuffer: true,
-	});
-	public camera = new PerspectiveCamera(80, 1, 0.1, 1000);
-	public controls: FlyControls; // MapControls;
-	public ambLight = new AmbientLight(0xffffff, 0.5);
-	public dirLight = new DirectionalLight(0xffffff, 1.5);
-	public container: HTMLElement;
+	public readonly scene: Scene;
+	public readonly renderer: WebGLRenderer;
+	public readonly camera: PerspectiveCamera;
+	public readonly controls: FlyControls;
+	public readonly ambLight: AmbientLight;
+	public readonly dirLight: DirectionalLight;
+	public readonly container: HTMLElement;
+	private readonly _clock: Clock = new Clock();
 
-	private _stats = new Stats();
-	private _clock: Clock = new Clock();
-
-	constructor(dom: HTMLElement, center: Vector3) {
-		super();
-
-		//容器
-		this.container = dom;
-
-		// 渲染器
-		this.renderer.sortObjects = true;
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		this.container.appendChild(this.renderer.domElement);
-
-		const backColor = 0xdbf0ff;
-		this.scene.background = new Color(backColor);
-		// 雾
-		this.scene.fog = new FogExp2(backColor, 0.0012);
-		this.renderer.shadowMap.enabled = true;
-
-		// 摄像机
-		this.camera = new PerspectiveCamera(50, 1, 0.1, 1000);
-		this.camera.position.set(center.x, center.y + 20, center.z + 10);
-		this.camera.lookAt(center.x, center.y, center.z);
-
-		// 环境光
-		this.scene.add(this.ambLight);
-
-		// 性能指示器
-		this._stats.dom.style.left = "";
-		this._stats.dom.style.top = "";
-		this._stats.dom.style.right = "0px";
-		this._stats.dom.style.bottom = "0px";
-		this._stats.dom.style.zIndex = "100";
-		dom.appendChild(this._stats.dom);
-
-		//控制器
-		this.controls = this.createControls();
-
-		//窗口大小改变时调整canvas大小
-		window.addEventListener("resize", this.resize.bind(this));
-		this.resize();
-		this.animate();
+	public get width() {
+		return this.container.clientWidth;
 	}
 
-	private createControls() {
+	public get height() {
+		return this.container.clientHeight;
+	}
+
+	constructor(
+		container: HTMLElement | string,
+		options = { centerPostion: new Vector3(0, 0, -3000), cameraPosition: new Vector3(0, 30000, 0) },
+	) {
+		super();
+		const el = typeof container === "string" ? document.querySelector(container) : container;
+		if (el instanceof HTMLElement) {
+			this.container = el;
+			this.renderer = this._createRenderer();
+			this.scene = this._createScene();
+			this.camera = this._createCamera(options.cameraPosition);
+			this.controls = this._createControls();
+			this.ambLight = this._createAmbLight();
+			this.scene.add(this.ambLight);
+			this.dirLight = this._createDirLight(options.centerPostion);
+			this.scene.add(this.dirLight);
+			this.container.appendChild(this.renderer.domElement);
+			window.addEventListener("resize", this.resize.bind(this));
+			this.resize();
+			this.renderer.setAnimationLoop(this.animate.bind(this));
+		} else {
+			throw `${container} not found!}`;
+		}
+	}
+
+	private _createScene() {
+		const scene = new Scene();
+		const backColor = 0xdbf0ff;
+		scene.background = new Color(backColor);
+		scene.fog = new FogExp2(backColor, 0.003);
+		return scene;
+	}
+
+	private _createRenderer() {
+		const renderer = new WebGLRenderer({
+			antialias: false,
+			alpha: true,
+			logarithmicDepthBuffer: true,
+			precision: "highp",
+		});
+		renderer.debug.checkShaderErrors = true;
+		// renderer.toneMapping = 3;
+		// renderer.toneMappingExposure = 1;
+
+		renderer.sortObjects = true;
+		renderer.setPixelRatio(window.devicePixelRatio);
+
+		return renderer;
+	}
+
+	private _createCamera(pos: Vector3) {
+		const camera = new PerspectiveCamera(70, 1, 0.1, 50000);
+		camera.position.copy(pos);
+		return camera;
+	}
+
+	private _createControls() {
 		const controls = new FlyControls(this.camera, this.container);
 		controls.domElement = this.container;
 		controls.autoForward = false;
 		controls.movementSpeed = 2;
 		controls.rollSpeed = 0.05;
-
 		return controls;
 	}
 
-	//浏览器窗口大小变化重置状态
-	resize() {
-		const width = this.container.clientWidth,
-			height = this.container.clientHeight;
+	private _createAmbLight() {
+		const ambLight = new AmbientLight(0xffffff, 1);
+		return ambLight;
+	}
+
+	private _createDirLight(center: Vector3) {
+		const dirLight = new DirectionalLight(0xffffff, 1);
+		dirLight.position.set(0, 2e3, 1e3);
+		dirLight.target.position.copy(center);
+		return dirLight;
+	}
+
+	public resize() {
+		const width = this.width;
+		const height = this.height;
 		this.renderer.setPixelRatio(window.devicePixelRatio);
 		this.renderer.setSize(width, height);
 		this.camera.aspect = width / height;
@@ -97,12 +128,11 @@ export class MyViewer extends EventDispatcher<Event> {
 		return this;
 	}
 
-	animate() {
-		this._stats.update();
+	private animate() {
 		const delta = this._clock.getDelta();
 		this.controls.update(delta);
 		this.renderer.render(this.scene, this.camera);
+
 		this.dispatchEvent({ type: "update", delta });
-		requestAnimationFrame(this.animate.bind(this));
 	}
 }

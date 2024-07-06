@@ -17,8 +17,6 @@ const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
-viewer.controls.maxPolarAngle = Math.PI;
-
 viewer.scene.fog?.color.set(0x888888);
 viewer.renderer.toneMapping = ACESFilmicToneMapping;
 viewer.renderer.toneMappingExposure = 0.5;

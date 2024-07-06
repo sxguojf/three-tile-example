@@ -30,3 +30,5 @@ export class UVLoader implements tt.ITileMaterialLoader {
 		return material;
 	}
 }
+
+tt.LoaderFactory.registerMaterialLoader(new UVLoader());

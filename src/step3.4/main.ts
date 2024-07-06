@@ -18,28 +18,25 @@ import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";
 
-// 创建地图
+/*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-map.receiveShadow = true;
-//-----------------------------------------------------------------------------------------------------
-// 地图中心
-const center = map.geo2pos(new Vector3(86, 30));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -12, 8);
-// 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(87.3, 28.3, 3);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(87.3, 28.2, 6);
 
-// 将地图加入三维场景
+// 创建viewer
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
+// 地图加入viewer
 viewer.scene.add(map);
 
 //-----------------------------------------------------------------------------------------------------
+map.receiveShadow = true;
 viewer.renderer.shadowMap.enabled = true;
 viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 
 viewer.ambLight.intensity = 0.5;
-viewer.dirLight.intensity = 1;
+viewer.dirLight.intensity = 0.5;
 //-----------------------------------------------------------------------------------------
 const loader = new GLTFLoader();
 
@@ -56,7 +53,7 @@ loader.loadAsync("../model/Soldier.glb").then((gltf) => {
 // 模型上添加灯光
 const initLight = (gltf: GLTF) => {
 	const model = gltf.scene;
-	const light = new DirectionalLight(0xffffff, 3);
+	const light = new DirectionalLight(0xffffff, 1);
 	light.target = model;
 	light.position.set(5, 10, -5);
 	light.castShadow = true;
@@ -76,13 +73,15 @@ const initLight = (gltf: GLTF) => {
 //-----------------------------------------------------------------------------------------
 const initSoldier = (gltf: GLTF) => {
 	const model = gltf.scene;
-	viewer.scene.add(model);
+	map.add(model);
 	model.traverse((child) => {
 		child.receiveShadow = true;
 		child.castShadow = true;
 	});
 
-	model.rotateX(Math.PI / 2);
+	// model.rotateX(-Math.PI / 2);
+	// model.rotateY(Math.PI);
+
 	model.scale.setScalar(0.5);
 
 	const mixer = new AnimationMixer(gltf.scene);
@@ -100,8 +99,8 @@ const initBird = (gltf: GLTF) => {
 	const model = gltf.scene;
 	loader.loadAsync("../model/Stork.glb").then((stork) => {
 		const bird = stork.scene;
-		bird.rotateY(Math.PI);
 		bird.scale.setScalar(0.005);
+		bird.rotateY(Math.PI);
 		bird.traverse((child) => {
 			child.castShadow = true;
 		});
@@ -170,8 +169,7 @@ const runTo = (gltf: GLTF, mixer: AnimationMixer, endPostion: Vector3, tween: Tw
 	tween = new Tween(model.position);
 
 	// 修改模型朝向
-	const lookPos = endPostion.clone();
-	lookPos.setZ(model.position.z);
+	const lookPos = map.localToWorld(endPostion.clone());
 	model.lookAt(lookPos);
 	model.rotateY(Math.PI);
 
@@ -188,7 +186,7 @@ const runTo = (gltf: GLTF, mixer: AnimationMixer, endPostion: Vector3, tween: Tw
 				mixer.clipAction(anim[speed]).play();
 			})
 			.onUpdate((currentPositon, _elapsed) => {
-				const pos = map.getLocalInfoFromWorld(new Vector3(currentPositon.x, currentPositon.y))?.point;
+				const pos = map.getLocalInfoFromWorld(map.localToWorld(currentPositon))?.point;
 				if (pos) {
 					model.position.copy(pos);
 				}
@@ -217,16 +215,6 @@ const vm = {
 		map.imgSource = ms.bingSource;
 		map.reload();
 	},
-	toXian: () => {
-		const pos = map.geo2pos(new Vector3(108.94, 34.3));
-		viewer.camera.position.set(pos.x, pos.y - 3, 2);
-		viewer.controls.target.set(pos.x, pos.y, 0);
-	},
-	toFushishan: () => {
-		const pos = map.geo2pos(new Vector3(138.7322, 35.35356));
-		viewer.camera.position.set(pos.x, pos.y + 10, 8);
-		viewer.controls.target.set(pos.x, pos.y, 0);
-	},
 	modelSize: 0.5,
 };
 //--------------------------------------gui------------------------------------------------------
@@ -246,9 +234,6 @@ const initGui = (gltf: GLTF) => {
 	mapPorviderFolder.add(vm, "google").name("google(有偏移)");
 	mapPorviderFolder.add(vm, "bing").name("bing(有偏移)");
 
-	const locationFolder = gui.addFolder("定位");
-	locationFolder.add(vm, "toXian").name("西安");
-	locationFolder.add(vm, "toFushishan").name("富士山");
 	const controlFolder = gui.addFolder("控制");
 	controlFolder
 		.add(vm, "modelSize", 0.01, 2, 0.01)
