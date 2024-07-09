@@ -25,8 +25,11 @@ viewer.controls.saveState();
 document.querySelector("#jump")!.addEventListener("click", () => {
 	const newCenterPos = map.localToWorld(map.geo2pos(new Vector3(107.8, 34.0, 0)));
 	const newCameraPos = map.localToWorld(map.geo2pos(new Vector3(107.9, 34.0, 7.8)));
+	console.log(newCameraPos, newCenterPos);
+
+	viewer.camera.position.copy(newCameraPos);
 	viewer.controls.target.copy(newCenterPos);
-	viewer.controls.object.position.copy(newCameraPos);
+	viewer.controls.dispatchEvent({ type: "change", target: viewer.controls });
 });
 
 // 使用定时器进行地图漫游动画定位
@@ -37,7 +40,7 @@ document.querySelector("#timer")!.addEventListener("click", () => {
 	camerPos.set(centerGeo.x, centerGeo.y, 1e4);
 	const timer = setInterval(() => {
 		camerPos.add(new Vector3(0, -200, 0));
-		if (camerPos.y < 100) {
+		if (camerPos.y < 2000) {
 			clearInterval(timer);
 		}
 	}, 20);
@@ -45,8 +48,10 @@ document.querySelector("#timer")!.addEventListener("click", () => {
 
 // 使用tween进行地图漫游动画定位
 document.querySelector("#tween")!.addEventListener("click", () => {
+	const newCameraGeo = new Vector3(138.7168714361765, 35.293034242886165, 4.138178498736728);
+	const newCenterGeo = new Vector3(138.73205716638114, 35.35132576846971, 0);
 	// 摄像机经纬度，地图中心经纬度
-	flyToGeo(new Vector3(107.9, 34.0, 7.8), new Vector3(107.8, 34.0, 0));
+	flyToGeo(newCameraGeo, newCenterGeo);
 });
 
 // 复位
@@ -64,7 +69,7 @@ document.querySelector("#reset")!.addEventListener("click", () => {
 const flyToPos = (cameraPos: Vector3, centerPos: Vector3) => {
 	viewer.controls.target.copy(centerPos);
 	const start = viewer.camera.position;
-	new TWEEN.Tween(start)
+	new Tween(start)
 		// 先到10000km高空
 		.to({ y: 10000, z: 0 }, 500)
 		// 再到目标位置
