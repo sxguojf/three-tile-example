@@ -33,6 +33,6 @@
 	},
 	"dependencies": {
 		"three": "^0.165.0",
-		"three-tile": "^0.6.0"
+		"three-tile": "^0.6.1"
 	}
 }
