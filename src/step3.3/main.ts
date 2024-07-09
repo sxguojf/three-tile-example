@@ -1,7 +1,8 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 // import * as tt from "../dist/three-tile";
 import {
-	CubeTextureLoader,
+	Camera,
+	CapsuleGeometry,
 	Group,
 	Mesh,
 	MeshPhongMaterial,
@@ -11,8 +12,8 @@ import {
 	Vector3,
 } from "three";
 import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module";
-import * as util from "../util";
 import * as ms from "../mapSource";
+import * as util from "../util";
 import { MyViewer } from "./MyViewer";
 import "./style.css";
 
@@ -31,19 +32,13 @@ viewer.renderer.shadowMap.enabled = true;
 map.receiveShadow = true;
 
 // 增加瓦片视图缓冲区，使离开视野的瓦片不立即释放，以减少瓦片加过程中的空白块。当然它会增加内存占用。
-map.viewerBufferSize = 3;
+map.viewerBufferSize = 2;
+// 加载瓦片下载缓存大小，缓存3000张瓦片
+map.loadCacheSize = 3000;
+
+// 接受阴影
 map.receiveShadow = true;
 
-//-----------------------------------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------------------
-// const gun = new Mesh(
-//     new CapsuleGeometry(0.1, 1, 16, 16),
-//     new MeshPhongMaterial({ color: 0, shininess: 10 })
-// );
-// gun.position.set(0, -1, -1);
-// gun.rotateX(Math.PI / 2);
-// viewer.camera.add(gun);
 //-----------------------------------------------------------------------------------------
 const bombGroup = new Group();
 map.add(bombGroup);
@@ -67,49 +62,66 @@ viewer.container.addEventListener("click", (evt) => {
 
 	const camera = viewer.controls.getObject();
 
-	// 取得目标点坐标（光标处地面坐标）
-	const endPostion = map.getLocalInfoFromScreen(camera, new Vector2(0, 0))?.point;
-	if (!endPostion) {
-		return;
-	}
+	// 取得视线与地面交点
+	const focus = map.getLocalInfoFromScreen(camera, new Vector2(0, 0));
+	// 球终点坐标，有交点则取交点，无交点则取摄像机前方100km
+	const endPostion = focus ? focus.point : map.worldToLocal(camera.localToWorld(new Vector3(0, 0, -100)));
 
 	const aBall = ball.clone();
 	aBall.scale.setScalar(viewer.cameraZ / 40);
 	bombGroup.add(aBall);
+
 	// 摄像机坐标转换为地图坐标
-	const startPosition = camera.position.clone().applyMatrix4(map.matrixWorld.clone().invert());
+	const startPosition = map.worldToLocal(camera.getWorldPosition(new Vector3()));
 	aBall.position.copy(startPosition);
 
-	// 球飞行动画
+	// 球直线飞行动画
 	const delay = 1000;
 	new Tween(aBall.position)
 		.to({ x: endPostion.x, y: endPostion.y }, delay)
 		.easing(TWEEN.Easing.Quadratic.Out)
 		.start();
+
+	// 球边飞边转
+	new Tween(aBall.rotation).to({ x: Math.PI, y: Math.PI, z: Math.PI }, delay).start();
+
+	// 球减速下落动画
 	new Tween(aBall.position)
 		.to({ z: endPostion.z }, delay)
-		.easing(TWEEN.Easing.Quadratic.In)
+		.easing(focus ? TWEEN.Easing.Quadratic.In : TWEEN.Easing.Quartic.Out)
 		.start()
 		.onComplete(() => {
-			setTimeout(() => {
+			// 动画完成销毁
+			const dispose = () => {
 				aBall.removeFromParent();
 				aBall.geometry.dispose();
 				aBall.material.dispose();
-			}, 10 * delay);
+			};
+			if (focus) {
+				setTimeout(dispose, 10 * delay);
+			} else {
+				dispose();
+			}
 		});
-	new Tween(aBall.rotation).to({ x: Math.PI, y: Math.PI, z: Math.PI }, delay).start();
 
 	// 后坐力
-	camera.position.y += 2;
+	const pos = camera.position.clone();
+	map.autoLoad = false;
+	camera.position.sub(camera.getWorldDirection(new Vector3()));
+	setTimeout(() => {
+		camera.position.copy(pos);
+		map.autoLoad = true;
+	}, 50);
 });
 
-viewer.container.addEventListener("mousewheel", (evt) => {
-	if (viewer.controls.isLocked) {
-		if (evt instanceof WheelEvent) {
-			viewer.cameraZ += evt.deltaY / 500;
-		}
-	}
-});
+// 滚轮缩放地图
+// viewer.container.addEventListener("mousewheel", (evt) => {
+// 	if (viewer.controls.isLocked) {
+// 		if (evt instanceof WheelEvent) {
+// 			viewer.cameraZ += evt.deltaY / 500;
+// 		}
+// 	}
+// });
 
 viewer.addEventListener("update", () => TWEEN.update());
 
