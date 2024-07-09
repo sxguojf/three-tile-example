@@ -97,6 +97,7 @@ const createTransControl = (model: Group) => {
 const initGui = (model: Group) => {
 	const center = map.localToWorld(map.geo2pos(centerGeo));
 	center.setY(0.55);
+	// const position = map.localToWorld(map.getLocalInfoFromGeo(centerGeo)!.point);
 	const vm = {
 		initModel: () => {
 			model.scale.setScalar(5e-4);
