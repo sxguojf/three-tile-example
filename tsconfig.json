@@ -3,7 +3,10 @@
         "target": "ES6",
         "useDefineForClassFields": true,
         "module": "ES6",
-        "lib": ["ES6", "DOM"],
+        "lib": [
+            "ES6",
+            "DOM"
+        ],
         "moduleResolution": "Node",
         "strict": true,
         "resolveJsonModule": true,
@@ -16,5 +19,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["src/**/*"]
+    "include": [
+        "src/**/*"
+    ]
 }

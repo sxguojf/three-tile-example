@@ -10,23 +10,18 @@ import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(100, 35));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -1e4, 3e3);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, -10, 3000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
 //---------------------------------------------------------------------------------------
-viewer.ambLight.intensity = 1;
-viewer.dirLight.intensity = 1;
 
 const backColor = new Color(0);
-// viewer.renderer.outputColorSpace = LinearSRGBColorSpace;
 viewer.scene.background = backColor;
 viewer.scene.fog!.color = backColor;
 
@@ -44,7 +39,7 @@ const lensflare = (() => {
 	lensflare.addElement(new LensflareElement(textureFlare3, 100, 0.6));
 	lensflare.addElement(new LensflareElement(textureFlare3, 200, 0.8));
 	lensflare.addElement(new LensflareElement(textureFlare3, 70, 0.9));
-	lensflare.position.set(5000, 20000, 3000);
+	lensflare.position.set(5000, 3000, -20000);
 	lensflare.frustumCulled = false;
 	return lensflare;
 })();

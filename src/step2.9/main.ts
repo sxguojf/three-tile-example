@@ -17,15 +17,14 @@ import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-map.receiveShadow = true;
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(105, 30));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -10, 1e4);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(105, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(105, 20, 5000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
+// 地图加入viewer
+viewer.scene.add(map);
 
 // 调暗默认灯光使用聚光灯
 viewer.ambLight.intensity = 0.2;
@@ -37,6 +36,7 @@ viewer.scene.add(map);
 
 //---------------------------------------------------------------
 // 开启阴影
+map.receiveShadow = true;
 viewer.renderer.shadowMap.enabled = true;
 viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 
@@ -44,11 +44,10 @@ viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 // 添加灯光以产生阴影
 const spotLight = (() => {
 	const spotLight = new SpotLight(0xffffff, 10, 5000, Math.PI / 4, 0.5, 0);
-	const pos = map.geo2pos(new Vector3(105, 30));
-	spotLight.position.set(pos.x, pos.y + 2000, 3000);
-	spotLight.target.position.set(pos.x, pos.y, 0);
+	const pos = map.localToWorld(map.geo2pos(new Vector3(105, 30)));
+	spotLight.position.set(pos.x, 3000, pos.z);
+	spotLight.target.position.copy(pos);
 	spotLight.castShadow = true;
-	spotLight.shadow.camera.visible = true;
 	return spotLight;
 })();
 
@@ -65,22 +64,20 @@ viewer.scene.add(new SpotLightHelper(spotLight));
 const objGroup = new Group();
 const mat = new MeshLambertMaterial({ color: 0x0088aa });
 const teap = (() => {
-	const pos = map.geo2pos(new Vector3(100, 40));
+	const pos = map.localToWorld(map.geo2pos(new Vector3(100, 40)));
 	const geo = new TeapotGeometry(200);
 	const mesh = new Mesh(geo, mat);
-	mesh.position.set(pos.x, pos.y, 2000);
-	mesh.rotateX(Math.PI / 2.0);
+	mesh.position.set(pos.x, 2000, pos.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
 	objGroup.add(mesh);
 	return mesh;
 })();
 const torus = (() => {
-	const pos = map.geo2pos(new Vector3(110, 40));
+	const pos = map.localToWorld(map.geo2pos(new Vector3(110, 40)));
 	const geo = new TorusKnotGeometry(200, 50);
 	const mesh = new Mesh(geo, mat);
-	mesh.position.set(pos.x, pos.y, 2000);
-	mesh.rotateX(Math.PI / 2.0);
+	mesh.position.set(pos.x, 2000, pos.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
 	objGroup.add(mesh);
@@ -101,10 +98,10 @@ util.addFakeEarth(viewer, map);
 // 几何体动画
 (() => {
 	const tween1 = new TWEEN.Tween(teap.position);
-	tween1.to({ z: 200 }, 1000).easing(TWEEN.Easing.Bounce.Out).start(6000);
+	tween1.to({ y: 200 }, 1000).easing(TWEEN.Easing.Bounce.Out).start(6000);
 
 	const tween2 = new TWEEN.Tween(torus.position);
-	tween2.to({ z: 250 }, 1000).easing(TWEEN.Easing.Bounce.Out).start(7000);
+	tween2.to({ y: 250 }, 1000).easing(TWEEN.Easing.Bounce.Out).start(7000);
 })();
 
 //---------------------------------------------------------------

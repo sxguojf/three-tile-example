@@ -675,9 +675,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-"three-tile@file:../three-tile":
+three-tile@^0.6.1:
   version "0.6.1"
-  resolved "file:../three-tile"
+  resolved "https://registry.npmmirror.com/three-tile/-/three-tile-0.6.1.tgz"
+  integrity sha512-jOHd7bmIwMuvf/iYjuFpJNArsZ5DVADyNljQ8caR7YckaadZ/4kNUb6lTKa7lnfCyFVCMaOTEzV3mVXkj0FR/g==
   dependencies:
     three "^0.165.0"
 

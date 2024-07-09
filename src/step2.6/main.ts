@@ -6,17 +6,17 @@ import "./style.css";
 import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
+
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(109, 34));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(-5, 10, 4);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 20, 1000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
+
 // 添加地球遮罩
 util.addFakeEarth(viewer, map);
 //-----------------------------------------------------------------------------------------

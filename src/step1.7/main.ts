@@ -5,16 +5,13 @@ import "./style.css";
 import * as util from "../util";
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap([ms.mapBoxImgSource, ms.xtCiaSource]);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(105, 34));
-
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -3e3, 4e3);
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 0, 10000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
@@ -27,7 +24,7 @@ map.addEventListener("tile-loaded", (evt) => {
 
 // 根据图片西南、东北角经纬度，计算图片的变换矩阵
 const getMatrix = (sw: Vector2, ne: Vector2, alt: number) => {
-	// 经纬度转换为场景坐标
+	// 经纬度转换为世界坐标
 	const p1 = map.geo2pos(new Vector3(sw.x, sw.y));
 	const p2 = map.geo2pos(new Vector3(ne.x, ne.y));
 	// 计算缩放和位置
@@ -54,7 +51,7 @@ const getMatrix = (sw: Vector2, ne: Vector2, alt: number) => {
 	const ne = new Vector2(140, 57);
 	mesh.applyMatrix4(getMatrix(sw, ne, 6));
 	mesh.renderOrder = 10;
-	viewer.scene.add(mesh);
+	map.add(mesh);
 })();
 
 //-------------------------------------------

@@ -7,14 +7,12 @@ import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(105, 40));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -1, 1e3);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 33, 3000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
@@ -25,34 +23,35 @@ util.addFakeEarth(viewer, map);
 //---------------------------------------------------------------------------------------
 
 const reset = () => {
+	const center = map.localToWorld(map.geo2pos(centerGeo));
 	const tween = new TWEEN.Tween(viewer.camera.position);
-	return tween.to({ x: center.x, y: center.y - 1e3, z: 1e4 }, 500);
+	return tween.to({ x: center.x, y: 1e4, z: center.y + 1e3 }, 500);
 };
 // 地图动画
 const anim1 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 1000, z: 1500 }, 1000).easing(TWEEN.Easing.Back.In))
+		.chain(tween.to({ y: 3000, z: 1000 }, 1000).easing(TWEEN.Easing.Back.In))
 		.start();
 };
 
 const anim2 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Bounce.Out))
+		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Bounce.Out))
 		.start();
 };
 const anim3 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Circular.In))
+		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Circular.In))
 		.start();
 };
 
 const anim4 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 1000, z: 1500 }, 3000).easing(TWEEN.Easing.Elastic.In))
+		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Elastic.In))
 		.start();
 };
 

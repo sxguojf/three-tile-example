@@ -7,14 +7,12 @@ import * as util from "../util";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(95, 25));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(0, -2e3, 3e3);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(108, 34, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(108, 0, 10000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
 
@@ -39,6 +37,7 @@ viewer.controls.addEventListener("change", () => {
 // 添加坐标轴
 (() => {
 	const axis = new AxesHelper(3000);
+	const center = map.localToWorld(map.geo2pos(centerGeo));
 	axis.position.set(center.x, center.y, 10);
 	viewer.scene.add(axis);
 })();

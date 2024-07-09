@@ -6,18 +6,14 @@ import "./style.css";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 地图中心经纬度，转换为场景坐标
-const center = map.geo2pos(new Vector3(100.3, 37));
-// 目标坐标（地图中心）
-const centerPosition = new Vector3(center.x, center.y, 0);
-// 摄像机相对于地图中心坐标的偏移量
-const offset = new Vector3(-6, -100, 100);
+// 地图中心经纬度高度
+const centerGeo = new Vector3(100, 30, 0);
+// 摄像机经纬度高度
+const cameraGeo = new Vector3(100, 0, 5000);
 // 创建viewer
-const viewer = util.createViewer("#map", centerPosition, offset);
+const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
-// 添加地球遮罩
-util.addFakeEarth(viewer, map);
 
 //----------------------------------------------------------------------------------
 
@@ -25,9 +21,9 @@ document.querySelector("#arcgis")?.addEventListener("click", () => {
 	// 用Source的create方法创建数据源
 	const imgSource = tt.TileSource.create({
 		dataType: "image",
+		attribution: "ArcGIS",
 		url: "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
 	});
-	imgSource.attribution = "ArcGIS";
 	map.imgSource = imgSource;
 	map.reload();
 });
@@ -63,23 +59,7 @@ document.querySelector("#google")?.addEventListener("click", () => {
 });
 
 document.querySelector("#debug")?.addEventListener("click", () => {
-	map.imgSource = [ms.mapBoxImgSource, new tt.TileSource({ attribution: "TileTest", dataType: "test" })];
-	map.reload();
-});
-
-document.querySelector("#demdebug")?.addEventListener("click", () => {
-	class DemImageSource extends tt.plugin.MapBoxSource {
-		protected style = "mapbox.terrain-rgb";
-		public dataType = "image";
-	}
-	map.imgSource = [
-		new DemImageSource(),
-		new tt.TileSource({
-			url: "https://webst04.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}",
-			attribution: "GAODE",
-			dataType: "image",
-		}),
-	];
+	map.imgSource = [ms.mapBoxImgSource, new tt.TileSource({ attribution: "TileTest", dataType: "debug" })];
 	map.reload();
 });
 

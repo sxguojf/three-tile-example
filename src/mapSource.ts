@@ -124,4 +124,4 @@ export const tencentSource = new tt.plugin.TXSource();
 export const googleSource = new tt.plugin.GoogleSource();
 
 // 测试瓦片
-export const testSource = new tt.TileSource({ dataType: "test" });
+export const testSource = new tt.TileSource({ dataType: "debug" });

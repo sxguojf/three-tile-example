@@ -17,22 +17,24 @@ import { MyViewer } from "./MyViewer";
 import "./style.css";
 
 // 创建地图
-const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
-// 为了与PointLockControls适配，需要将地图旋转-90°
-map.rotateX(-Math.PI / 2);
-// 增加瓦片视图缓冲区，使离开视野的瓦片不立即释放，以减少瓦片加过程中的空白块。当然它会增加内存占用。
-map.viewerBufferSize = 5;
-map.receiveShadow = true;
 //-----------------------------------------------------------------------------------------------------
-// 取得地图dom容器
-const glContainer = document.querySelector<HTMLElement>("#map");
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心
-const center = map.geo2pos(new Vector3(85.7, 28.3));
+const centerPostion = map.localToWorld(map.geo2pos(new Vector3(86, 28, 3)));
+const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(86.45, 27.6, 15)));
 // 使用自定义类初始化三维场景
-const viewer = new MyViewer(glContainer!, new Vector3(center.x - 2, 8, -center.y - 6));
-viewer.camera.lookAt(center.x, 5, -center.y);
+const viewer = new MyViewer("#map", { centerPostion, cameraPosition });
 // 将地图加入三维场景
 viewer.scene.add(map);
+// 启用阴影
+viewer.renderer.shadowMap.enabled = true;
+map.receiveShadow = true;
+
+// 增加瓦片视图缓冲区，使离开视野的瓦片不立即释放，以减少瓦片加过程中的空白块。当然它会增加内存占用。
+map.viewerBufferSize = 3;
+map.receiveShadow = true;
+
+//-----------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
 // const gun = new Mesh(
@@ -59,10 +61,11 @@ ball.receiveShadow = true;
 
 //----------------------------------射击-----------------------------------------------------
 viewer.container.addEventListener("click", (evt) => {
-	const camera = viewer.controls.getObject();
 	if (!viewer.controls.isLocked || evt.button != 0) {
 		return;
 	}
+
+	const camera = viewer.controls.getObject();
 
 	// 取得目标点坐标（光标处地面坐标）
 	const endPostion = map.getLocalInfoFromScreen(camera, new Vector2(0, 0))?.point;
@@ -96,13 +99,8 @@ viewer.container.addEventListener("click", (evt) => {
 		});
 	new Tween(aBall.rotation).to({ x: Math.PI, y: Math.PI, z: Math.PI }, delay).start();
 
-	// 后坐力动画
-	const cameraY = camera.position.y;
-	new Tween(camera.position)
-		.to({ y: cameraY + 1 }, 100)
-		.repeat(1)
-		.yoyo(true)
-		.start(1);
+	// 后坐力
+	camera.position.y += 2;
 });
 
 viewer.container.addEventListener("mousewheel", (evt) => {
@@ -113,17 +111,7 @@ viewer.container.addEventListener("mousewheel", (evt) => {
 	}
 });
 
-viewer.addEventListener("update", (_evt) => {
-	TWEEN.update();
-
-	viewer.dirLight.position.set(1, 3, 0);
-	viewer.dirLight.position.applyMatrix4(viewer.camera.matrixWorld);
-	viewer.dirLight.updateMatrixWorld();
-
-	viewer.dirLight.target.position.set(0, 2, -5);
-	viewer.dirLight.target.position.applyMatrix4(viewer.camera.matrixWorld);
-	viewer.dirLight.target.updateMatrixWorld();
-});
+viewer.addEventListener("update", () => TWEEN.update());
 
 //--------------------------------------位置------------------------------------------------------
 const vm = {
@@ -139,23 +127,21 @@ const vm = {
 		map.imgSource = ms.bingSource;
 		map.reload();
 	},
+	toXmly: () => {
+		const pos = map.localToWorld(map.geo2pos(new Vector3(86, 28, 15)));
+		viewer.camera.position.copy(pos);
+	},
 	toXian: () => {
-		const pos = map.geo2pos(new Vector3(108.94, 34.3));
-		viewer.camera.position.set(pos.x, 2, -pos.y + 5);
-		viewer.cameraZ = 2;
-		viewer.camera.rotation.set(-0.46, 0, 0);
+		const pos = map.localToWorld(map.geo2pos(new Vector3(109, 34.7, 8)));
+		viewer.camera.position.copy(pos);
+	},
+	toBeijing: () => {
+		const pos = map.localToWorld(map.geo2pos(new Vector3(116.4, 40, 10)));
+		viewer.camera.position.copy(pos);
 	},
 	toXiangGang: () => {
-		const pos = map.geo2pos(new Vector3(114.18, 22.3));
-		viewer.camera.position.set(pos.x, 2, -pos.y);
-		viewer.cameraZ = 2;
-		viewer.camera.rotation.set(-0.46, 0, 0);
-	},
-	toFushishan: () => {
-		const pos = map.geo2pos(new Vector3(138.7322, 35.35356));
-		viewer.camera.position.set(pos.x, 5, -pos.y + 5);
-		viewer.cameraZ = 5;
-		viewer.camera.rotation.set(-0.46, 0, 0);
+		const pos = map.localToWorld(map.geo2pos(new Vector3(114.18, 22.3, 5)));
+		viewer.camera.position.copy(pos);
 	},
 };
 //--------------------------------------gui------------------------------------------------------
@@ -174,8 +160,8 @@ const vm = {
 
 	const locationFolder = gui.addFolder("定位");
 	locationFolder.add(vm, "toXian").name("西安");
-	locationFolder.add(vm, "toXiangGang").name("香港");
-	locationFolder.add(vm, "toFushishan").name("富士山");
+	locationFolder.add(vm, "toBeijing").name("北京");
+	locationFolder.add(vm, "toXmly").name("喜马拉雅");
 
 	const controlFolder = gui.addFolder("控制");
 	controlFolder
@@ -186,17 +172,8 @@ const vm = {
 	controlFolder.add(viewer, "autoForward").name("自动前进");
 })();
 //--------------------------------------------------------------------------------------
-const showSky = (viewer: MyViewer) => {
-	const bk = new CubeTextureLoader()
-		.setPath("../image/skybox/")
-		// 左右上下前后
-		.load(["skybox_py.png", "skybox_py.png", "skybox_px.png", "skybox_px.png", "skybox_pz.png", "skybox_pz.png"]);
-	// bk.rotation = -Math.PI / 2;
-	// bk.flipY = true;
-	viewer.scene.background = bk;
-};
 
-showSky(viewer as any);
+util.addSky(viewer as any);
 util.addMapBackground(map);
 util.showLoadstate(map);
 util.showLocation(viewer as any, map);

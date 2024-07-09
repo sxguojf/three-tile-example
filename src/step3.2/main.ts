@@ -3,26 +3,26 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import { AnimationMixer, DirectionalLight, Group, Vector3 } from "three";
 import TWEEN from "three/examples/jsm/libs/tween.module";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import * as util from "../util";
 import * as ms from "../mapSource";
+import * as util from "../util";
 import { MyViewer } from "./MyViewer";
 import "./style.css";
 
 // 创建地图
-const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 //-----------------------------------------------------------------------------------------------------
-// 取得地图dom容器
-const glContainer = document.querySelector<HTMLElement>("#map");
+const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心
-const center = map.geo2pos(new Vector3(86.92, 28.5));
+const centerPostion = map.localToWorld(map.geo2pos(new Vector3(86, 28, 3)));
+const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(86.45, 27.6, 15)));
 // 使用自定义类初始化三维场景
-const viewer = new MyViewer(glContainer!, new Vector3(center.x, center.y, 10));
+const viewer = new MyViewer("#map", { centerPostion, cameraPosition });
 // 将地图加入三维场景
 viewer.scene.add(map);
-// 地图可接受阴影
+// 启用阴影
+viewer.renderer.shadowMap.enabled = true;
 map.receiveShadow = true;
+//-----------------------------------------------------------------------------------------------------
 
-//-----------------------------------加载模型------------------------------------------------------
 const loader = new GLTFLoader();
 loader.loadAsync("../model/Flamingo.glb").then((gltf) => {
 	const model = gltf.scene;
@@ -37,6 +37,7 @@ loader.loadAsync("../model/Flamingo.glb").then((gltf) => {
 	update(gltf);
 });
 
+// 添加灯光以显示模型阴影
 const initLight = (model: Group) => {
 	const dirLight = new DirectionalLight(0xffffff, 1.5);
 	dirLight.target = model;
@@ -50,7 +51,6 @@ const initLight = (model: Group) => {
 	dirLight.shadow.camera.bottom = -10;
 	dirLight.shadow.mapSize.setScalar(1024);
 	model.add(dirLight);
-	// viewer.scene.add(new CameraHelper(dirLight.shadow.camera));
 };
 
 //--------------------------------------模型位置更新--------------------------------------------------
@@ -59,14 +59,13 @@ const update = (gltf: GLTF) => {
 	const mixer = new AnimationMixer(model);
 	mixer.clipAction(gltf.animations[0]).play();
 	viewer.addEventListener("update", (evt) => {
-		// 固定位置
+		// 固定在摄像机前面
 		model.position.set(0, -0.5, -3);
 		model.applyMatrix4(viewer.camera.matrixWorld);
 
-		// 地面高度
-		const groundAltition =
-			map.getLocalInfoFromWorld(new Vector3(model.position.x, model.position.y))?.location.z || 0;
-		vm.modelHeight = model.position.z - groundAltition;
+		// 正下方地面高度
+		const groundAltition = map.getLocalInfoFromWorld(model.position)?.location.z || 0;
+		vm.modelHeight = model.position.y - groundAltition;
 
 		// 撞地死了
 		if (vm.modelHeight <= 0.2) {
@@ -101,20 +100,20 @@ const vm = {
 		map.reload();
 	},
 	toXmly: () => {
-		const pos = map.geo2pos(new Vector3(86.92, 28.4));
-		viewer.camera.position.set(pos.x, pos.y, 15);
+		const pos = map.localToWorld(map.geo2pos(new Vector3(86, 28, 15)));
+		viewer.camera.position.copy(pos);
 	},
 	toXian: () => {
-		const pos = map.geo2pos(new Vector3(109, 34.7));
-		viewer.camera.position.set(pos.x, pos.y, 8);
+		const pos = map.localToWorld(map.geo2pos(new Vector3(109, 34.7, 8)));
+		viewer.camera.position.copy(pos);
 	},
 	toBeijing: () => {
-		const pos = map.geo2pos(new Vector3(116.4, 40));
-		viewer.camera.position.set(pos.x, pos.y, 10);
+		const pos = map.localToWorld(map.geo2pos(new Vector3(116.4, 40, 10)));
+		viewer.camera.position.copy(pos);
 	},
 	toXiangGang: () => {
-		const pos = map.geo2pos(new Vector3(114.18, 22.3));
-		viewer.camera.position.set(pos.x, pos.y, 5);
+		const pos = map.localToWorld(map.geo2pos(new Vector3(114.18, 22.3, 5)));
+		viewer.camera.position.copy(pos);
 	},
 };
 
@@ -123,7 +122,7 @@ const intiGui = (model: Group) => {
 	const gui = new GUI();
 
 	const mapSetupFolder = gui.addFolder("环境");
-	mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.01, 0.0001).name("能见度系数");
+	mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.01, 0.00001).name("能见度系数");
 	mapSetupFolder.add(viewer.ambLight, "intensity", 0.1, 2.0, 0.1).name("环境光强度");
 	const mapPorviderFolder = gui.addFolder("地图源");
 	mapPorviderFolder.add(vm, "mapbox");
@@ -133,13 +132,12 @@ const intiGui = (model: Group) => {
 	const modelFolder = gui.addFolder("小鸟");
 	modelFolder.add(model, "visible").name("显示");
 	modelFolder.add(viewer.controls, "autoForward").name("自动前进");
-	modelFolder.add(model.position, "z").listen().name("飞行海拔高度km");
+	modelFolder.add(model.position, "y").listen().name("飞行海拔高度km");
 	modelFolder.add(vm, "modelHeight").listen().name("飞行距地高度km");
 
 	const locationFolder = gui.addFolder("定位");
 	locationFolder.add(vm, "toXian").name("西安");
 	locationFolder.add(vm, "toBeijing").name("北京");
-
 	locationFolder.add(vm, "toXmly").name("喜马拉雅");
 };
 //--------------------------------------------------------------------------------------
