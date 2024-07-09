@@ -31,27 +31,27 @@ const reset = () => {
 const anim1 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 1000).easing(TWEEN.Easing.Back.In))
+		.chain(tween.to({ y: 1000, z: -2000 }, 1000).easing(TWEEN.Easing.Back.In))
 		.start();
 };
 
 const anim2 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Bounce.Out))
+		.chain(tween.to({ y: 1000, z: -2000 }, 3000).easing(TWEEN.Easing.Bounce.Out))
 		.start();
 };
 const anim3 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Circular.In))
+		.chain(tween.to({ y: 1000, z: -2000 }, 3000).easing(TWEEN.Easing.Circular.In))
 		.start();
 };
 
 const anim4 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Elastic.In))
+		.chain(tween.to({ y: 1000, z: -2000 }, 3000).easing(TWEEN.Easing.Elastic.In))
 		.start();
 };
 
