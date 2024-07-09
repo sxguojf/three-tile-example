@@ -1,16 +1,6 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 // import * as tt from "../dist/three-tile";
-import {
-	Camera,
-	CapsuleGeometry,
-	Group,
-	Mesh,
-	MeshPhongMaterial,
-	SphereGeometry,
-	TextureLoader,
-	Vector2,
-	Vector3,
-} from "three";
+import { Group, Mesh, MeshPhongMaterial, SphereGeometry, TextureLoader, Vector2, Vector3 } from "three";
 import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module";
 import * as ms from "../mapSource";
 import * as util from "../util";

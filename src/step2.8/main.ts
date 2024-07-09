@@ -1,9 +1,9 @@
 import { Vector3 } from "three";
 // import * as tt from "../dist/three-tile";
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
+import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";
-import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
