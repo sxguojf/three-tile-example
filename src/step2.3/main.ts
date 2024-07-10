@@ -20,6 +20,9 @@ viewer.scene.add(map);
 
 // 添加地球遮罩
 util.addFakeEarth(viewer, map);
+
+// 防止摄像机碰撞地面
+util.limitCameraHeight(viewer, map);
 /*----------------------------------------选项gui----------------------------------------*/
 const gui = new GUI();
 const mapSetupFolder = gui.addFolder("地图控制");
