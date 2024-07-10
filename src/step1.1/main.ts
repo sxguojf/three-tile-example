@@ -23,17 +23,12 @@ export const mapBoxDemSource = new tt.plugin.MapBoxSource({
 
 // 创建地图
 function createMap() {
-	// 影像数据源
-	const imgSource = mapBoxImgSource;
-	// 地形数据源
-	const demSource = mapBoxDemSource;
-
 	// 创建地图对象
 	const map = new tt.TileMap({
 		// 影像数据源
-		imgSource: imgSource,
+		imgSource: mapBoxImgSource,
 		// 高程数据源
-		demSource: demSource,
+		demSource: mapBoxDemSource,
 		// 地图投影中央经线经度
 		lon0: 90,
 		// 最小缩放级别
