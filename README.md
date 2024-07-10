@@ -1,4 +1,4 @@
-# **three-tile V0.6**
+# **three-tile V0.6.1**
 
 <p align='right'>hz_gjf@163.com </p>
 

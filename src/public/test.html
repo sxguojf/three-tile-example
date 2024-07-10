@@ -1,85 +1,93 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-    <head>
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-        />
-        <title>three-tile</title>
-    </head>
-    <style>
-        html,
-        body {
-            background-color: #333;
-            height: 100%;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
-        #map {
-            flex: 1;
-        }
-    </style>
-    <body>
-        <div id="map"></div>
-        <script src="./three.js"></script>
-        <script src="./three-tile.umd.js"></script>
-        <script>
-            // import * as tt from "./three-tile.es.js";
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+		/>
+		<title>three-tile最小化应用</title>
+	</head>
+	<style>
+		html,
+		body {
+			background-color: #333;
+			height: 100%;
+			width: 100%;
+			padding: 0;
+			margin: 0;
+			display: flex;
+		}
+		#map {
+			flex: 1;
+		}
+	</style>
 
-            console.log("three-tile start!");
+	<!-- 因three@v0.150+废弃了普通导入方式，需要改为使用importmap导入 -->
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://unpkg.com/three@0.165.0/build/three.module.js",
+				"three-tile": "https://unpkg.com/three-tile@0.6.1/dist/three-tile.js"
+			}
+		}
+	</script>
 
-            // MapBoxToken 请更换为你自己申请的key
-            const MAPBOXKEY =
-                "pk.eyJ1IjoiZ3VvamYiLCJhIjoiY2tlZzBkbDh4MGdwZTJ4cnpweTE5a3A1ayJ9.mQnCskKBn7ni_C7zdSO8Gw";
+	<body>
+		<div id="map"></div>
+		<script type="module">
+			import * as THREE from "three";
+			import * as tt from "three-tile";
 
-            // 创建地图
-            const map = tt.TileMap.create({
-                // 影像数据源
-                imgProvider: new tt.MapBoxImgProvider(MAPBOXKEY),
-                // 地形数据源
-                demProvider: new tt.MapBoxDemProvider(MAPBOXKEY),
-                // 地图投影中心经度
-                projCenterLon: 90,
-                // 最小缩放级别
-                minLevel: 2,
-                // 最大缩放级别
-                maxLevel: 18,
-            });
-            map.loader.showLoading = false;
+			console.log(`three-tile v${tt.version} start!`);
 
-            // 地图中心经纬度转为场景坐标
-            const center = map.project(108.942, 34.2855);
+			// MapBoxToken 请更换为你自己申请的key
+			const MAPBOXKEY =
+				"pk.eyJ1Ijoic3ZjLW9rdGEtbWFwYm94LXN0YWZmLWFjY2VzcyIsImEiOiJjbG5sMnBoMm0xeWZzMmtyaWl0b2wyN2FuIn0.-zx1KP3Oy-7YzWcvhbv22Q";
 
-            const container = document.querySelector("#map");
-            const viewer = new tt.plugin.GLViewer(
-                container,
-                new THREE.Vector3(center.x, center.y, 0),
-                new THREE.Vector3(center.x, center.y, 3e4)
-            );
+			// mapbox影像数据源
+			const mapBoxImgSource = new tt.plugin.MapBoxSource({
+				token: MAPBOXKEY,
+				dataType: "image",
+				style: "mapbox.satellite",
+			});
+			// mapbox地形数据源
+			const mapBoxDemSource = new tt.plugin.MapBoxSource({
+				token: MAPBOXKEY,
+				dataType: "terrain-rgb",
+				style: "mapbox.terrain-rgb",
+				maxLevel: 15,
+			});
 
-            viewer.scene.background.set(0);
-            viewer.scene.fog.color = viewer.scene.background;
-            viewer.scene.add(map);
+			// 创建地图
+			const map = tt.TileMap.create({
+				// 影像数据源
+				imgSource: mapBoxImgSource,
+				// 地形数据源
+				demSource: mapBoxDemSource,
+				// 地图投影中心经度
+				lon0: 90,
+				// 最小缩放级别
+				minLevel: 2,
+				// 最大缩放级别
+				maxLevel: 18,
+			});
+			// 地图旋转到xz平面
+			map.rotateX(-Math.PI / 2);
 
-            // 添加地图坐标轴
-            const helper = new THREE.AxesHelper(1000);
-            helper.position.set(center.x, center.y, 1);
-            viewer.scene.add(helper);
+			// 地图中心坐标(经度，纬度，高度)
+			const centerGeo = new THREE.Vector3(105, 30, 0);
+			// 摄像坐标(经度，纬度，高度)
+			const camersGeo = new THREE.Vector3(105, 0, 5000);
+			// 地图中心转为世界坐标
+			const centerPostion = map.localToWorld(map.geo2pos(centerGeo));
+			// 摄像机转为世界坐标
+			const cameraPosition = map.localToWorld(map.geo2pos(camersGeo));
+			// 初始化场景
+			const viewer = new tt.plugin.GLViewer("#map", { centerPostion, cameraPosition });
 
-            // 动画漫游到3500km高空
-            (() => {
-                const timer = setInterval(() => {
-                    const pos = viewer.camera.position;
-                    pos.z -= 500;
-                    pos.y -= 100;
-                    if (pos.z < 3500) {
-                        clearInterval(timer);
-                    }
-                }, 100);
-            })();
-        </script>
-    </body>
+			// 地图添加到场景
+			viewer.scene.add(map);
+		</script>
+	</body>
 </html>
