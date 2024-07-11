@@ -63,23 +63,30 @@ const update = (gltf: GLTF) => {
 		model.position.set(0, -0.5, -3);
 		model.applyMatrix4(viewer.camera.matrixWorld);
 
-		// 正下方地面高度
-		const groundAltition = map.getLocalInfoFromWorld(model.position)?.location.z || 0;
-		vm.modelHeight = model.position.y - groundAltition;
-
-		// 撞地死了
-		if (vm.modelHeight <= 0.2) {
+		// 小鸟正下方地面高度（世界坐标）
+		const groundInfo = map.getLocalInfoFromWorld(model.position);
+		if (groundInfo) {
+			vm.modelHeight = model.position.y - groundInfo.point.y;
+		}
+		// 小鸟距地高度<0.2km撞死，否则动画飞行
+		if (groundInfo && vm.modelHeight <= 0.2) {
+			// 撞地死了
 			model.rotateZ(evt.delta * Math.PI);
 			viewer.controls.movementSpeed = 0;
 		} else {
-			const target = new Vector3(0, 0, -10).applyMatrix4(viewer.camera.matrixWorld);
-			model.lookAt(target);
-			viewer.controls.movementSpeed = 2;
-			mixer.update(evt.delta);
+			fly(evt.delta);
 		}
 
 		TWEEN.update();
 	});
+
+	const fly = (delta: number) => {
+		// 摄像机坐标转模型坐标
+		const target = new Vector3(0, 0, -10).applyMatrix4(viewer.camera.matrixWorld);
+		model.lookAt(target);
+		viewer.controls.movementSpeed = 2;
+		mixer.update(delta);
+	};
 };
 
 //--------------------------------------位置------------------------------------------------------

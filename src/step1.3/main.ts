@@ -34,7 +34,7 @@ function showLocation(viewer: tt.plugin.GLViewer, map: tt.TileMap): void {
                             纬度:${info.location.y.toFixed(6)}°  
                             海拔:${info.location.z.toFixed(6)}km
                          	</br> `;
-			el.innerHTML += `地图坐标:(${info.point.x.toFixed(6)},${info.point.x.toFixed(6)},${info.point.x.toFixed(
+			el.innerHTML += `世界坐标:(${info.point.x.toFixed(6)},${info.point.x.toFixed(6)},${info.point.x.toFixed(
 				6,
 			)})`;
 

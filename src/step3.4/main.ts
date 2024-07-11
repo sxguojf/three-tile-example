@@ -158,7 +158,7 @@ const mapclick = (gltf: GLTF, mixer: AnimationMixer) => {
 			return;
 		}
 		// 开始点与目标点距离
-		tween = runTo(gltf, mixer, endPostion, tween);
+		tween = runTo(gltf, mixer, map.worldToLocal(endPostion.clone()), tween);
 	});
 };
 
@@ -187,9 +187,9 @@ const runTo = (gltf: GLTF, mixer: AnimationMixer, endPostion: Vector3, tween: Tw
 				mixer.clipAction(anim[speed]).play();
 			})
 			.onUpdate((currentPositon, _elapsed) => {
-				const pos = map.getLocalInfoFromWorld(map.localToWorld(currentPositon))?.point;
+				const pos = map.getLocalInfoFromWorld(map.localToWorld(currentPositon.clone()))?.point;
 				if (pos) {
-					model.position.copy(pos);
+					model.position.copy(map.worldToLocal(pos.clone()));
 				}
 			})
 			.onComplete(() => {

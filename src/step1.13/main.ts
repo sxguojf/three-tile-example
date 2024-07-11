@@ -32,7 +32,7 @@ viewer.container.addEventListener("click", (evt) => {
 		// 创建模型
 		const model = new Mesh(new BoxGeometry(0.1, 0.1, 0.1), new MeshLambertMaterial());
 		model.position.copy(position);
-		map.add(model);
+		viewer.scene.add(model);
 	}
 });
 

@@ -1,7 +1,7 @@
 {
 	"name": "three-tile-example",
 	"private": true,
-	"version": "0.5.2",
+	"version": "0.6.2",
 	"type": "module",
 	"description": "three-tile example",
 	"license": "MIT",
@@ -33,6 +33,6 @@
 	},
 	"dependencies": {
 		"three": "^0.165.0",
-		"three-tile": "^0.6.1"
+		"three-tile": "^0.6.2"
 	}
 }

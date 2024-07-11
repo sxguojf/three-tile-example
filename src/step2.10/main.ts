@@ -96,8 +96,9 @@ const createTransControl = (model: Group) => {
 /*----------------------------------------选项gui----------------------------------------*/
 const initGui = (model: Group) => {
 	const center = map.localToWorld(map.geo2pos(centerGeo));
+	// 地图未加载完成无法取得地面坐标
+	// const center = map.getLocalInfoFromGeo(centerGeo)!.point;
 	center.setY(0.55);
-	// const position = map.localToWorld(map.getLocalInfoFromGeo(centerGeo)!.point);
 	const vm = {
 		initModel: () => {
 			model.scale.setScalar(5e-4);
