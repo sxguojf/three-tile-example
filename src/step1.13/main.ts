@@ -1,4 +1,4 @@
-import { MathUtils, Vector2, Vector3 } from "three";
+import { BoxGeometry, MathUtils, Mesh, MeshLambertMaterial, Vector2, Vector3 } from "three";
 import * as tt from "three-tile";
 import * as util from "../util";
 import * as ms from "../mapSource";
@@ -7,9 +7,9 @@ import "./style.css";
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心经纬度高度
-const centerGeo = new Vector3(108, 34, 0);
+const centerGeo = new Vector3(108.990338, 34.170739, 0);
 // 摄像机经纬度高度
-const cameraGeo = new Vector3(108, 0, 10000);
+const cameraGeo = new Vector3(108.979247, 34.16483, 1.371867);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
@@ -19,6 +19,23 @@ viewer.scene.add(map);
 viewer.controls.saveState();
 
 /*----------------------------------------------------------------*/
+// 鼠标点击地图，放置模型
+viewer.container.addEventListener("click", (evt) => {
+	const camera = viewer.camera;
+	const pointer = new Vector2();
+	// 鼠标点击的屏幕坐标（-0.5到+0.5范围）
+	pointer.x = (evt.clientX / viewer.container.clientWidth) * 2 - 1;
+	pointer.y = 1 - (evt.clientY / viewer.container.clientHeight) * 2;
+	// 取得目标点坐标（光标处地面坐标）
+	const position = map.getLocalInfoFromScreen(camera, pointer)?.point;
+	if (position) {
+		// 创建模型
+		const model = new Mesh(new BoxGeometry(0.1, 0.1, 0.1), new MeshLambertMaterial());
+		model.position.copy(position);
+		map.add(model);
+	}
+});
+
 // 显示地理位置信息
 function showLocation(viewer: tt.plugin.GLViewer, map: tt.TileMap): void {
 	const pointer = new Vector2();
@@ -33,7 +50,7 @@ function showLocation(viewer: tt.plugin.GLViewer, map: tt.TileMap): void {
 			el.innerHTML = `经度:${info.location.x.toFixed(6)}°  
                             纬度:${info.location.y.toFixed(6)}°  
                             海拔:${info.location.z.toFixed(6)}km
-                         	</br> `;
+                           </br> `;
 			el.innerHTML += `地图坐标:(${info.point.x.toFixed(6)},${info.point.x.toFixed(6)},${info.point.x.toFixed(
 				6,
 			)})`;
@@ -55,20 +72,20 @@ function showCameraInfo(viewer: tt.plugin.GLViewer): void {
 			const cameraGeo = map.pos2geo(map.worldToLocal(viewer.camera.position.clone()));
 			const controlGeo = map.pos2geo(map.worldToLocal(viewer.controls.target.clone()));
 			el.innerHTML = `摄像机: 世界坐标(${viewer.camera.position.x.toFixed(1)},
-                               ${viewer.camera.position.y.toFixed(1)},
-                               ${viewer.camera.position.z.toFixed(1)}),
-                               地理坐标:(${cameraGeo.x.toFixed(1)},
-                               ${cameraGeo.y.toFixed(1)},
-                               ${cameraGeo.z.toFixed(1)}),<br/>                        
-                        控制器: 世界坐标(${viewer.controls.target.x.toFixed(1)},
-                               ${viewer.controls.target.y.toFixed(1)},
-                               ${viewer.controls.target.z.toFixed(1)}),
-                               地理坐标:(${controlGeo.x.toFixed(1)},
-                               ${controlGeo.y.toFixed(1)},
-                               ${controlGeo.z.toFixed(1)}),<br/>                        
-                        地图: 方位角:${MathUtils.radToDeg(viewer.controls.getAzimuthalAngle()).toFixed(1)}°, 
-                        俯仰角:${MathUtils.radToDeg(viewer.controls.getPolarAngle()).toFixed(1)}°,
-                        距离:${viewer.controls.getDistance().toFixed(1)}km`;
+                               ${viewer.camera.position.y.toFixed(6)},
+                               ${viewer.camera.position.z.toFixed(6)}),
+                               地理坐标:(${cameraGeo.x.toFixed(6)},
+                               ${cameraGeo.y.toFixed(6)},
+                               ${cameraGeo.z.toFixed(6)}),<br/>                        
+                        控制器: 世界坐标(${viewer.controls.target.x.toFixed(6)},
+                               ${viewer.controls.target.y.toFixed(6)},
+                               ${viewer.controls.target.z.toFixed(6)}),
+                               地理坐标:(${controlGeo.x.toFixed(6)},
+                               ${controlGeo.y.toFixed(6)},
+                               ${controlGeo.z.toFixed(6)}),<br/>                        
+                        地图: 方位角:${MathUtils.radToDeg(viewer.controls.getAzimuthalAngle()).toFixed(6)}°, 
+                        俯仰角:${MathUtils.radToDeg(viewer.controls.getPolarAngle()).toFixed(6)}°,
+                        距离:${viewer.controls.getDistance().toFixed(6)}km`;
 		}
 	};
 	viewer.controls.addEventListener("change", show);
@@ -77,3 +94,5 @@ function showCameraInfo(viewer: tt.plugin.GLViewer): void {
 
 showLocation(viewer, map);
 showCameraInfo(viewer);
+
+util.limitCameraHeight(viewer, map);
