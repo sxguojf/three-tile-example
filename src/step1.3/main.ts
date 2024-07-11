@@ -55,20 +55,20 @@ function showCameraInfo(viewer: tt.plugin.GLViewer): void {
 			const cameraGeo = map.pos2geo(map.worldToLocal(viewer.camera.position.clone()));
 			const controlGeo = map.pos2geo(map.worldToLocal(viewer.controls.target.clone()));
 			el.innerHTML = `摄像机: 世界坐标(${viewer.camera.position.x.toFixed(1)},
-                               ${viewer.camera.position.y.toFixed(1)},
-                               ${viewer.camera.position.z.toFixed(1)}),
-                               地理坐标:(${cameraGeo.x.toFixed(1)},
-                               ${cameraGeo.y.toFixed(1)},
-                               ${cameraGeo.z.toFixed(1)}),<br/>                        
-                        控制器: 世界坐标(${viewer.controls.target.x.toFixed(1)},
-                               ${viewer.controls.target.y.toFixed(1)},
-                               ${viewer.controls.target.z.toFixed(1)}),
-                               地理坐标:(${controlGeo.x.toFixed(1)},
-                               ${controlGeo.y.toFixed(1)},
-                               ${controlGeo.z.toFixed(1)}),<br/>                        
-                        地图: 方位角:${MathUtils.radToDeg(viewer.controls.getAzimuthalAngle()).toFixed(1)}°, 
-                        俯仰角:${MathUtils.radToDeg(viewer.controls.getPolarAngle()).toFixed(1)}°,
-                        距离:${viewer.controls.getDistance().toFixed(1)}km`;
+                               ${viewer.camera.position.y.toFixed(6)},
+                               ${viewer.camera.position.z.toFixed(6)}),
+                               地理坐标:(${cameraGeo.x.toFixed(6)},
+                               ${cameraGeo.y.toFixed(6)},
+                               ${cameraGeo.z.toFixed(6)}),<br/>                        
+                        控制器: 世界坐标(${viewer.controls.target.x.toFixed(6)},
+                               ${viewer.controls.target.y.toFixed(6)},
+                               ${viewer.controls.target.z.toFixed(6)}),
+                               地理坐标:(${controlGeo.x.toFixed(6)},
+                               ${controlGeo.y.toFixed(6)},
+                               ${controlGeo.z.toFixed(6)}),<br/>                        
+                        地图: 方位角:${MathUtils.radToDeg(viewer.controls.getAzimuthalAngle()).toFixed(6)}°, 
+                        俯仰角:${MathUtils.radToDeg(viewer.controls.getPolarAngle()).toFixed(6)}°,
+                        距离:${viewer.controls.getDistance().toFixed(6)}km`;
 		}
 	};
 	viewer.controls.addEventListener("change", show);
