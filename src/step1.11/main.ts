@@ -1,40 +1,45 @@
-import { MathUtils, Vector2, Vector3 } from "three";
+import { Color, MathUtils, Vector2, Vector3 } from "three";
 import * as tt from "three-tile";
 import * as util from "../util";
 import * as ms from "../mapSource";
 import "./style.css";
 
-const imgSource = tt.TileSource.create({
-	url: "http://127.0.0.1:5500/testSource/img/{z}/{x}/{y}.png",
-	bounds: [108.60157012939453, 30.64670562744141, 108.65313291549683, 30.69008231163025],
-	minLevel: 0,
-	maxLevel: 16,
+/*------------------------------------创建自定义区域数据源------------------------------------*/
+// 未处理半块瓦片情况，需要自行裁切瓦片
+
+// 地图范围
+const bounds: [number, number, number, number] = [
+	108.60157012939453, 30.64670562744141, 108.65313291549683, 30.69008231163025,
+];
+// mapbox 影像数据源
+const imgSource = new tt.plugin.MapBoxSource({
+	token: ms.MAPBOXKEY,
+	dataType: "image",
+	style: "mapbox.satellite",
+	bounds,
 });
 
-// const demSource = tt.TileSource.create({
-// 	dataType: "terrain-rgb",
-// 	url: "http://127.0.0.1:5500/testSource/dem/{z}/{x}/{y}.png",
-// 	bounds: [108.60157012939453, 30.64670562744141, 108.65313291549683, 30.69008231163025],
-// 	maxLevel: 15,
-// 	minLevel: 5,
-// });
+// mapbox 高程数据源
+const demSource = new tt.plugin.MapBoxSource({
+	token: ms.MAPBOXKEY,
+	dataType: "terrain-rgb",
+	style: "mapbox.terrain-rgb",
+	maxLevel: 15,
+	bounds,
+});
 
 /*----------------------------------------创建地图----------------------------------------*/
-const map = util.createMap([ms.arcGisSource, imgSource, ms.testSource], ms.mapBoxDemSource);
-// const map = util.createMap([imgSource, ms.testSource], demSource);
-// map.maxLevel = 16;
+const map = util.createMap([imgSource, ms.testSource], demSource);
 // 地图中心经纬度高度
 const centerGeo = new Vector3(108.627984, 30.66284, 0.0);
 // 摄像机经纬度高度
 const cameraGeo = new Vector3(108.627139, 30.64138, 3.309163);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-
+// 背景色改为黑色
+viewer.scene.background = new Color(0);
 // 地图加入viewer
 viewer.scene.add(map);
-
-// 保存控制器参数，以便复位
-viewer.controls.saveState();
 
 /*----------------------------------------------------------------*/
 // 显示地理位置信息

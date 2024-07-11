@@ -29,7 +29,8 @@ const cameraGeo = new Vector3(87.3, 28.2, 6);
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 地图加入viewer
 viewer.scene.add(map);
-
+// 防止摄像机碰撞地面
+util.limitCameraHeight(viewer, map);
 //-----------------------------------------------------------------------------------------------------
 map.receiveShadow = true;
 viewer.renderer.shadowMap.enabled = true;

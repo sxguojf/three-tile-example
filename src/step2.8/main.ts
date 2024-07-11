@@ -1,9 +1,9 @@
 import { Vector3 } from "three";
 // import * as tt from "../dist/three-tile";
 import TWEEN from "three/examples/jsm/libs/tween.module.js";
+import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";
-import * as ms from "../mapSource";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
@@ -31,27 +31,27 @@ const reset = () => {
 const anim1 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 1000).easing(TWEEN.Easing.Back.In))
+		.chain(tween.to({ y: 1000, z: -2000 }, 1000).easing(TWEEN.Easing.Back.In))
 		.start();
 };
 
 const anim2 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Bounce.Out))
+		.chain(tween.to({ y: 1000, z: -2000 }, 3000).easing(TWEEN.Easing.Bounce.Out))
 		.start();
 };
 const anim3 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Circular.In))
+		.chain(tween.to({ y: 1000, z: -2000 }, 3000).easing(TWEEN.Easing.Circular.In))
 		.start();
 };
 
 const anim4 = () => {
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	reset()
-		.chain(tween.to({ y: 3000, z: 1000 }, 3000).easing(TWEEN.Easing.Elastic.In))
+		.chain(tween.to({ y: 1000, z: -2000 }, 3000).easing(TWEEN.Easing.Elastic.In))
 		.start();
 };
 

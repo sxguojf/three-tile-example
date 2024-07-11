@@ -24,6 +24,8 @@ const cameraPosition = map.localToWorld(map.geo2pos(cameraGeo));
 const viewer = new MyViewer("#map", { centerPostion: centerPostion, cameraPosition: cameraPosition });
 // 将地图加入三维场景
 viewer.scene.add(map);
+// 防止摄像机碰撞地面
+util.limitCameraHeight(viewer as any, map);
 
 //-----------------------------------------------------------------------------------------------------
 const ball = (() => {
