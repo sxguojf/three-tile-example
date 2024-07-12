@@ -1,7 +1,7 @@
 import { Color, Vector3 } from "three";
 import * as tt from "three-tile";
 import * as ms from "../mapSource";
-import "./WatermarkLoader";
+import "./WaterMarkLoader";
 import "./style.css";
 
 // 创建水印数据源

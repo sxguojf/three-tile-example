@@ -1,4 +1,4 @@
-import { Color, Vector3 } from "three";
+import { Vector3 } from "three";
 import * as tt from "three-tile";
 import * as ms from "../mapSource";
 import "./style.css";
