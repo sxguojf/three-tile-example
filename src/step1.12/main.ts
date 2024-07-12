@@ -1,4 +1,4 @@
-import { Color, Vector3 } from "three";
+import { Vector3 } from "three";
 import * as tt from "three-tile";
 import * as ms from "../mapSource";
 import "./style.css";
@@ -33,7 +33,7 @@ function limitCameraHeight(viewer: tt.plugin.GLViewer, map: tt.TileMap) {
 		const info = map.getLocalInfoFromWorld(checkPoint);
 		if (info) {
 			// 地面高度与摄像机高度差
-			return map.worldToLocal(checkPoint).z - info.point.z;
+			return map.worldToLocal(checkPoint).z - map.worldToLocal(info.point).z;
 		} else {
 			return 10;
 		}

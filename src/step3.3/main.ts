@@ -55,7 +55,9 @@ viewer.container.addEventListener("click", (evt) => {
 	// 取得视线与地面交点
 	const focus = map.getLocalInfoFromScreen(camera, new Vector2(0, 0));
 	// 球终点坐标，有交点则取交点，无交点则取摄像机前方100km
-	const endPostion = focus ? focus.point : map.worldToLocal(camera.localToWorld(new Vector3(0, 0, -100)));
+	const endPostion = focus
+		? map.worldToLocal(focus.point)
+		: map.worldToLocal(camera.localToWorld(new Vector3(0, 0, -100)));
 
 	const aBall = ball.clone();
 	aBall.scale.setScalar(viewer.cameraZ / 40);

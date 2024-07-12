@@ -72,7 +72,7 @@ map.add(labelGroup);
 			label.addEventListener("mouseenter", () => {
 				const info = map.getLocalInfoFromGeo(new Vector3(lonlat.x, lonlat.y));
 				if (info) {
-					label.title = `场景坐标：\nx: ${info.point.x.toFixed(3)}\ny: ${info.point.y.toFixed(
+					label.title = `世界坐标：\nx: ${info.point.x.toFixed(3)}\ny: ${info.point.y.toFixed(
 						3,
 					)}\nz: ${info.point.z.toFixed(3)}`;
 				}

@@ -30,12 +30,16 @@ function showLocation(viewer: tt.plugin.GLViewer, map: tt.TileMap): void {
 		const info = map.getLocalInfoFromScreen(viewer.camera, pointer);
 		if (info) {
 			const el = document.querySelector("#local-info")!;
-			el.innerHTML = `经度:${info.location.x.toFixed(2)}°  
-                            纬度:${info.location.y.toFixed(2)}°  
-                            海拔:${info.location.z.toFixed(2)}km
-                            距离:${info.distance.toFixed(2)}km `;
+			el.innerHTML = `经度:${info.location.x.toFixed(6)}°  
+                            纬度:${info.location.y.toFixed(6)}°  
+                            海拔:${info.location.z.toFixed(6)}km
+                         	</br> `;
+			el.innerHTML += `世界坐标:(${info.point.x.toFixed(6)},${info.point.x.toFixed(6)},${info.point.x.toFixed(
+				6,
+			)})`;
+
 			if (info.normal) {
-				el.innerHTML += `法向量:(${info.normal.x.toFixed(1)},
+				el.innerHTML += `</br>法向量:(${info.normal.x.toFixed(1)},
                 ${info.normal.y.toFixed(1)},
                 ${info.normal.z.toFixed(1)})(可用于坡向计算)`;
 			}
@@ -51,20 +55,20 @@ function showCameraInfo(viewer: tt.plugin.GLViewer): void {
 			const cameraGeo = map.pos2geo(map.worldToLocal(viewer.camera.position.clone()));
 			const controlGeo = map.pos2geo(map.worldToLocal(viewer.controls.target.clone()));
 			el.innerHTML = `摄像机: 世界坐标(${viewer.camera.position.x.toFixed(1)},
-                               ${viewer.camera.position.y.toFixed(1)},
-                               ${viewer.camera.position.z.toFixed(1)}),
-                               地理坐标:(${cameraGeo.x.toFixed(1)},
-                               ${cameraGeo.y.toFixed(1)},
-                               ${cameraGeo.z.toFixed(1)}),<br/>                        
-                        控制器: 世界坐标(${viewer.controls.target.x.toFixed(1)},
-                               ${viewer.controls.target.y.toFixed(1)},
-                               ${viewer.controls.target.z.toFixed(1)}),
-                               地理坐标:(${controlGeo.x.toFixed(1)},
-                               ${controlGeo.y.toFixed(1)},
-                               ${controlGeo.z.toFixed(1)}),<br/>                        
-                        地图: 方位角:${MathUtils.radToDeg(viewer.controls.getAzimuthalAngle()).toFixed(1)}°, 
-                        俯仰角:${MathUtils.radToDeg(viewer.controls.getPolarAngle()).toFixed(1)}°,
-                        距离:${viewer.controls.getDistance().toFixed(1)}km`;
+                               ${viewer.camera.position.y.toFixed(6)},
+                               ${viewer.camera.position.z.toFixed(6)}),
+                               地理坐标:(${cameraGeo.x.toFixed(6)},
+                               ${cameraGeo.y.toFixed(6)},
+                               ${cameraGeo.z.toFixed(6)}),<br/>                        
+                        控制器: 世界坐标(${viewer.controls.target.x.toFixed(6)},
+                               ${viewer.controls.target.y.toFixed(6)},
+                               ${viewer.controls.target.z.toFixed(6)}),
+                               地理坐标:(${controlGeo.x.toFixed(6)},
+                               ${controlGeo.y.toFixed(6)},
+                               ${controlGeo.z.toFixed(6)}),<br/>                        
+                        地图: 方位角:${MathUtils.radToDeg(viewer.controls.getAzimuthalAngle()).toFixed(6)}°, 
+                        俯仰角:${MathUtils.radToDeg(viewer.controls.getPolarAngle()).toFixed(6)}°,
+                        距离:${viewer.controls.getDistance().toFixed(6)}km`;
 		}
 	};
 	viewer.controls.addEventListener("change", show);
