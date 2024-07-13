@@ -1,5 +1,4 @@
 import { AnimationMixer, CameraHelper, DirectionalLight, Group, Vector3 } from "three";
-// import * as tt from "../dist/three-tile";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
@@ -17,8 +16,6 @@ const centerGeo = new Vector3(108.9507, 34.1915, 0.5);
 const cameraGeo = new Vector3(centerGeo.x - 0.005, centerGeo.y - 0.005, 0.6);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
 
 // 开启阴影
 viewer.renderer.shadowMap.enabled = true;
@@ -28,11 +25,6 @@ map.receiveShadow = true;
 viewer.ambLight.intensity = 0.5;
 viewer.dirLight.intensity = 0.5;
 
-const cameraHelper = new CameraHelper(viewer.dirLight.shadow.camera);
-viewer.scene.add(cameraHelper);
-
-// 调整大仰角控制
-viewer.controls.maxPolarAngle = Math.PI / 2.4;
 viewer.controls.saveState();
 
 //---------------------------------------------------------------
@@ -51,13 +43,14 @@ viewer.controls.saveState();
 			e.receiveShadow = true;
 		});
 		model.castShadow = true;
-
 		viewer.scene.add(model);
+
 		const mixer = new AnimationMixer(model);
 		mixer.clipAction(gltf.animations[0]).play();
 		map.addEventListener("update", (evt) => {
 			mixer.update(evt.delta);
 		});
+
 		initGui(model);
 		initLight(model);
 	});
@@ -100,13 +93,13 @@ const initGui = (model: Group) => {
 	// const center = map.getLocalInfoFromGeo(centerGeo)!.point;
 	center.setY(0.55);
 	const vm = {
-		initModel: () => {
+		reset: () => {
 			model.scale.setScalar(5e-4);
 			model.position.copy(center);
 			viewer.controls.reset();
 		},
 	};
-	vm.initModel();
+	vm.reset();
 
 	const modelControls = createTransControl(model);
 
@@ -120,7 +113,7 @@ const initGui = (model: Group) => {
 		旋转: "rotate",
 		缩放: "scale",
 	}).name("编辑方式");
-	gui.add(vm, "initModel").name("复位");
+	gui.add(vm, "reset").name("复位");
 };
 
 //---------------------------------------------------------------

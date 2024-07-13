@@ -74,6 +74,9 @@ const exampleList = {
 	"step2.11": {
 		label: "2.11 基础-天空太阳大气",
 	},
+	"step2.12": {
+		label: "2.12 基础-加载3DTiles",
+	},
 
 	"step3.1": {
 		label: "3.1 进阶-雷雨天气模拟",

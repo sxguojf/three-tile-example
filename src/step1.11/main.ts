@@ -38,8 +38,6 @@ const cameraGeo = new Vector3(108.627139, 30.64138, 3.309163);
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 // 背景色改为黑色
 viewer.scene.background = new Color(0);
-// 地图加入viewer
-viewer.scene.add(map);
 
 /*----------------------------------------------------------------*/
 // 显示地理位置信息

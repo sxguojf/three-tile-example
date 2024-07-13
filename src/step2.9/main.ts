@@ -23,16 +23,11 @@ const centerGeo = new Vector3(105, 34, 0);
 const cameraGeo = new Vector3(105, 20, 5000);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
 
 // 调暗默认灯光使用聚光灯
 viewer.ambLight.intensity = 0.2;
 viewer.dirLight.intensity = 0.5;
 viewer.dirLight.castShadow = true;
-
-// 地图加入viewer
-viewer.scene.add(map);
 
 //---------------------------------------------------------------
 // 开启阴影

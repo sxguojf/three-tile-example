@@ -12,8 +12,6 @@ const centerGeo = new Vector3(100, 30, 0);
 const cameraGeo = new Vector3(100, 0, 5000);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
 
 //----------------------------------------------------------------------------------
 

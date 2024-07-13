@@ -12,8 +12,6 @@ const centerGeo = new Vector3(108.990338, 34.170739, 0);
 const cameraGeo = new Vector3(108.979247, 34.16483, 1.371867);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
 
 // 保存控制器参数，以便复位
 viewer.controls.saveState();
