@@ -34,6 +34,7 @@ map.add(labelGroup);
 
 (() => {
 	const dir = new Vector3(0, 0, 1);
+	// 添加箭头
 	city.forEach((element) => {
 		// 经纬度转换为场景坐标
 		const lon = Number.parseFloat(element.value[0]),
@@ -45,6 +46,7 @@ map.add(labelGroup);
 		labelGroup.add(arrow);
 	});
 
+	// 添加标签
 	labelGroup.traverse((obj) => {
 		if (obj instanceof ArrowHelper) {
 			const label = document.createElement("span");
@@ -59,6 +61,16 @@ map.add(labelGroup);
 		}
 	});
 })();
+
+// 地图加载完成时，调整标签位置使它贴地
+map.addEventListener("loading-complete", () => {
+	labelGroup.traverseVisible((obj) => {
+		if (obj instanceof CSS2DObject) {
+			const ground = map.getLocalInfoFromWorld(map.localToWorld(obj.position.clone()));
+			obj.position.setZ(ground?.location.z || 0);
+		}
+	});
+});
 
 /*----------------------------------------------------------------*/
 util.showLocation(viewer, map);
