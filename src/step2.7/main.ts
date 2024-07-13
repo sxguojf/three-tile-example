@@ -13,8 +13,7 @@ const centerGeo = new Vector3(109, 34, 0);
 const cameraGeo = new Vector3(109, 34.1, 2);
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
+
 //-----------------------------------------------------------------------------------------
 
 const bk = new CubeTextureLoader()

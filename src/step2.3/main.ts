@@ -15,8 +15,6 @@ const cameraGeo = new Vector3(86.81, 27.956, 9);
 
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
 
 // 添加地球遮罩
 util.addFakeEarth(viewer, map);

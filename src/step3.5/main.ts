@@ -15,8 +15,6 @@ const cameraGeo = new Vector3(89.2, 42.3, 10);
 
 // 创建viewer
 const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
-// 地图加入viewer
-viewer.scene.add(map);
 
 viewer.scene.fog!.color = new Color(0x8e6865);
 viewer.renderer.toneMapping = ACESFilmicToneMapping;

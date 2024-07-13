@@ -20,7 +20,7 @@ const center = map.geo2pos(new Vector3(86.92, 27.95));
 // 使用自定义类初始化三维场景
 const viewer = new MyViewer(glContainer!, new Vector3(center.x, center.y, 10));
 // 将地图加入三维场景
-viewer.scene.add(map);
+// viewer.scene.add(map);
 
 //-----------------------------------------------------------------------------------------------------
 
