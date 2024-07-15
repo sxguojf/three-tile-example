@@ -14,17 +14,17 @@ demo: https://sxguojf.github.io/three-tile-example/
 
 three-tile：https://github.com/sxguojf/three-tile
 
-![](images\image.png)
+![](images/image.png)
 
-![image-1](images\image-1.png)
+![image-1](images/image-1.png)
 
-![image-2](images\image-2.png)
+![image-2](images/image-2.png)
 
-![image-3](images\image-3.png)
+![image-3](images/image-3.png)
 
-![image-4](images\image-4.png)
+![image-4](images/image-4.png)
 
-![image-20240715090719129](images\image-20240715090719129.png)
+![image-20240715090719129](images/image-20240715090719129.png)
 
-![image-20240715090911564](images\image-20240715090911564.png)
+![image-20240715090911564](images/image-20240715090911564.png)
 
