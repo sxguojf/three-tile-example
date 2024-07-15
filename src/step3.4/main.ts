@@ -170,6 +170,8 @@ const runTo = (gltf: GLTF, mixer: AnimationMixer, endPostion: Vector3, tween: Tw
 
 	// 修改模型朝向
 	const lookPos = map.localToWorld(endPostion.clone());
+	// 调整y方向，使人始终垂直地面
+	lookPos.y = model.getWorldPosition(new Vector3()).y;
 	model.lookAt(lookPos);
 	model.rotateY(Math.PI);
 
