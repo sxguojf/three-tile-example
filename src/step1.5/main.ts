@@ -77,12 +77,14 @@ map.add(labelGroup);
 
 // 地图加载完成时，调整标签位置使它贴地
 map.addEventListener("loading-complete", () => {
-	labelGroup.traverseVisible((obj) => {
-		if (obj instanceof CSS2DObject) {
-			const ground = map.getLocalInfoFromWorld(map.localToWorld(obj.position.clone()));
-			obj.position.setZ(ground?.location.z || 0);
-		}
-	});
+	setTimeout(() => {
+		labelGroup.traverseVisible((obj) => {
+			if (obj instanceof CSS2DObject) {
+				const ground = map.getLocalInfoFromWorld(map.localToWorld(obj.position.clone()));
+				obj.position.setZ(ground?.location.z || 0);
+			}
+		});
+	}, 100);
 });
 
 /*-----------------------------------------------------------------------------------------*/
