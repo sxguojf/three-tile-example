@@ -57,7 +57,7 @@ const rain = (() => {
 	rain.userData.speed = 25;
 	map.add(rain);
 
-	map.addEventListener("update", (evt) => {
+	map.addEventListener("update", (evt: any) => {
 		if (vm.rain) {
 			const positions = geom.attributes.position;
 			for (let i = 0; i < positions.count; i++) {

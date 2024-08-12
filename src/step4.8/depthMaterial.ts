@@ -1,18 +1,20 @@
+import { ShaderMaterial } from "three";
+
 // 创建一个着色器材质
-const material = new THREE.ShaderMaterial({
-    uniforms: {
-        // depthTexture: { value: depthTexture },
-        // cameraNear: { value: camera.near },
-        // cameraFar: { value: camera.far },
-    },
-    vertexShader: `
+export const material = new ShaderMaterial({
+	uniforms: {
+		// depthTexture: { value: depthTexture },
+		// cameraNear: { value: camera.near },
+		// cameraFar: { value: camera.far },
+	},
+	vertexShader: `
         varying vec2 vUv;
         void main() {
             vUv = uv;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `,
-    fragmentShader: `
+	fragmentShader: `
         uniform sampler2D depthTexture;
         uniform float cameraNear;
         uniform float cameraFar;

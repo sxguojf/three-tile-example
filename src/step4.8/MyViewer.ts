@@ -1,5 +1,6 @@
 import {
 	AmbientLight,
+	BaseEvent,
 	BufferGeometry,
 	Camera,
 	CameraHelper,
@@ -8,13 +9,11 @@ import {
 	DepthFormat,
 	DepthTexture,
 	DirectionalLight,
-	Event,
 	EventDispatcher,
 	FloatType,
 	FogExp2,
 	Mesh,
 	NearestFilter,
-	Object3D,
 	OrthographicCamera,
 	PerspectiveCamera,
 	PlaneGeometry,
@@ -29,12 +28,16 @@ import { MapControls } from "three/examples/jsm/controls/MapControls";
 // import frag from "./depth.frag.glsl?raw";
 // import vert from "./depth.vert.glsl?raw";
 
-Object3D.DEFAULT_UP.set(0, 0, 1);
+interface ViewerEventMap extends BaseEvent {
+	update: BaseEvent | { delta: number };
+}
+
+//Object3D.DEFAULT_UP.set(0, 0, 1);
 
 // Object3D.DEFAULT_UP.set(0, 1, 0);
 
 //3D场景初始化类
-export class MyViewer extends EventDispatcher<Event> {
+export class MyViewer extends EventDispatcher<ViewerEventMap> {
 	scene: Scene;
 	renderer: WebGLRenderer;
 	camera: PerspectiveCamera;
@@ -69,7 +72,7 @@ export class MyViewer extends EventDispatcher<Event> {
 	}
 	public set fogFactor(value) {
 		this._fogFactor = value;
-		this.controls.dispatchEvent({ type: "change", target: this.controls });
+		this.controls.dispatchEvent({ type: "change" });
 	}
 
 	constructor(dom: HTMLElement, centerPositon = new Vector3(0, 3e3, 0), _cameraPosition = new Vector3(0, -1e3, 1e4)) {

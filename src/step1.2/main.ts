@@ -27,7 +27,7 @@ document.querySelector("#jump")!.addEventListener("click", () => {
 
 	viewer.camera.position.copy(newCameraPos);
 	viewer.controls.target.copy(newCenterPos);
-	viewer.controls.dispatchEvent({ type: "change", target: viewer.controls });
+	viewer.controls.dispatchEvent({ type: "change" });
 });
 
 // 使用定时器进行地图漫游动画定位

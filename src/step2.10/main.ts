@@ -47,7 +47,7 @@ viewer.controls.saveState();
 
 		const mixer = new AnimationMixer(model);
 		mixer.clipAction(gltf.animations[0]).play();
-		map.addEventListener("update", (evt) => {
+		map.addEventListener("update", (evt: any) => {
 			mixer.update(evt.delta);
 		});
 

@@ -15,7 +15,7 @@ const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 
 /*----------------------------------------------------------------*/
 // 调暗地图以突出图片
-map.addEventListener("tile-loaded", (evt) => {
+map.addEventListener("tile-loaded", (evt: any) => {
 	evt.tile.material.forEach((mat: any) => mat.color?.set(0x888888));
 });
 /*----------------------------------------------------------------*/

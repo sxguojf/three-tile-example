@@ -6,10 +6,10 @@
 
 import {
 	AmbientLight,
+	BaseEvent,
 	Clock,
 	Color,
 	DirectionalLight,
-	Event,
 	EventDispatcher,
 	FogExp2,
 	MathUtils,
@@ -21,10 +21,14 @@ import {
 
 import { MapControls } from "three/examples/jsm/controls/MapControls";
 
+interface ViewerEventMap extends BaseEvent {
+	update: BaseEvent | { delta: number };
+}
+
 /**
  * threejs scene viewer initialize class
  */
-export class MyViewer extends EventDispatcher<Event> {
+export class MyViewer extends EventDispatcher<ViewerEventMap> {
 	public readonly scene: Scene;
 	public readonly renderer: WebGLRenderer;
 	public readonly camera: PerspectiveCamera;
@@ -40,7 +44,7 @@ export class MyViewer extends EventDispatcher<Event> {
 	}
 	public set fogFactor(value) {
 		this._fogFactor = value;
-		this.controls.dispatchEvent({ type: "change", target: this.controls });
+		this.controls.dispatchEvent({ type: "change" });
 	}
 
 	public get width() {

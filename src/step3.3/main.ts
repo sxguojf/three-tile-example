@@ -1,6 +1,6 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 // import * as tt from "../dist/three-tile";
-import { Group, Mesh, MeshPhongMaterial, SphereGeometry, TextureLoader, Vector2, Vector3 } from "three";
+import { FogExp2, Group, Mesh, MeshPhongMaterial, SphereGeometry, TextureLoader, Vector2, Vector3 } from "three";
 import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module";
 import * as ms from "../mapSource";
 import * as util from "../util";
@@ -153,7 +153,9 @@ const vm = {
 	const gui = new GUI();
 
 	const mapSetupFolder = gui.addFolder("环境");
-	mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.1, 0.0001).name("能见度系数");
+	if (viewer.scene.fog instanceof FogExp2) {
+		mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.1, 0.0001).name("能见度系数");
+	}
 	mapSetupFolder.add(viewer.ambLight, "intensity", 0.1, 2.0, 0.1).name("环境光强度");
 	mapSetupFolder.add(viewer.dirLight, "intensity", 0.1, 2.0, 0.1).name("直射光强度");
 

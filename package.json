@@ -25,7 +25,7 @@
 	"devDependencies": {
 		"@types/node": "^20.14.8",
 		"@types/offscreencanvas": "^2019.7.0",
-		"@types/three": "^0.152.1",
+		"@types/three": "^0.165.0",
 		"typedoc": "^0.23.23",
 		"typescript": "^5.0.4",
 		"vite": "^4.4.5",

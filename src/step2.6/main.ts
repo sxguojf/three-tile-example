@@ -29,8 +29,8 @@ envFolder.add(viewer, "fogFactor", 0.1, 3, 0.1).listen().name("雾(能见度系�
 envFolder
 	.addColor(viewer.scene, "background")
 	.name("天空及大气颜色")
-	.onChange((value: Color) => {
-		viewer.scene.fog!.color = value;
+	.onChange((value) => {
+		viewer.scene.fog && value instanceof Color && (viewer.scene.fog.color = value);
 	});
 
 //-----------------------------------------------------------------------------

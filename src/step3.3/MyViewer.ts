@@ -294,11 +294,11 @@ const direction = new Vector3();
 
 import {
 	AmbientLight,
+	BaseEvent,
 	Camera,
 	Clock,
 	Color,
 	DirectionalLight,
-	Event,
 	EventDispatcher,
 	FogExp2,
 	PerspectiveCamera,
@@ -309,10 +309,14 @@ import {
 
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
+interface ViewerEventMap extends BaseEvent {
+	update: BaseEvent | { delta: number };
+}
+
 /**
  * threejs scene viewer initialize class
  */
-export class MyViewer extends EventDispatcher<Event> {
+export class MyViewer extends EventDispatcher<ViewerEventMap> {
 	public readonly scene: Scene;
 	public readonly renderer: WebGLRenderer;
 	public readonly camera: PerspectiveCamera;

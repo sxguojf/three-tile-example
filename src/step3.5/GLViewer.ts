@@ -1,13 +1,12 @@
 import {
 	AmbientLight,
+	BaseEvent,
 	Camera,
 	Clock,
 	Color,
 	DirectionalLight,
-	Event,
 	EventDispatcher,
 	FogExp2,
-	Object3D,
 	PerspectiveCamera,
 	Scene,
 	Vector3,
@@ -16,11 +15,15 @@ import {
 
 import { MapControls } from "three/examples/jsm/controls/MapControls";
 
+interface ViewerEventMap extends BaseEvent {
+	update: BaseEvent | { delta: number };
+}
+
 // Object3D.DEFAULT_UP.set(0, 0, 1);
-Object3D.DEFAULT_UP.set(0, 1, 0);
+// Object3D.DEFAULT_UP.set(0, 1, 0);
 
 //3D场景初始化类
-export class GLViewer extends EventDispatcher<Event> {
+export class GLViewer extends EventDispatcher<ViewerEventMap> {
 	scene: Scene;
 	renderer: WebGLRenderer;
 	camera: PerspectiveCamera;
@@ -36,7 +39,7 @@ export class GLViewer extends EventDispatcher<Event> {
 	}
 	public set fogFactor(value) {
 		this._fogFactor = value;
-		this.controls.dispatchEvent({ type: "change", target: this.controls });
+		this.controls.dispatchEvent({ type: "change" });
 	}
 
 	constructor(dom: HTMLElement, centerPositon = new Vector3(0, 3e3, 0), cameraPosition = new Vector3(0, -1e3, 1e4)) {

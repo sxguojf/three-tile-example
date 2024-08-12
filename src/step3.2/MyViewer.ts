@@ -6,10 +6,10 @@
 
 import {
 	AmbientLight,
+	BaseEvent,
 	Clock,
 	Color,
 	DirectionalLight,
-	Event,
 	EventDispatcher,
 	FogExp2,
 	PerspectiveCamera,
@@ -20,10 +20,14 @@ import {
 
 import { FlyControls } from "three/examples/jsm/controls/FlyControls";
 
+interface ViewerEventMap extends BaseEvent {
+	update: BaseEvent | { delta: number };
+}
+
 /**
  * threejs scene viewer initialize class
  */
-export class MyViewer extends EventDispatcher<Event> {
+export class MyViewer extends EventDispatcher<ViewerEventMap> {
 	public readonly scene: Scene;
 	public readonly renderer: WebGLRenderer;
 	public readonly camera: PerspectiveCamera;

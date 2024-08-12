@@ -1,6 +1,6 @@
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 // import * as tt from "../dist/three-tile";
-import { AnimationMixer, DirectionalLight, Group, Vector3 } from "three";
+import { AnimationMixer, DirectionalLight, FogExp2, Group, Vector3 } from "three";
 import TWEEN from "three/examples/jsm/libs/tween.module";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as ms from "../mapSource";
@@ -58,7 +58,7 @@ const update = (gltf: GLTF) => {
 	const model = gltf.scene;
 	const mixer = new AnimationMixer(model);
 	mixer.clipAction(gltf.animations[0]).play();
-	viewer.addEventListener("update", (evt) => {
+	viewer.addEventListener("update", (evt: any) => {
 		// 固定在摄像机前面
 		model.position.set(0, -0.5, -3);
 		model.applyMatrix4(viewer.camera.matrixWorld);
@@ -129,7 +129,9 @@ const intiGui = (model: Group) => {
 	const gui = new GUI();
 
 	const mapSetupFolder = gui.addFolder("环境");
-	mapSetupFolder.add(viewer.scene.fog!, "density", 0.0001, 0.01, 0.00001).name("能见度系数");
+	if (viewer.scene.fog instanceof FogExp2) {
+		mapSetupFolder.add(viewer.scene.fog, "density", 0.0001, 0.01, 0.00001).name("能见度系数");
+	}
 	mapSetupFolder.add(viewer.ambLight, "intensity", 0.1, 2.0, 0.1).name("环境光强度");
 	const mapPorviderFolder = gui.addFolder("地图源");
 	mapPorviderFolder.add(vm, "mapbox");

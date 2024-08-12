@@ -87,7 +87,7 @@ const initSoldier = (gltf: GLTF) => {
 	const mixer = new AnimationMixer(gltf.scene);
 	mapclick(gltf, mixer);
 
-	viewer.addEventListener("update", (evt) => {
+	viewer.addEventListener("update", (evt: any) => {
 		TWEEN.update();
 		mixer.update(evt.delta);
 	});
@@ -108,7 +108,7 @@ const initBird = (gltf: GLTF) => {
 		model.add(bird);
 		const mixer = new AnimationMixer(bird);
 		mixer.clipAction(stork.animations[0]).play();
-		viewer.addEventListener("update", (evt) => {
+		viewer.addEventListener("update", (evt: any) => {
 			TWEEN.update();
 			mixer.update(evt.delta);
 		});

@@ -18,10 +18,10 @@ const viewer = util.createViewer("#map", map, centerGeo, cameraGeo);
 ((map: tt.TileMap) => {
 	const el = document.querySelector("#loading");
 	if (el) {
-		map.addEventListener("loading-start", (evt) => {
+		map.addEventListener("loading-start", (evt: any) => {
 			el.innerHTML = "Started: " + evt.itemsLoaded + " of " + evt.itemsTotal + " files.";
 		});
-		map.addEventListener("loading-progress", (evt) => {
+		map.addEventListener("loading-progress", (evt: any) => {
 			el.innerHTML = "Loading: " + evt.itemsLoaded + " of " + evt.itemsTotal + " files.";
 		});
 		map.addEventListener("loading-complete", () => {
