@@ -8,6 +8,8 @@ three-tile 是一个使用 [threejs](https://threejs.org/)开发的轻量级三�
 
 介绍：https://blog.csdn.net/HZGJF/article/details/140280844
 
+exmaple: https://sxguojf.github.io/three-tile-example/
+
 demo: https://sxguojf.github.io/three-tile-example/
 
 开发见 three-tile 项目。
