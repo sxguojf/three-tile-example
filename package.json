@@ -32,7 +32,9 @@
 		"vite-plugin-dts": "^2.3.0"
 	},
 	"dependencies": {
-		"three": "^0.165.0",
+		"3d-tiles-renderer": "^0.3.36",
+		"three": "^0.165.1",
+		"three-loader-3dtiles": "^1.2.6",
 		"three-tile": "^0.6.3"
 	}
 }
