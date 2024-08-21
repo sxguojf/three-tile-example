@@ -11,7 +11,7 @@ import { Loader3DTiles, PointCloudColoring, Runtime } from "three-loader-3dtiles
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 map.scale.setScalar(1000);
 // 地图中心
-const centerPostion = map.localToWorld(map.geo2pos(new Vector3(144.94345786971536, -37.812765742471754, 0)));
+const centerPostion = map.localToWorld(map.geo2pos(new Vector3(144.94345786971536, -37.812765742471754, 0.2)));
 const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(144.94345786971536, -37.82, 2)));
 // 使用自定义类初始化三维场景
 const viewer = new MyViewer("#map", { centerPostion, cameraPosition });
