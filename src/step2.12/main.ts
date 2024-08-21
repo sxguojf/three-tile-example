@@ -39,8 +39,8 @@ async function loadTileset() {
 		options: {
 			cesiumIONToken:
 				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NjEwMjA4Ni00YmVkLTQyMjgtYjRmZS1lY2M3ZWFiMmFmNTYiLCJpZCI6MjYxMzMsImlhdCI6MTY3NTM2ODY4NX0.chGkGL6DkDNv5wYJQDMzWIvi9iDoVa27dgng_5ARDmo",
-			dracoDecoderPath: "https://unpkg.com/browse/three@0.165.0/examples/jsm/libs/draco",
-			basisTranscoderPath: "https://unpkg.com/browse/three@0.165.0/examples/jsm/libs/basis",
+			dracoDecoderPath: "https://unpkg.com/browse/three@0.160.0/examples/jsm/libs/draco",
+			basisTranscoderPath: "https://unpkg.com/browse/three@0.160.0/examples/jsm/libs/basis",
 			resetTransform: true,
 			// debug: true,
 			// maximumScreenSpaceError: 10,
