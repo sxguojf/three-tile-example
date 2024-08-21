@@ -116,7 +116,7 @@ export class MyViewer extends EventDispatcher<ViewerEventMap> {
 		controls.target.copy(centerPos);
 		controls.screenSpacePanning = false;
 		controls.minDistance = 0.1;
-		controls.maxDistance = 30000;
+		controls.maxDistance = 3000000;
 		// controls.maxPolarAngle = 1.2;
 		controls.enableDamping = true;
 		controls.keyPanSpeed = 5;
@@ -132,13 +132,15 @@ export class MyViewer extends EventDispatcher<ViewerEventMap> {
 			controls.zoomSpeed = Math.max(Math.log(dist), 1.8);
 
 			// set far and near on dist/polar
-			this.camera.far = MathUtils.clamp((dist / polar) * 800, 100, 500000);
-			this.camera.near = this.camera.far / 1000;
+			// this.camera.far = MathUtils.clamp((dist / polar) * 8, 100, 50000);
+			// this.camera.near = this.camera.far / 1000;
+			this.camera.far = MathUtils.clamp((dist / polar) * 8000, 100, 50000000);
+			this.camera.near = this.camera.far / 100000;
 			this.camera.updateProjectionMatrix();
 
 			// set fog density on dist/polar
 			if (this.scene.fog instanceof FogExp2) {
-				this.scene.fog.density = (polar / dist) * this.fogFactor * 0.1;
+				this.scene.fog.density = (polar / dist) * this.fogFactor * 0.06;
 			}
 		});
 		return controls;

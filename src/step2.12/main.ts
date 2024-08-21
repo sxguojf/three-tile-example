@@ -11,7 +11,7 @@ import { Loader3DTiles, PointCloudColoring, Runtime } from "three-loader-3dtiles
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 map.scale.setScalar(1000);
 // 地图中心
-const centerPostion = map.localToWorld(map.geo2pos(new Vector3(144.94345786971536, -37.812765742471754, 0.2)));
+const centerPostion = map.localToWorld(map.geo2pos(new Vector3(144.94345786971536, -37.812765742471754, 0.02)));
 const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(144.94345786971536, -37.82, 2)));
 // 使用自定义类初始化三维场景
 const viewer = new MyViewer("#map", { centerPostion, cameraPosition });
@@ -42,7 +42,7 @@ async function loadTileset() {
 			dracoDecoderPath: "https://unpkg.com/browse/three@0.160.0/examples/jsm/libs/draco",
 			basisTranscoderPath: "https://unpkg.com/browse/three@0.160.0/examples/jsm/libs/basis",
 			resetTransform: true,
-			// debug: true,
+			debug: true,
 			// maximumScreenSpaceError: 10,
 			memoryAdjustedScreenSpaceError: true,
 			pointCloudColoring: PointCloudColoring.RGB,
@@ -50,22 +50,8 @@ async function loadTileset() {
 	});
 	const { model, runtime } = result;
 
-	// runtime.orientToGeocoord({
-	// 	long: runtime.getTileset().cartographicCenter[0],
-	// 	lat: runtime.getTileset().cartographicCenter[1],
-	// 	height: runtime.getTileset().cartographicCenter[2],
-	// });
-
-	// const coords = runtime.getWebMercatorCoord({
-	// 	long: runtime.getTileset().cartographicCenter[0],
-	// 	lat: runtime.getTileset().cartographicCenter[1],
-	// 	height: 0,
-	// });
-
-	// map.position.set(coords.x, -200, coords.y);
-
 	model.position.copy(centerPostion);
-	model.position.setY(200);
+	model.position.setY(150);
 	// model.scale.setScalar(0.001);
 	viewer.scene.add(model);
 	viewer.scene.add(runtime.getTileBoxes());
@@ -73,9 +59,10 @@ async function loadTileset() {
 	tilesRuntime = runtime;
 	model.rotation.set(-Math.PI / 2, 0, 0);
 
-	const long = runtime.getTileset().cartographicCenter[0];
-	const lat = runtime.getTileset().cartographicCenter[1];
-	const height = runtime.getTileset().cartographicCenter[2];
+	const tileset = runtime.getTileset();
+	const long = tileset.cartographicCenter[0];
+	const lat = tileset.cartographicCenter[1];
+	const height = tileset.cartographicCenter[2];
 
 	console.log(long, lat, height);
 }
