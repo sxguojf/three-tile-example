@@ -199,11 +199,6 @@
   resolved "https://registry.npmmirror.com/@types/webxr/-/webxr-0.5.15.tgz"
   integrity sha512-nC9116Gd4N+CqTxqo6gvCfhAMAzgRcfS8ZsciNodHq8uwW4JCVKwhagw8yN0XmC7mHrLnWqniJpoVEiR+72Drw==
 
-"3d-tiles-renderer@^0.3.36":
-  version "0.3.36"
-  resolved "https://registry.npmmirror.com/3d-tiles-renderer/-/3d-tiles-renderer-0.3.36.tgz"
-  integrity sha512-CnSOvJW4g5oBtqk9sZuSYFFd9JiKwSKcCOojGTrThsxfyy1sSw+UU+FbQyLyLqyfHGf+oMxPKLXCluY89/lebw==
-
 ajv@~6.12.6:
   version "6.12.6"
   resolved "https://registry.npmmirror.com/ajv/-/ajv-6.12.6.tgz"
@@ -692,7 +687,7 @@ three-tile@^0.6.3:
   dependencies:
     three "^0.165.0"
 
-three@^0.160.0, three@^0.160.1, three@>=0.123.0:
+three@^0.160.0:
   version "0.160.1"
   resolved "https://registry.npmmirror.com/three/-/three-0.160.1.tgz"
   integrity sha512-Bgl2wPJypDOZ1stAxwfWAcJ0WQf7QzlptsxkjYiURPz+n5k4RBDLsq+6f9Y75TYxn6aHLcWz+JNmwTOXWrQTBQ==
