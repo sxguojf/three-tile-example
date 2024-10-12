@@ -103,7 +103,7 @@ util.addFakeEarth(viewer, map);
 // 动画选项按钮
 (() => {
 	const anim = document.querySelector("#anim") as HTMLInputElement;
-	viewer.addEventListener("update", (evt: any) => {
+	viewer.addEventListener("update", (evt) => {
 		TWEEN.update();
 		if (anim.checked) {
 			teap.rotation.y += evt.delta;

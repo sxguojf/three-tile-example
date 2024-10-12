@@ -56,10 +56,10 @@ export const createViewer = (
 export const showLoadstate = (map: tt.TileMap, id: string = "#load-state") => {
 	const el = document.querySelector(id);
 	if (el) {
-		map.addEventListener("loading-start", (evt: any) => {
+		map.addEventListener("loading-start", (evt) => {
 			el.innerHTML = "Started: " + evt.itemsLoaded + " of " + evt.itemsTotal + " files.";
 		});
-		map.addEventListener("loading-progress", (evt: any) => {
+		map.addEventListener("loading-progress", (evt) => {
 			el.innerHTML = "Loading: " + evt.itemsLoaded + " of " + evt.itemsTotal + " files.";
 		});
 		map.addEventListener("loading-complete", () => {

@@ -34,6 +34,6 @@
 	"dependencies": {
 		"three": "^0.165.0",
 		"three-loader-3dtiles": "^1.2.6",
-		"three-tile": "^0.6.3"
+		"three-tile": "^0.6.4"
 	}
 }

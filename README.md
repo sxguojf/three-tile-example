@@ -10,7 +10,6 @@ three-tile 是一个使用 [threejs](https://threejs.org/)开发的轻量级三�
 
 exmaple: https://sxguojf.github.io/three-tile-example/
 
-
 开发见 three-tile 项目。
 
 three-tile：https://github.com/sxguojf/three-tile
@@ -28,4 +27,3 @@ three-tile：https://github.com/sxguojf/three-tile
 ![image-20240715090719129](images/image-20240715090719129.png)
 
 ![image-20240715090911564](images/image-20240715090911564.png)
-
