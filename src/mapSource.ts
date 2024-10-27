@@ -1,11 +1,10 @@
 import * as tt from "three-tile";
 
 // MapBox
-export const MAPBOXKEY =
-	//"pk.eyJ1IjoiY2FvcnVpYmluIiwiYSI6ImNsYWR3MjEwMjA5b2UzcW85dmZlbTVtMTAifQ.4v81PyG-oZ6TVL7IuyCbrg";
-	// "pk.eyJ1IjoidG9tYWNoIiwiYSI6ImNrbnR6d3psMzA4YWgydnBzeGhrNW1mdDgifQ.zq6mWEop1OTBrQ24R0SdlA";
-	// "pk.eyJ1Ijoic2hhbmUwMjIwNzIiLCJhIjoiY2p5amF6YnFiMDB0YjNkcGU1ZWxoMWl0NiJ9.TsmgK5-HJKWOE-DscbNbTA";
-	"pk.eyJ1Ijoia29yeXdrYSIsImEiOiJja2p1ajdlOWozMnF2MzBtajRvOTVzZDRpIn0.nnlX7TDuZ3zuGkZGr_oA3A";
+export const MAPBOXKEY = "pk.eyJ1IjoiY2FvcnVpYmluIiwiYSI6ImNsYWR3MjEwMjA5b2UzcW85dmZlbTVtMTAifQ.4v81PyG-oZ6TVL7IuyCbrg";
+// "pk.eyJ1IjoidG9tYWNoIiwiYSI6ImNrbnR6d3psMzA4YWgydnBzeGhrNW1mdDgifQ.zq6mWEop1OTBrQ24R0SdlA";
+// "pk.eyJ1Ijoic2hhbmUwMjIwNzIiLCJhIjoiY2p5amF6YnFiMDB0YjNkcGU1ZWxoMWl0NiJ9.TsmgK5-HJKWOE-DscbNbTA";
+// "pk.eyJ1Ijoia29yeXdrYSIsImEiOiJja2p1ajdlOWozMnF2MzBtajRvOTVzZDRpIn0.nnlX7TDuZ3zuGkZGr_oA3A";
 export const mapBoxImgSource = new tt.plugin.MapBoxSource({
 	token: MAPBOXKEY,
 	dataType: "image",
