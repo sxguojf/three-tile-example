@@ -77,6 +77,9 @@ const exampleList = {
 	"step2.12": {
 		label: "2.12 基础-加载3DTiles",
 	},
+	"step2.13": {
+		label: "2.12 基础-贴地多边形",
+	},
 
 	"step3.1": {
 		label: "3.1 进阶-雷雨天气模拟",
