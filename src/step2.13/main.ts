@@ -3,6 +3,7 @@ import {
 	AdditiveBlending,
 	BackSide,
 	CubeTextureLoader,
+	CylinderGeometry,
 	DecrementWrapStencilOp,
 	DoubleSide,
 	ExtrudeGeometry,
@@ -27,15 +28,18 @@ import "./style.css";
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心
-const centerPostion = map.localToWorld(map.geo2pos(new Vector3(110, 34, 0)));
-const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(110, 30, 1000)));
+const centerPostion = map.localToWorld(map.geo2pos(new Vector3(86, 28, 0)));
+// 摄像机坐标
+const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(86, 27.8, 10)));
 // 使用自定义类初始化三维场景（打开renderer的stencil）
 const viewer = new GLViewer("#map", { centerPostion, cameraPosition });
 // 将地图加入三维场景
 viewer.scene.add(map);
+// 调暗灯光
+viewer.ambLight.intensity = 0.5;
+viewer.dirLight.intensity = 0.5;
 
-//-----------------------------------------------------------------------------------------
-
+//--------------------------------贴地材质------------------------------------------------
 const groundMaterials = {
 	backMat: new MeshBasicMaterial({
 		side: BackSide,
@@ -74,6 +78,34 @@ const groundMaterials = {
 		fog: false,
 	}),
 };
+
+//--------------------------添加随鼠标贴地的圆----------------------------------------
+
+const mouseGeo = new CylinderGeometry(3, 3, 10);
+mouseGeo.rotateX(Math.PI / 2);
+const backMouseMesh = new Mesh(mouseGeo, groundMaterials.backMat);
+const frontMouseMesh = new Mesh(mouseGeo, groundMaterials.frontMat);
+const surfaceMouseMesh = new Mesh(mouseGeo, groundMaterials.surfaceMat);
+
+const mouseMesh = new Group();
+mouseMesh.add(backMouseMesh, frontMouseMesh, surfaceMouseMesh);
+mouseMesh.renderOrder = 14;
+map.add(mouseMesh);
+
+const pointer = new Vector2();
+viewer.container.addEventListener("pointermove", (evt) => {
+	// 计算屏幕坐标（-0.5到+0.5范围）
+	pointer.x = (evt.clientX / viewer.renderer.domElement.clientWidth) * 2 - 1;
+	pointer.y = -(evt.clientY / viewer.renderer.domElement.clientHeight) * 2 + 1;
+	// 取得该坐标的信息
+	const info = map.getLocalInfoFromScreen(viewer.camera, pointer);
+	if (info) {
+		const pos = map.worldToLocal(info.point);
+		mouseMesh.position.set(pos.x, pos.y, pos.z);
+	}
+});
+
+//--------------------------------添加陕西地图------------------------------------------------
 
 function createGroundPolyGeometry(points: Vector2[]) {
 	const line = new Shape(points);
