@@ -4,7 +4,7 @@ import * as util from "../util";
 import { MyViewer } from "./MyViewer";
 import "./style.css";
 
-import { Loader3DTiles, PointCloudColoring, Runtime } from "three-loader-3dtiles";
+import { Loader3DTiles, PointCloudColoring, Runtime } from "../lib/three-loader-3dtiles";
 
 // 创建地图
 //-----------------------------------------------------------------------------------------------------
