@@ -22,8 +22,8 @@ viewer.container.addEventListener("click", (evt) => {
 	const camera = viewer.camera;
 	const pointer = new Vector2();
 	// 鼠标点击的屏幕坐标（-0.5到+0.5范围）
-	pointer.x = (evt.clientX / viewer.container.clientWidth) * 2 - 1;
-	pointer.y = 1 - (evt.clientY / viewer.container.clientHeight) * 2;
+	pointer.x = (evt.offsetX / viewer.width) * 2 - 1;
+	pointer.y = -(evt.offsetY / viewer.height) * 2 + 1;
 	// 取得目标点坐标（光标处地面坐标）
 	const position = map.getLocalInfoFromScreen(camera, pointer)?.point;
 	if (position) {

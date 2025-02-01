@@ -21,8 +21,8 @@ viewer.controls.saveState();
 
 // 不动画，直接跳转定位
 document.querySelector("#jump")!.addEventListener("click", () => {
-	const newCenterPos = map.localToWorld(map.geo2pos(new Vector3(107.8, 34.0, 0)));
-	const newCameraPos = map.localToWorld(map.geo2pos(new Vector3(107.9, 34.0, 7.8)));
+	const newCenterPos = map.geo2world(new Vector3(107.8, 34.0, 0));
+	const newCameraPos = map.geo2world(new Vector3(107.9, 34.0, 7.8));
 	console.log(newCameraPos, newCenterPos);
 
 	viewer.camera.position.copy(newCameraPos);
@@ -32,7 +32,7 @@ document.querySelector("#jump")!.addEventListener("click", () => {
 
 // 使用定时器进行地图漫游动画定位
 document.querySelector("#timer")!.addEventListener("click", () => {
-	const newCenterPos = map.localToWorld(map.geo2pos(new Vector3(110, 34, 0)));
+	const newCenterPos = map.geo2world(new Vector3(110, 34, 0));
 	viewer.controls.target.copy(newCenterPos);
 	const camerPos = viewer.camera.position;
 	camerPos.set(centerGeo.x, centerGeo.y, 1e4);
@@ -71,7 +71,7 @@ const flyToPos = (cameraPos: Vector3, centerPos: Vector3) => {
 		// 先到10000km高空
 		.to({ y: 10000, z: 0 }, 500)
 		// 再到目标位置
-		.chain(new Tween(start).to(cameraPos))
+		.chain(new Tween(start).to(cameraPos).easing(TWEEN.Easing.Quintic.Out))
 		.start();
 };
 
@@ -82,7 +82,7 @@ const flyToPos = (cameraPos: Vector3, centerPos: Vector3) => {
  */
 const flyToGeo = (cameraGeo: Vector3, centerGeo: Vector3) => {
 	const getPos = (geo: Vector3) => {
-		return map.localToWorld(map.geo2pos(geo));
+		return map.geo2world(geo);
 	};
 
 	const cameraPosition = getPos(cameraGeo);

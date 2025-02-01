@@ -23,7 +23,7 @@ export class MyLoader extends tt.TileLoader {
 	 * @param onLoad 加载完成回调
 	 * @returns 材质
 	 */
-	public loadMaterial(_tile: tt.Tile, onLoad: (material: Material[]) => void) {
+	public loadMaterial(_x: number, _y: number, _z: number, onLoad: (material: Material[]) => void) {
 		const material = [new MeshBasicMaterial({ wireframe: true, color: 0xffff00 })];
 		setTimeout(() => onLoad(material));
 		return material;

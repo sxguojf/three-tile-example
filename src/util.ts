@@ -42,9 +42,9 @@ export const createViewer = (
 	camersGeo = new Vector3(110, 0, 10000),
 ) => {
 	// 地图中心转为世界坐标
-	const centerPostion = map.localToWorld(map.geo2pos(centerGeo));
+	const centerPostion = map.geo2world(centerGeo);
 	// 摄像机转为世界坐标
-	const cameraPosition = map.localToWorld(map.geo2pos(camersGeo));
+	const cameraPosition = map.geo2world(camersGeo);
 	// 初始化场景
 	const viewer = new tt.plugin.GLViewer(id, { centerPostion, cameraPosition });
 	// 地图添加到场景

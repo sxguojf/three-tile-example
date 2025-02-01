@@ -11,8 +11,8 @@ import { Loader3DTiles, PointCloudColoring, Runtime } from "../lib/three-loader-
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 map.scale.setScalar(1000);
 // 地图中心
-const centerPostion = map.localToWorld(map.geo2pos(new Vector3(108, 34, 0)));
-const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(108, 30, 1000)));
+const centerPostion = map.geo2world(new Vector3(108, 34, 0));
+const cameraPosition = map.geo2world(new Vector3(108, 30, 1000));
 // 使用自定义类初始化三维场景
 const viewer = new MyViewer("#map", { centerPostion, cameraPosition });
 // 将地图加入三维场景
@@ -56,7 +56,7 @@ async function loadTileset() {
 	const lat = tileset.cartographicCenter[1];
 	const height = tileset.cartographicCenter[2];
 
-	const center = map.localToWorld(map.geo2pos(new Vector3(long, lat, 0)));
+	const center = map.geo2world(new Vector3(long, lat, 0));
 	model.position.copy(center);
 	model.position.setY(200);
 	model.scale.setScalar(1.3);
@@ -69,6 +69,11 @@ async function loadTileset() {
 	viewer.controls.target.copy(center);
 
 	console.log(long, lat, height);
+
+	const modelLoading = document.getElementById("model-loading");
+	if (modelLoading) {
+		modelLoading.style.display = "none";
+	}
 }
 
 loadTileset();

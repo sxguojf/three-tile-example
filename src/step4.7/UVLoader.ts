@@ -15,12 +15,7 @@ export class UVLoader implements tt.ITileMaterialLoader {
 	 * @param onLoad 加载完成回调
 	 * @returns 材质
 	 */
-	public load(
-		source: tt.ISource,
-		_tile: tt.Tile,
-		onLoad: () => void,
-		_onError: (err: any) => void,
-	): MeshBasicMaterial {
+	public load(source: tt.ISource, _x: number, _y: number, _z: number, onLoad: () => void): MeshBasicMaterial {
 		const material = new MeshBasicMaterial({
 			transparent: true,
 			map: this._texture,

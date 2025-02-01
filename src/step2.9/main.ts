@@ -39,7 +39,7 @@ viewer.renderer.shadowMap.type = PCFSoftShadowMap;
 // 添加灯光以产生阴影
 const spotLight = (() => {
 	const spotLight = new SpotLight(0xffffff, 10, 5000, Math.PI / 4, 0.5, 0);
-	const pos = map.localToWorld(map.geo2pos(new Vector3(105, 30)));
+	const pos = map.geo2world(new Vector3(105, 30));
 	spotLight.position.set(pos.x, 3000, pos.z);
 	spotLight.target.position.copy(pos);
 	spotLight.castShadow = true;
@@ -59,7 +59,7 @@ viewer.scene.add(new SpotLightHelper(spotLight));
 const objGroup = new Group();
 const mat = new MeshLambertMaterial({ color: 0x0088aa });
 const teap = (() => {
-	const pos = map.localToWorld(map.geo2pos(new Vector3(100, 40)));
+	const pos = map.geo2world(new Vector3(100, 40));
 	const geo = new TeapotGeometry(200);
 	const mesh = new Mesh(geo, mat);
 	mesh.position.set(pos.x, 2000, pos.z);
@@ -69,7 +69,7 @@ const teap = (() => {
 	return mesh;
 })();
 const torus = (() => {
-	const pos = map.localToWorld(map.geo2pos(new Vector3(110, 40)));
+	const pos = map.geo2world(new Vector3(110, 40));
 	const geo = new TorusKnotGeometry(200, 50);
 	const mesh = new Mesh(geo, mat);
 	mesh.position.set(pos.x, 2000, pos.z);

@@ -15,12 +15,7 @@ export class WatermarkLoader implements tt.ITileMaterialLoader {
 	 * @param onLoad 加载完成回调
 	 * @returns 材质
 	 */
-	public load(
-		source: tt.ISource,
-		_tile: tt.Tile,
-		onLoad: () => void,
-		_onError: (err: any) => void,
-	): MeshBasicMaterial {
+	public load(source: tt.ISource, _x: number, _y: number, _z: number, onLoad: () => void): MeshBasicMaterial {
 		if (!this._texture) {
 			this._texture = new Texture(this.drawWaterMark(source.attribution));
 			this._texture.needsUpdate = true;

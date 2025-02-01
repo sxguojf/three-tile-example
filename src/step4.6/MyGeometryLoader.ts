@@ -6,9 +6,10 @@ export class MyGeometryLoader implements tt.ITileGeometryLoader {
 	public name: string = "ball loader";
 	load(
 		_source: tt.ISource,
-		_tile: tt.Tile,
+		_x: number,
+		_y: number,
+		_z: number,
 		onLoad: () => void,
-		_onError: (err: any) => void,
 	): BufferGeometry<NormalBufferAttributes> {
 		const geometry = new TorusGeometry(0.35, 0.15);
 		setTimeout(onLoad);

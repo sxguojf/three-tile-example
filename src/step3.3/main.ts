@@ -11,8 +11,8 @@ import "./style.css";
 //-----------------------------------------------------------------------------------------------------
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心
-const centerPostion = map.localToWorld(map.geo2pos(new Vector3(86, 28, 3)));
-const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(86.45, 27.6, 15)));
+const centerPostion = map.geo2world(new Vector3(86, 28, 3));
+const cameraPosition = map.geo2world(new Vector3(86.45, 27.6, 15));
 // 使用自定义类初始化三维场景
 const viewer = new MyViewer("#map", { centerPostion, cameraPosition });
 // 将地图加入三维场景
@@ -20,9 +20,6 @@ viewer.scene.add(map);
 // 启用阴影
 viewer.renderer.shadowMap.enabled = true;
 map.receiveShadow = true;
-
-// 增加瓦片视图缓冲区，使离开视野的瓦片不立即释放，以减少瓦片加过程中的空白块。当然它会增加内存占用。
-map.viewerBufferSize = 2;
 // 加载瓦片下载缓存大小，缓存3000张瓦片
 map.loadCacheSize = 3000;
 
@@ -98,11 +95,9 @@ viewer.container.addEventListener("click", (evt) => {
 
 	// 后坐力
 	const pos = camera.position.clone();
-	map.autoLoad = false;
 	camera.position.sub(camera.getWorldDirection(new Vector3()));
 	setTimeout(() => {
 		camera.position.copy(pos);
-		map.autoLoad = true;
 	}, 50);
 });
 
@@ -132,19 +127,19 @@ const vm = {
 		map.reload();
 	},
 	toXmly: () => {
-		const pos = map.localToWorld(map.geo2pos(new Vector3(86, 28, 15)));
+		const pos = map.geo2world(new Vector3(86, 28, 15));
 		viewer.camera.position.copy(pos);
 	},
 	toXian: () => {
-		const pos = map.localToWorld(map.geo2pos(new Vector3(109, 34.7, 8)));
+		const pos = map.geo2world(new Vector3(109, 34.7, 8));
 		viewer.camera.position.copy(pos);
 	},
 	toBeijing: () => {
-		const pos = map.localToWorld(map.geo2pos(new Vector3(116.4, 40, 10)));
+		const pos = map.geo2world(new Vector3(116.4, 40, 10));
 		viewer.camera.position.copy(pos);
 	},
 	toXiangGang: () => {
-		const pos = map.localToWorld(map.geo2pos(new Vector3(114.18, 22.3, 5)));
+		const pos = map.geo2world(new Vector3(114.18, 22.3, 5));
 		viewer.camera.position.copy(pos);
 	},
 };

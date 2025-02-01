@@ -28,9 +28,9 @@ import "./style.css";
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
 // 地图中心
-const centerPostion = map.localToWorld(map.geo2pos(new Vector3(86, 28, 0)));
+const centerPostion = map.geo2world(new Vector3(86, 28, 0));
 // 摄像机坐标
-const cameraPosition = map.localToWorld(map.geo2pos(new Vector3(86, 27.8, 10)));
+const cameraPosition = map.geo2world(new Vector3(86, 27.8, 10));
 // 使用自定义类初始化三维场景（打开renderer的stencil）
 const viewer = new GLViewer("#map", { centerPostion, cameraPosition });
 // 将地图加入三维场景

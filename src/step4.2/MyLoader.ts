@@ -11,7 +11,7 @@ export class MyLoader extends tt.TileLoader {
 	 * @param onLoad 加载完成回调
 	 * @returns 几何体
 	 */
-	public loadGeometry(_tile: tt.Tile, onLoad: (geometry: BufferGeometry) => void) {
+	public loadGeometry(_x: number, _y: number, _z: number, onLoad: (geometry: BufferGeometry) => void) {
 		const geometry = new PlaneGeometry();
 		setTimeout(() => onLoad(geometry));
 		return geometry;

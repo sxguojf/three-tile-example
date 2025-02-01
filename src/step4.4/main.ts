@@ -43,9 +43,9 @@ function initViewer(id: string, map: tt.TileMap) {
 	// 摄像坐标(经度，纬度，高度)
 	const camersGeo = new Vector3(110, 34.9, 10);
 	// 地图中心转为世界坐标
-	const centerPostion = map.localToWorld(map.geo2pos(centerGeo));
+	const centerPostion = map.geo2world(centerGeo);
 	// 摄像机转为世界坐标
-	const cameraPosition = map.localToWorld(map.geo2pos(camersGeo));
+	const cameraPosition = map.geo2world(camersGeo);
 	// 初始化场景
 	const viewer = new tt.plugin.GLViewer(id, { centerPostion, cameraPosition });
 	// 地图添加到场景

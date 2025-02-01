@@ -16,9 +16,9 @@ const centerGeo = new Vector3(86.95, 27.98, 0);
 // 摄像机经纬度高度
 const cameraGeo = new Vector3(86.8, 28, 10);
 // 地图中心转为世界坐标
-const centerPostion = map.localToWorld(map.geo2pos(centerGeo));
+const centerPostion = map.geo2world(centerGeo);
 // 摄像机转为世界坐标
-const cameraPosition = map.localToWorld(map.geo2pos(cameraGeo));
+const cameraPosition = map.geo2world(cameraGeo);
 
 // 使用自定义类初始化三维场景
 const viewer = new MyViewer("#map", { centerPostion: centerPostion, cameraPosition: cameraPosition });

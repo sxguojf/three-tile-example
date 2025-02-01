@@ -21,7 +21,7 @@ util.addFakeEarth(viewer, map);
 //---------------------------------------------------------------------------------------
 
 const reset = () => {
-	const center = map.localToWorld(map.geo2pos(centerGeo));
+	const center = map.geo2world(centerGeo);
 	const tween = new TWEEN.Tween(viewer.camera.position);
 	return tween.to({ x: center.x, y: 1e4, z: center.y + 1e3 }, 500);
 };
