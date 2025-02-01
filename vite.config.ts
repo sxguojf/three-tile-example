@@ -38,6 +38,7 @@ export default defineConfig({
 				"step2.10": resolve("src/step2.10/index.html"),
 				"step2.11": resolve("src/step2.11/index.html"),
 				"step2.12": resolve("src/step2.12/index.html"),
+				"step2.13": resolve("src/step2.13/index.html"),
 
 				"step3.1": resolve("src/step3.1/index.html"),
 				"step3.2": resolve("src/step3.2/index.html"),

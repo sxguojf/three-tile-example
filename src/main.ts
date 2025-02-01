@@ -78,7 +78,7 @@ const exampleList = {
 		label: "2.12 基础-加载3DTiles",
 	},
 	"step2.13": {
-		label: "2.12 基础-贴地多边形",
+		label: "2.13 基础-贴地多边形",
 	},
 
 	"step3.1": {
