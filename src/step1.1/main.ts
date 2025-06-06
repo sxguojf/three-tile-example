@@ -1,25 +1,15 @@
-import * as tt from "three-tile";
-import * as ms from "../mapSource";
-import "./style.css";
 import { Vector3 } from "three";
+import * as tt from "three-tile";
+import "./style.css";
 
 // MapBoxToken 请更换为你自己申请的key
-const MAPBOXKEY = ms.MAPBOXKEY;
+// const MAPBOXKEY = ms.MAPBOXKEY;
 
 // mapbox 影像数据源
-const mapBoxImgSource = new tt.plugin.MapBoxSource({
-	token: MAPBOXKEY,
-	dataType: "image",
-	style: "mapbox.satellite",
-});
+const mapBoxImgSource = new tt.plugin.ArcGisSource();
 
 // mapbox 高程数据源
-export const mapBoxDemSource = new tt.plugin.MapBoxSource({
-	token: MAPBOXKEY,
-	dataType: "terrain-rgb",
-	style: "mapbox.terrain-rgb",
-	maxLevel: 15,
-});
+export const mapBoxDemSource = new tt.plugin.ArcGisDemSource();
 
 // 创建地图
 function createMap() {
