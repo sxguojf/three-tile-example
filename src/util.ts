@@ -14,7 +14,7 @@ import * as tt from "three-tile";
 import * as ms from "./mapSource";
 
 // 创建地图
-export const createMap = (imgSource: tt.ISource | tt.ISource[] = ms.mapBoxImgSource, demSource?: tt.ISource) => {
+export const createMap = (imgSource: tt.ISource | tt.ISource[] = ms.arcGisCiaSource, demSource?: tt.ISource) => {
 	// 创建地图对象
 	const map = new tt.TileMap({
 		// 影像数据源
