@@ -7,7 +7,7 @@
             "ES6",
             "DOM"
         ],
-        "moduleResolution": "Node",
+        "moduleResolution": "bundler",
         "strict": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
