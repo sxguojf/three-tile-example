@@ -1,6 +1,6 @@
 import * as tt from "three-tile";
 
-// MapBox — 使用时通过环境变量 MAPBOX_TOKEN 设置，或取消下面任一 token 的注释
+// MapBox
 export const MAPBOXKEY = import.meta.env.VITE_MAPBOX_TOKEN || "";
 export const mapBoxImgSource = new tt.plugin.MapBoxSource({
 	token: MAPBOXKEY,
