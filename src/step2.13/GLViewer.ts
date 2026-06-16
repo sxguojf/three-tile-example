@@ -20,7 +20,7 @@ import {
 	WebGLRenderer,
 } from "three";
 
-import { MapControls } from "three/examples/jsm/controls/MapControls";
+import { MapControls } from "three/examples/jsm/controls/MapControls.js";
 
 /**
  * GlViewer event map

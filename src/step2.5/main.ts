@@ -1,8 +1,8 @@
 import { Color, PointLight, TextureLoader } from "three";
 // import * as tt from "../dist/three-tile";
 import { Vector3 } from "three";
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
-import { Lensflare, LensflareElement } from "three/examples/jsm/objects/Lensflare";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
+import { Lensflare, LensflareElement } from "three/examples/jsm/objects/Lensflare.js";
 import * as util from "../util";
 import * as ms from "../mapSource";
 

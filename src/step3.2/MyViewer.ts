@@ -18,7 +18,7 @@ import {
 	WebGLRenderer,
 } from "three";
 
-import { FlyControls } from "three/examples/jsm/controls/FlyControls";
+import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 
 interface ViewerEventMap extends BaseEvent {
 	update: BaseEvent | { delta: number };

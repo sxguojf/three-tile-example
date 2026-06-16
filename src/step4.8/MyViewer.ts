@@ -24,7 +24,7 @@ import {
 	WebGLRenderer,
 } from "three";
 
-import { MapControls } from "three/examples/jsm/controls/MapControls";
+import { MapControls } from "three/examples/jsm/controls/MapControls.js";
 // import frag from "./depth.frag.glsl?raw";
 // import vert from "./depth.vert.glsl?raw";
 

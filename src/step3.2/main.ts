@@ -1,8 +1,8 @@
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 // import * as tt from "../dist/three-tile";
 import { AnimationMixer, DirectionalLight, FogExp2, Group, Vector3 } from "three";
-import TWEEN from "three/examples/jsm/libs/tween.module";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import TWEEN from "three/examples/jsm/libs/tween.module.js";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as ms from "../mapSource";
 import * as util from "../util";
 import { MyViewer } from "./MyViewer";

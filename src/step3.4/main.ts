@@ -1,4 +1,4 @@
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 // import * as tt from "../dist/three-tile";
 import {
 	AnimationMixer,
@@ -6,17 +6,19 @@ import {
 	DirectionalLight,
 	Mesh,
 	MeshPhongMaterial,
+	Object3D,
 	PCFSoftShadowMap,
 	Vector2,
 	Vector3,
 } from "three";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
+import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module.js";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";
+import { Font } from "three/examples/jsm/Addons.js";
 
 /*----------------------------------------创建地图----------------------------------------*/
 const map = util.createMap(ms.mapBoxImgSource, ms.mapBoxDemSource);
@@ -41,7 +43,7 @@ viewer.dirLight.intensity = 0.5;
 const loader = new GLTFLoader();
 
 // 加载模型并初始化
-loader.loadAsync("../model/Soldier.glb").then((gltf) => {
+loader.loadAsync("../model/Soldier.glb").then((gltf: GLTF) => {
 	initSoldier(gltf);
 	initBird(gltf);
 	initText(gltf);
@@ -97,11 +99,11 @@ const initSoldier = (gltf: GLTF) => {
 // 鸟模型
 const initBird = (gltf: GLTF) => {
 	const model = gltf.scene;
-	loader.loadAsync("../model/Stork.glb").then((stork) => {
+	loader.loadAsync("../model/Stork.glb").then((stork: GLTF) => {
 		const bird = stork.scene;
 		bird.scale.setScalar(0.005);
 		bird.rotateY(Math.PI);
-		bird.traverse((child) => {
+		bird.traverse((child: Object3D) => {
 			child.castShadow = true;
 		});
 		bird.position.set(0, 2, 2);
@@ -118,7 +120,7 @@ const initBird = (gltf: GLTF) => {
 const initText = (gltf: GLTF) => {
 	const loader = new FontLoader();
 
-	loader.load("../fonts/helvetiker_regular.typeface.json", function (font) {
+	loader.load("../fonts/helvetiker_regular.typeface.json", function (font: Font) {
 		const geometry = new TextGeometry("Hit Points 99.9%", {
 			font: font,
 			size: 80,
@@ -187,7 +189,7 @@ const runTo = (gltf: GLTF, mixer: AnimationMixer, endPostion: Vector3, tween: Tw
 				mixer.stopAllAction();
 				mixer.clipAction(anim[speed]).play();
 			})
-			.onUpdate((currentPositon, _elapsed) => {
+			.onUpdate((currentPositon: Vector3, _elapsed: number) => {
 				const pos = map.getLocalInfoFromWorld(map.localToWorld(currentPositon.clone()))?.point;
 				if (pos) {
 					model.position.copy(map.worldToLocal(pos.clone()));

@@ -1,7 +1,21 @@
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
-import { ACESFilmicToneMapping, Color, MathUtils, PlaneGeometry, RepeatWrapping, TextureLoader, Vector3 } from "three";
-import { Sky } from "three/examples/jsm/objects/Sky";
-import { Water } from "three/examples/jsm/objects/Water";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
+import {
+	ACESFilmicToneMapping,
+	BufferGeometry,
+	Camera,
+	Color,
+	Group,
+	Material,
+	MathUtils,
+	PlaneGeometry,
+	RepeatWrapping,
+	Scene,
+	TextureLoader,
+	Vector3,
+	WebGLRenderer,
+} from "three";
+import { Sky } from "three/examples/jsm/objects/Sky.js";
+import { Water } from "three/examples/jsm/objects/Water.js";
 import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";
@@ -49,11 +63,25 @@ function initWater() {
 	// 所以需要在water渲染前禁止地图更新，渲染后再放开.
 	const before = water.onBeforeRender;
 	const after = water.onAfterRender;
-	water.onBeforeRender = (renderer, scene, camera, geometry, material, group) => {
+	water.onBeforeRender = (
+		renderer: WebGLRenderer,
+		scene: Scene,
+		camera: Camera,
+		geometry: BufferGeometry,
+		material: Material,
+		group: Group,
+	) => {
 		map.autoUpdate = false;
 		before.call(water, renderer, scene, camera, geometry, material, group);
 	};
-	water.onAfterRender = (renderer, scene, camera, geometry, material, group) => {
+	water.onAfterRender = (
+		renderer: WebGLRenderer,
+		scene: Scene,
+		camera: Camera,
+		geometry: BufferGeometry,
+		material: Material,
+		group: Group,
+	) => {
 		map.autoUpdate = true;
 		after.call(water, renderer, scene, camera, geometry, material, group);
 	};

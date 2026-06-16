@@ -1,6 +1,6 @@
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { ACESFilmicToneMapping, MathUtils, Vector3 } from "three";
-import { Sky } from "three/examples/jsm/objects/Sky";
+import { Sky } from "three/examples/jsm/objects/Sky.js";
 import * as ms from "../mapSource";
 import * as util from "../util";
 import "./style.css";

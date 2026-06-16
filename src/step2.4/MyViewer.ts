@@ -19,7 +19,7 @@ import {
 	WebGLRenderer,
 } from "three";
 
-import { MapControls } from "three/examples/jsm/controls/MapControls";
+import { MapControls } from "three/examples/jsm/controls/MapControls.js";
 
 interface ViewerEventMap extends BaseEvent {
 	update: BaseEvent | { delta: number };

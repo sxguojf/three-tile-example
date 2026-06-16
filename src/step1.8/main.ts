@@ -20,7 +20,7 @@ import {
 	Vector3,
 } from "three";
 
-import { TeapotGeometry } from "three/examples/jsm/geometries/TeapotGeometry";
+import { TeapotGeometry } from "three/examples/jsm/geometries/TeapotGeometry.js";
 import * as util from "../util";
 import * as ms from "../mapSource";
 import "./style.css";

@@ -28,7 +28,7 @@ import {
 	WebGLRenderer,
 } from "three";
 
-import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
+import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 
 interface ViewerEventMap extends BaseEvent {
 	update: BaseEvent | { delta: number };

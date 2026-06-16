@@ -1,8 +1,8 @@
 import { AnimationMixer, CameraHelper, DirectionalLight, Group, Vector3 } from "three";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as util from "../util";
 import * as ms from "../mapSource";
 import "./style.css";

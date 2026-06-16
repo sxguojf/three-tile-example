@@ -1,7 +1,7 @@
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 // import * as tt from "../dist/three-tile";
 import { FogExp2, Group, Mesh, MeshPhongMaterial, SphereGeometry, TextureLoader, Vector2, Vector3 } from "three";
-import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module";
+import TWEEN, { Tween } from "three/examples/jsm/libs/tween.module.js";
 import * as ms from "../mapSource";
 import * as util from "../util";
 import { MyViewer } from "./MyViewer";

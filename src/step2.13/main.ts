@@ -1,4 +1,4 @@
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import {
 	AdditiveBlending,
 	BackSide,
@@ -19,7 +19,7 @@ import {
 	ZeroStencilOp,
 } from "three";
 import * as tt from "three-tile";
-import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
+import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
 import * as ms from "../mapSource";
 import * as util from "../util";
 import { GLViewer } from "./GLViewer";
