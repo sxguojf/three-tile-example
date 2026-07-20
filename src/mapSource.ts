@@ -1,7 +1,7 @@
 import * as tt from "three-tile";
 
 // MapBox
-export const MAPBOXKEY = import.meta.env.VITE_MAPBOX_TOKEN || "";
+export const MAPBOXKEY = "pk.eyJ1IjoiYnJhbnpoYW5nIiwiYSI6ImNqM3FycmVldjAxZTUzM2xqMmllNnBjMHkifQ.Wv3ekbtia0BuUHGWVUGoFg";
 export const mapBoxImgSource = new tt.plugin.MapBoxSource({
 	token: MAPBOXKEY,
 	dataType: "image",
